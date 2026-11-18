@@ -3,6 +3,7 @@
 | Artifact | Status | Purpose |
 | --- | --- | --- |
 | [Project Context](project.md) | ready | Durable product definition, boundary, governance, and acceptance basis for Bride Assistant Planner / Ranur Bridal Care. |
+| [Stack Context](stack.md) | ready | Selected technology baseline, trade-offs, storage boundary, and handoff constraints for later implementation work. |
 
 ## Canonical use
 
