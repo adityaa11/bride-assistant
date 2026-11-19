@@ -1,0 +1,24 @@
+# Atlas workflow configuration for this code repository.
+#
+# Keep this file in Git. It declares the portable artifact-store contract, not
+# a machine-specific filesystem path. Put a local checkout path, if needed, in
+# atlas-workflow.local.yaml (which export adds to .gitignore).
+version: 1
+
+artifact_store:
+  # Replace with the canonical Git remote of the artifact repository before
+  # generating authoritative workflow artifacts.
+  expected_remote: "https://github.com/adityaa11/bride-assistant-artifacts.git"
+
+  # Do not let workflow skills silently fall back to a path in this code repo.
+  required: true
+
+artifact_delivery:
+  # Durable artifacts are committed in the artifact repository, never in the
+  # code repository. Push policy is decided by the project.
+  commit: required
+  push: optional
+
+source_binding:
+  # Every durable artifact must identify the exact source-code commit it uses.
+  require_commit_sha: true

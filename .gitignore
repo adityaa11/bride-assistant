@@ -1,2 +1,9 @@
 # Local Atlas skill sources; project context remains tracked under .agents/context.
 /.agents/skills/atlas-skills/
+
+# >>> atlas-skills >>>
+# Local junctions and machine-specific Atlas workflow settings.
+.agents/skills/atlas-skills/
+.atlas/
+atlas-workflow.local.yaml
+# <<< atlas-skills >>>
