@@ -1,0 +1,27 @@
+<svg class="hero-drawing" viewBox="0 0 560 640" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <defs><linearGradient id="dress" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdfb"/><stop offset=".55" stop-color="#fbece6"/><stop offset="1" stop-color="#efd3cf"/></linearGradient><linearGradient id="veil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffefd" stop-opacity=".91"/><stop offset="1" stop-color="#fffbf7" stop-opacity=".19"/></linearGradient><linearGradient id="shadow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c1837c"/><stop offset="1" stop-color="#855358"/></linearGradient></defs>
+        <g opacity=".45" stroke="#ffffff" fill="none"><circle cx="285" cy="305" r="219"/><circle cx="285" cy="305" r="242"/></g>
+        <!-- painterly bridal silhouette -->
+        <path d="M304 170c-28-5-57-3-72 21-18 32-9 78 5 104 14 27 10 57-4 77l55 46 74-48c-25-42-18-64-4-90 20-35 2-102-54-110Z" fill="#6f4c4c" opacity=".86"/>
+        <path d="M289 189c-35 1-50 25-48 61 1 30 14 58 36 74 12 9 28 8 38 0 28-25 33-68 22-104-5-20-21-32-48-31Z" fill="#ddac9e"/>
+        <path d="M252 222c-8 23-1 58 8 76-15-16-21-49-13-78Zm67 6c12 18 16 36 12 52 11-15 12-39-1-56Z" fill="#be877d" opacity=".5"/>
+        <path d="M237 218c23-57 101-53 115 11-27-8-30-29-48-40-14 26-28 33-67 29Z" fill="#5c4144"/>
+        <path d="M341 211c17-32-3-68-31-68-39-4-62 24-63 50 20-17 56-30 94 18Z" fill="#62464a"/>
+        <path d="M273 312c-1 22-7 32-29 41l-31 13-35 42 38 54 44-17 18 23 96-22 28-48-48-36-29-12c-16-9-18-24-17-39Z" fill="#e8b7a8"/>
+        <path d="M215 372c-39 28-71 105-103 247h365c-34-145-74-215-124-250-30 24-89 35-138 3Z" fill="url(#dress)" stroke="#fff9f8" stroke-width="3"/>
+        <path d="M212 378c18 49 67 76 82 85 31-11 54-38 61-86-24 14-46 19-68 17-30-1-57-8-75-16Z" fill="#fffdfb" stroke="#f6e0db" stroke-width="2"/>
+        <path d="M240 431c-28 60-57 125-60 188m176-180c33 70 48 139 54 180M289 465c-6 55-2 102 0 154" fill="none" stroke="#e5c1ba" stroke-width="2" opacity=".7"/>
+        <path d="M260 182c-88 7-152 117-138 253 8 62 28 137 52 185h314c-54-86-95-158-105-230-10-66 16-128-29-179-30-33-69-40-94-29Z" fill="url(#veil)" stroke="#fffdf9" stroke-width="3" opacity=".77"/>
+        <path d="M270 194C186 213 145 321 164 424m200-194c24 65 0 127 35 214" fill="none" stroke="#fff" stroke-width="2" opacity=".55"/>
+        <!-- floral stems -->
+        <g transform="translate(340 406) rotate(-14)"><path d="M0 122C20 80 28 35 29-20M0 122C-24 83-35 39-47-11M0 122C-3 79-6 58-9 28" fill="none" stroke="#76907d" stroke-width="3"/>
+        <path d="M25 57c-26-17-23-37 0-36 14 12 14 27 0 36Zm8 25c13-25 32-23 30-7-11 17-22 19-30 7Zm-40-20c-20-29-38-25-40-8 13 18 29 21 40 8Z" fill="#7b9b85"/>
+        <g fill="#faf0eb" stroke="#bb898a" stroke-width="2">
+          <path d="M30 4C3-25 2-47 29-51 53-43 53-19 30 4Z"/><path d="M30 4c-2-37 14-55 33-45 10 21-4 42-33 45Z"/><path d="M30 4c-30-23-48-16-48 4 20 17 37 15 48-4Z"/><path d="M30 4c19-27 39-18 43 1-13 22-31 18-43-1Z"/><circle cx="30" cy="4" r="11" fill="#d9a7a4"/>
+        </g>
+        <g transform="translate(-49 -10) scale(.8)" fill="#f7dad6" stroke="#b98386" stroke-width="2"><path d="M0 0c-23-34-19-55 6-50 16 19 15 37-6 50Z"/><path d="M0 0c22-31 41-23 43-6C32 14 13 13 0 0Z"/><path d="M0 0c-24-20-42-9-39 8 18 13 33 8 39-8Z"/><circle r="9" fill="#d39a96"/></g>
+        <g transform="translate(-11 30) scale(.61)" fill="#fff7f2" stroke="#c69696" stroke-width="2"><path d="M0 0c-23-34-19-55 6-50 16 19 15 37-6 50Z"/><path d="M0 0c22-31 41-23 43-6C32 14 13 13 0 0Z"/><path d="M0 0c-24-20-42-9-39 8 18 13 33 8 39-8Z"/><circle r="9" fill="#dca9a3"/></g>
+        </g>
+        <path d="M390 454c-17 28-47 46-71 52l-13-13c31-9 48-21 75-54Z" fill="#dfaa9d" opacity=".9"/>
+        <g stroke="#fffefa" stroke-width="1.8" fill="none" opacity=".85"><path d="M177 581c60 3 109 15 128 36M355 592c-23-10-42-10-59-6"/></g>
+      </svg>

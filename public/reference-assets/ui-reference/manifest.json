@@ -1,0 +1,431 @@
+{
+  "generatedFrom": "project's goal/UI Reference",
+  "assets": [
+    {
+      "source": "bantuan.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "bantuan-image-01-5cfb309f414c.webp"
+    },
+    {
+      "source": "bantuan.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bantuan-inline-svg-01-740eb1197508.svg"
+    },
+    {
+      "source": "bantuan.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bantuan-inline-svg-02-baabb56964f6.svg"
+    },
+    {
+      "source": "bantuan.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bantuan-inline-svg-03-30c549007af3.svg"
+    },
+    {
+      "source": "bantuan.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bantuan-inline-svg-04-49f49695a475.svg"
+    },
+    {
+      "source": "bantuan.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bantuan-inline-svg-05-44f8221849b5.svg"
+    },
+    {
+      "source": "bantuan.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bantuan-inline-svg-06-a32f96d746bf.svg"
+    },
+    {
+      "source": "booking.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "booking-image-01-5cfb309f414c.webp"
+    },
+    {
+      "source": "booking.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-inline-svg-01-740eb1197508.svg"
+    },
+    {
+      "source": "booking.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-inline-svg-02-baabb56964f6.svg"
+    },
+    {
+      "source": "booking.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-inline-svg-03-30c549007af3.svg"
+    },
+    {
+      "source": "booking.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-inline-svg-04-49f49695a475.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "booking-saya-image-01-5cfb309f414c.webp"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-01-740eb1197508.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-02-baabb56964f6.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-03-30c549007af3.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-04-49f49695a475.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-05-d1248b7850ed.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-06-2ada1d27d622.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-07-c39a5ee528b4.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-08-6497428db0c6.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-09-5d53b7ebf291.svg"
+    },
+    {
+      "source": "booking_saya.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "booking-saya-inline-svg-10-5d82e3b2627f.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-01-e88f0a139761.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-02-6ac65d4978b9.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-03-a868967caebd.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-04-ec4efa2b9bae.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-05-ca49b2497b6c.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-06-339dc3bf429d.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-07-f336cb804787.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-08-af7d40c67af8.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-09-a868967caebd.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-10-d1e6c3972664.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-11-5d939c93e88d.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-12-97be4c68acc5.svg"
+    },
+    {
+      "source": "Bride_Assistant_Planner_Standalone_v3_Content_Management.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "bride-assistant-planner-standalone-v3-content-management-inline-svg-13-1ef893133e2e.svg"
+    },
+    {
+      "source": "daftar.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "daftar-image-01-5cfb309f414c.webp"
+    },
+    {
+      "source": "daftar.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "daftar-inline-svg-01-7499bdf895f0.svg"
+    },
+    {
+      "source": "daftar.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "daftar-inline-svg-02-0679371bae6c.svg"
+    },
+    {
+      "source": "daftar.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "daftar-inline-svg-03-3eb8b4540bb5.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "home-image-01-5cfb309f414c.webp"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-01-740eb1197508.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-02-baabb56964f6.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-03-30c549007af3.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-04-49f49695a475.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-05-c63d2895029e.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-06-e0db35c3285f.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-07-d8202d3c9d5d.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-08-3ed7240bd1ca.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-09-becc7bd02290.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-10-ee1dc0ac611d.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-11-4c3e5db1e78a.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-12-a0f2f77a3c32.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-13-e3883adb6e84.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-14-ec874670c61c.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-15-ec874670c61c.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-16-ec874670c61c.svg"
+    },
+    {
+      "source": "home.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "home-inline-svg-17-4d0242c6bc6d.svg"
+    },
+    {
+      "source": "index.html",
+      "kind": "embedded-image",
+      "mime": "image/png",
+      "file": "index-image-01-4b5e8e73e529.png"
+    },
+    {
+      "source": "index.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "index-image-02-5cfb309f414c.webp"
+    },
+    {
+      "source": "index.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "index-image-03-a348f229502f.webp"
+    },
+    {
+      "source": "index.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "index-image-04-a348f229502f.webp"
+    },
+    {
+      "source": "index.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "index-inline-svg-01-5092d9c2efee.svg"
+    },
+    {
+      "source": "index.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "index-inline-svg-02-590ca4cd5cd2.svg"
+    },
+    {
+      "source": "index.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "index-inline-svg-03-26b67d9eaf7a.svg"
+    },
+    {
+      "source": "index.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "index-inline-svg-04-0f9b03d7a1ea.svg"
+    },
+    {
+      "source": "index.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "index-inline-svg-05-97ad9680cf23.svg"
+    },
+    {
+      "source": "masuk.html",
+      "kind": "embedded-image",
+      "mime": "image/webp",
+      "file": "masuk-image-01-5cfb309f414c.webp"
+    },
+    {
+      "source": "masuk.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "masuk-inline-svg-01-7499bdf895f0.svg"
+    },
+    {
+      "source": "masuk.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "masuk-inline-svg-02-0679371bae6c.svg"
+    },
+    {
+      "source": "masuk.html",
+      "kind": "inline-svg",
+      "mime": "image/svg+xml",
+      "file": "masuk-inline-svg-03-3eb8b4540bb5.svg"
+    }
+  ]
+}
