@@ -7,3 +7,8 @@
 .atlas/
 atlas-workflow.local.yaml
 # <<< atlas-skills >>>
+
+# Next.js build output
+.next/
+node_modules/
+tsconfig.tsbuildinfo
