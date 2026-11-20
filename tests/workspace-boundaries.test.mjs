@@ -104,5 +104,5 @@ test("public discovery styles remain route-local instead of leaking through glob
 
   assert.doesNotMatch(globalStyles, /public-site|public-hero|Public discovery composition/);
   assert.match(publicStyles, /Route \/ only/);
-  assert.match(publicStyles, /--paper:#fffaf7/);
+  assert.match(publicStyles, /--paper\s*:\s*#fffaf7\s*;/);
 });
