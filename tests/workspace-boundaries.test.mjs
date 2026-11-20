@@ -95,3 +95,14 @@ test("review-build source has no prototype execution or unsafe rendering escape 
     assert.doesNotMatch(source, new RegExp(forbidden.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
 });
+
+test("public discovery styles remain route-local instead of leaking through global CSS", async () => {
+  const [globalStyles, publicStyles] = await Promise.all([
+    readFile(resolve(root, "app/globals.css"), "utf8"),
+    readFile(resolve(root, "shared/public-home.module.css"), "utf8"),
+  ]);
+
+  assert.doesNotMatch(globalStyles, /public-site|public-hero|Public discovery composition/);
+  assert.match(publicStyles, /Route \/ only/);
+  assert.match(publicStyles, /--paper:#fffaf7/);
+});

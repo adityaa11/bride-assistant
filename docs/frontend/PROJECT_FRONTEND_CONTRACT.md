@@ -8,6 +8,12 @@ Bride Assistant Planner is a fixture-backed review build for Ranur Bridal Care. 
 
 The system is calm, warm, editorial, trustworthy, and precise. It should feel feminine but professional, never ornamental at the expense of clarity. The hierarchy is: location and audience, page purpose, review state, primary fixture content, then provenance and next review action. Public and customer surfaces use readable discovery/workflow composition; admin surfaces use restrained data-workspace composition.
 
+## Binding UI Reference
+
+`project's goal/UI Reference/` is the binding visual source of truth for M1. Every corresponding screen must match the reference's visible structure, hierarchy, copy, typography, colors, spacing, geometry, imagery/icon treatment, navigation, and responsive composition. A visually different implementation is a failure even when it is functional or uses the same general Soft Rose mood.
+
+Reference HTML/CSS/JS and prototype storage are not imported or copied. The project UI system must reproduce the rendered result. For states not shown in the reference, extend the same visual treatment and component geometry without inventing a new visual language or arbitrary per-screen styling. Every route requires a reference-viewport capture and visual comparison record before acceptance.
+
 ## Density, navigation, and layout
 
 Use medium density. Desktop public/customer navigation is a compact top bar; admin navigation is a compact rail. On narrow widths, all navigation becomes a wrapped, readable list and content becomes one column. The shell uses a centered content measure (`72rem`) and content panels never stretch indefinitely: repeated items use a minimum inline size of `16rem` and a maximum comfortable size of `34rem`.
@@ -32,8 +38,8 @@ Target WCAG 2.2 AA. Preserve keyboard navigation, visible focus, semantic landma
 - Inline HTML/style/executable content, runtime style writes, unreviewed external assets, or client CSP workarounds.
 - Screen-specific business rules or authority behavior in shared primitives.
 
-## Reference grammar
+## Reference implementation boundary
 
-The supplied Soft Rose references inform the muted rose/terracotta palette, editorial headings, generous readable spacing, and restrained admin rail. They are grammar only: no reference source, logic, or visual screen copy is reused.
+The supplied references define the rendered visual result, not an implementation dependency. No reference source, prototype logic, localStorage behavior, or external asset origin is reused. All M1 UI must match the reference while remaining implemented through the typed fixture contracts, shared project primitives, and safe framework rendering.
 
 All new UI work must conform to this contract unless an approved ticket changes it.

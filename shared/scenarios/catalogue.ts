@@ -19,10 +19,7 @@ export const scenarioCatalogue = {
       surface: "public",
       title: "Ranur Bridal Care",
       description: "Published fixture content for public review.",
-      publishedContent: [
-        { id: "story-rose", kind: "story", title: "A moment held with care", body: "Quiet, attentive bridal companionship shaped around the rhythm of your celebration." },
-        { id: "event-consultation", kind: "event", title: "Private consultation", body: "A thoughtful first conversation to understand the support your day needs." },
-      ],
+      publishedContent: [],
       packages: [
         { id: "intimate", category: "The essentials", title: "The Intimate Care", duration: "3 jam pendampingan", description: "Pendampingan singkat untuk momen pernikahan yang intim dan berkesan.", inclusions: ["Personal Bridal Companion", "Bantuan gaun, veil, dan aksesori", "Pengingat touch-up & kebutuhan personal"], featured: false },
         { id: "gentle", category: "The signature", title: "The Gentle Companion", duration: "5 jam pendampingan", description: "Dukungan personal mulai dari persiapan hingga prosesi utama.", inclusions: ["Seluruh Essential Bridal Care", "Pemeriksaan barang pribadi", "Pendampingan selama rangkaian utama"], featured: true },

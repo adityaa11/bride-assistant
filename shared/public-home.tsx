@@ -1,34 +1,40 @@
+import { PublicFooter, PublicHeader } from "@/shared/public-home/chrome";
+import {
+  AboutSection,
+  BookingSection,
+  ContentSection,
+  EventsSection,
+  FaqSection,
+  HeroSection,
+  JourneySection,
+  PackagesSection,
+} from "@/shared/public-home/sections";
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
 import styles from "@/shared/public-home.module.css";
-
-const navigation = [
-  ["Home", "#home"],
-  ["About Us", "#about"],
-  ["Events", "#events"],
-  ["Products", "#products"],
-  ["Booking", "#booking"],
-] as const;
 
 export function PublicHome({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>) {
   const scenario = getScenario(scenarioId);
   if (scenario.readModel.surface !== "public") throw new Error("Public home requires a public fixture scenario.");
 
   const { readModel } = scenario;
-  return <div className={styles.site} data-scenario-id={scenario.scenarioId} data-scenario-version={scenario.version}>
-    <a className="skip-link" href="#main">Langsung ke konten</a>
-    <p className={styles.topline}>PERSONAL BRIDAL CARE <span aria-hidden="true">✦</span> YOUR MOMENT, OUR HEART</p>
-    <header className={styles.header}><div className={styles.wrap}><a className={styles.brand} href="#home" aria-label="Ranur Bridal Care, kembali ke Home"><img src="/reference-assets/ranur-header-logo.webp" width="57" height="56" alt="" /><span><strong>RANUR</strong><small>BRIDAL CARE</small></span></a><nav className={styles.nav} aria-label="Menu utama">{navigation.map(([label, href]) => <a href={href} key={label}>{label}</a>)}</nav><div className={styles.account}><a href="#booking">Masuk</a><a className={styles.register} href="#booking">DAFTAR</a></div></div></header>
-    <main id="main">
-      <section className={styles.hero} id="home"><div className={`${styles.wrap} ${styles.heroGrid}`}><div className={styles.heroCopy}><p className={styles.eyebrow}><span aria-hidden="true" />PERSONAL BRIDE ASSISTANT SERVICE</p><h1>Your day, <em>beautifully</em><br />taken care of.</h1><p>Hari pernikahanmu layak dinikmati sepenuh hati. Ranur Bridal Care hadir sebagai <b>jasa bride assistant</b> atau pendamping personal pengantin wanita, membantu detail-detail kecil agar kamu bisa fokus pada setiap momen berharga.</p><div className={styles.actions}><a className={styles.primaryAction} href="#products">EXPLORE OUR CARE <span aria-hidden="true">↗</span></a><a className={styles.secondaryAction} href="#about">GET TO KNOW US <span aria-hidden="true">↗</span></a></div><div className={styles.heroFacts}><span>✧&nbsp; Personal, thoughtful assistance</span><span>♡&nbsp; Made for the bride</span></div></div><div className={styles.artPanel}><div className={styles.halo} /><span className={styles.star} aria-hidden="true">✦</span><img className={styles.bride} src="/reference-assets/ranur-bride-hero.svg" width="560" height="640" alt="Ilustrasi bride Ranur dengan bunga" /><img className={styles.seal} src="/reference-assets/ranur-hero-stamp.webp" width="190" height="160" alt="Ranur Bridal Care" /><p className={styles.signature}>with love, Ranur ♡</p></div></div></section>
-      <div className={styles.divider} aria-label="Little details, cherished moments"><span aria-hidden="true">✦</span> Little details, cherished moments <span aria-hidden="true">✦</span></div>
-      <section className={styles.about} id="about"><div className={`${styles.wrap} ${styles.aboutGrid}`}><div className={styles.aboutArt}><span>✦</span><p>A LITTLE MORE CARE, A LOT MORE LOVE</p></div><div><p className={styles.eyebrow}>01 / MEET RANUR</p><h2>Karena pengantin juga perlu <em>didampingi.</em></h2><p>Di balik hari yang indah, ada banyak hal sederhana yang perlu diperhatikan. Dari merapikan veil, menjaga aksesori tetap siap, hingga memastikan kebutuhan pribadimu tidak terlewat di tengah rangkaian acara.</p><p>Ranur Bridal Care berfokus pada <b>pendampingan personal pengantin wanita</b> — bukan mengambil alih keseluruhan penyelenggaraan pernikahan, melainkan hadir dekat denganmu di momen yang paling berarti.</p><aside>Bride Assistant ≠ Wedding Organizer<br /><small>Wedding Organizer mengoordinasikan jalannya acara secara menyeluruh. Bride Assistant berfokus pada kebutuhan dan kenyamanan pribadi pengantin.</small></aside></div></div></section>
-      <section className={styles.story} id="portfolio"><div className={styles.wrap}><div className={styles.storyHead}><div><p className={styles.eyebrow}>02 / LITTLE MOMENTS, LASTING MEMORIES</p><h2>Every bride has <em>her own story.</em></h2></div><p>Setiap cerita pengantin memiliki keindahannya sendiri. Temukan inspirasi dari momen-momen yang penuh perhatian dan kasih sayang.</p></div><div className={styles.noResults}>{readModel.publishedContent.filter((item) => item.kind === "story").length ? readModel.publishedContent.filter((item) => item.kind === "story").map((item) => item.title).join(" · ") : "Cerita dan galeri momen pengantin akan hadir di sini."}</div></div></section>
-      <section className={styles.events} id="events"><div className={styles.wrap}><div className={styles.eventsHead}><div><p className={styles.eyebrow}>03 / OUR LITTLE CALENDAR</p><h2>Meet us at <em>our events.</em></h2><p>Temukan informasi kegiatan dan agenda terbaru dari Ranur Bridal Care.</p></div><div className={styles.filters}><button type="button">All events</button><button type="button">Upcoming</button><button type="button">Past events</button></div></div><div className={styles.noResults}>{readModel.publishedContent.filter((item) => item.kind === "event").length ? readModel.publishedContent.filter((item) => item.kind === "event").map((item) => item.title).join(" · ") : "Belum ada agenda kegiatan yang dijadwalkan."}</div></div></section>
-      <section className={styles.products} id="products"><div className={styles.wrap}><div className={styles.productsIntro}><p className={styles.eyebrow}>04 / OUR CARE COLLECTION</p><h2>A little care for <em>every kind of love.</em></h2><p>Kenali pilihan paket Bride Assistant yang dirancang untuk berbagai kebutuhan dan durasi acara. Setiap pilihan berfokus pada kenyamananmu sebagai pengantin.</p></div>{scenario.state.kind !== "success" && <p className={styles.state} role={scenario.state.kind === "error" ? "alert" : "status"}>{scenario.state.message}</p>}<div className={styles.packageGrid}>{readModel.packages.length ? readModel.packages.map((pkg, index) => <article className={pkg.featured ? styles.featured : undefined} key={pkg.id}>{pkg.featured && <b className={styles.ribbon}>SIGNATURE CARE</b>}<strong className={styles.number}>{String(index + 1).padStart(2, "0")}.</strong><p>{pkg.category}</p><h3>{pkg.title}</h3><small>— &nbsp;{pkg.duration}</small><span>{pkg.description}</span><ul>{pkg.inclusions.map((item) => <li key={item}>✓ &nbsp; {item}</li>)}</ul><a href="#booking">PILIH PAKET <b aria-hidden="true">↗</b></a></article>) : <p className={styles.empty}>Tidak ada paket yang sedang dipublikasikan.</p>}</div></div></section>
-      <section className={styles.process}><div className={styles.wrap}><div className={styles.productsIntro}><p className={styles.eyebrow}>05 / THE LITTLE JOURNEY</p><h2>From hello to <em>your beautiful day.</em></h2><p>Langkah sederhana untuk mulai menyiapkan pendampingan personal pengantin.</p></div><div className={styles.steps}>{[["01","Explore your care","Lihat pilihan paket dan tentukan durasi yang paling sesuai dengan kebutuhan acaramu."],["02","Tell us your story","Siapkan tanggal, lokasi, dan detail yang ingin kamu konsultasikan bersama Ranur."],["03","Confirm the details","Hubungi tim Ranur melalui kanal resmi untuk memastikan ketersediaan dan detail reservasi."]].map(([n,t,d]) => <article key={n}><i>{n}</i><h3>{t}</h3><p>{d}</p></article>)}</div></div></section>
-      <section className={styles.booking} id="booking"><div className={`${styles.wrap} ${styles.bookingInner}`}><div><p className={styles.eyebrow}>06 / YOUR BOOKING JOURNEY</p><h2>Your beautiful day, <em>our thoughtful care.</em></h2><p>Pilih layanan yang sesuai, siapkan tanggal acara, dan diskusikan kebutuhan pendampinganmu bersama Ranur.</p></div><div><p className={styles.eyebrow}>YOUR BRIDAL JOURNEY</p><h3>From your first hello ♡</h3><ol><li>Choose your care</li><li>Prepare your details</li><li>Let&apos;s talk</li></ol><p>{scenario.provenance.label}</p></div></div></section>
-      <section className={styles.faq}><div className={`${styles.wrap} ${styles.faqGrid}`}><div><p className={styles.eyebrow}>A FEW LOVELY ANSWERS</p><h2>You might be <em>wondering...</em></h2><p>Pertanyaan yang umum muncul saat memilih jasa pendamping pengantin wanita.</p></div><div>{["Apa itu Bride Assistant?","Apa bedanya Bride Assistant dengan Wedding Organizer?","Apakah paket bisa disesuaikan dengan kebutuhan acara?","Bagaimana cara melakukan booking?"].map((question) => <details key={question}><summary>{question}<span>+</span></summary><p>Informasi ini ditampilkan untuk review fixture dan tidak membuat booking atau akun.</p></details>)}</div></div></section>
-    </main>
-    <footer className={styles.footer}>✦ &nbsp; Little details, cherished moments &nbsp; ✦</footer>
-  </div>;
+
+  return (
+    <div className={styles.site} data-scenario-id={scenario.scenarioId} data-scenario-version={scenario.version}>
+      <a className="skip-link" href="#main">Langsung ke konten</a>
+      <p className={styles.topline}>PERSONAL BRIDAL CARE <span aria-hidden="true">✦</span> YOUR MOMENT, OUR HEART</p>
+      <PublicHeader />
+      <main id="main">
+        <HeroSection />
+        <div className={styles.divider} aria-label="Little details, cherished moments"><span aria-hidden="true">✦</span> Little details, cherished moments <span aria-hidden="true">✦</span></div>
+        <AboutSection />
+        <ContentSection items={readModel.publishedContent} />
+        <EventsSection items={readModel.publishedContent} />
+        <PackagesSection packages={readModel.packages} state={scenario.state} />
+        <JourneySection />
+        <BookingSection provenance={scenario.provenance.label} />
+        <FaqSection />
+      </main>
+      <PublicFooter />
+    </div>
+  );
 }
