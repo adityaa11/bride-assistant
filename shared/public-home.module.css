@@ -81,3 +81,7 @@
 .footer { display:grid; place-items:center; gap:12px; }
 .footer::before { display:block; width:138px; height:112px; background:url("/reference-assets/ranur-footer-logo.webp") center / contain no-repeat; content:""; }
 @media (max-width:500px) { .brand::before { width:47px; height:48px; } .footer::before { width:108px; height:88px; } }
+
+/* Exact static hero vector extracted under M1-T04-A1. */
+.artwork { display:none; }
+.artPanel::after { position:absolute; z-index:1; top:4%; left:5%; width:93%; height:96%; background:url("/reference-assets/ranur-bride-hero.svg") center / contain no-repeat; content:""; filter:drop-shadow(0 15px 15px #9d716c22); }
