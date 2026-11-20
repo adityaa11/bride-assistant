@@ -10,7 +10,7 @@ const sourceFiles = [
   "app/(admin)/admin/page.tsx",
   "app/(public)/fixtures/empty/page.tsx",
   "app/(public)/fixtures/error/page.tsx",
-  "shared/public-discovery.tsx",
+  "shared/public-home.tsx",
   "shared/review-route.tsx",
   "shared/scenarios/contracts.ts",
   "shared/scenarios/catalogue.ts",
@@ -24,8 +24,8 @@ test("public, customer, and admin route groups compose through the shared seam",
     assert.match(page, /@\/shared\/review-route/);
     assert.match(page, /<ReviewRoute scenarioId=/);
   }
-  assert.match(pages[0], /@\/shared\/public-discovery/);
-  assert.match(pages[0], /<PublicDiscovery scenarioId=/);
+  assert.match(pages[0], /@\/shared\/public-home/);
+  assert.match(pages[0], /<PublicHome scenarioId=/);
 });
 
 test("public review states are named routes with declared scenario IDs", async () => {
@@ -34,16 +34,16 @@ test("public review states are named routes with declared scenario IDs", async (
     readFile(resolve(root, "app/(public)/fixtures/error/page.tsx"), "utf8"),
   ]);
 
-  assert.match(emptyRoute, /<PublicDiscovery scenarioId="public\.catalogue-empty"/);
-  assert.match(errorRoute, /<PublicDiscovery scenarioId="public\.catalogue-error"/);
+  assert.match(emptyRoute, /<PublicHome scenarioId="public\.catalogue-empty"/);
+  assert.match(errorRoute, /<PublicHome scenarioId="public\.catalogue-error"/);
 });
 
 test("feature routes reach declared scenarios only through the versioned adapter seam", async () => {
-  const [publicRoute, customerRoute, adminRoute, publicDiscovery, reviewRoute, adapter, catalogue] = await Promise.all([
+  const [publicRoute, customerRoute, adminRoute, publicHome, reviewRoute, adapter, catalogue] = await Promise.all([
     readFile(resolve(root, "app/(public)/page.tsx"), "utf8"),
     readFile(resolve(root, "app/(customer)/customer/page.tsx"), "utf8"),
     readFile(resolve(root, "app/(admin)/admin/page.tsx"), "utf8"),
-    readFile(resolve(root, "shared/public-discovery.tsx"), "utf8"),
+    readFile(resolve(root, "shared/public-home.tsx"), "utf8"),
     readFile(resolve(root, "shared/review-route.tsx"), "utf8"),
     readFile(resolve(root, "shared/scenarios/adapter.ts"), "utf8"),
     readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
@@ -52,8 +52,8 @@ test("feature routes reach declared scenarios only through the versioned adapter
   for (const featureSource of [publicRoute, customerRoute, adminRoute]) {
     assert.doesNotMatch(featureSource, /shared\/scenarios\/(?:catalogue|contracts|adapter)/);
   }
-  assert.match(publicDiscovery, /getScenario/);
-  assert.doesNotMatch(publicDiscovery, /publication|draft/);
+  assert.match(publicHome, /getScenario/);
+  assert.doesNotMatch(publicHome, /publication|draft/);
   assert.match(reviewRoute, /getScenario/);
   assert.match(adapter, /scenarioCatalogue/);
   assert.match(catalogue, /satisfies Record<string/);

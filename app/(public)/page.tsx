@@ -1,5 +1,5 @@
-import { PublicDiscovery } from "@/shared/public-discovery";
+import { PublicHome } from "@/shared/public-home";
 
 export default function PublicReviewPage() {
-  return <PublicDiscovery scenarioId="public.discovery-success" />;
+  return <PublicHome scenarioId="public.discovery-success" />;
 }

@@ -1,5 +1,5 @@
-import { PublicDiscovery } from "@/shared/public-discovery";
+import { PublicHome } from "@/shared/public-home";
 
 export default function PublicEmptyFixturePage() {
-  return <PublicDiscovery scenarioId="public.catalogue-empty" />;
+  return <PublicHome scenarioId="public.catalogue-empty" />;
 }

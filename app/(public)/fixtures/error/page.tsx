@@ -1,5 +1,5 @@
-import { PublicDiscovery } from "@/shared/public-discovery";
+import { PublicHome } from "@/shared/public-home";
 
 export default function PublicErrorFixturePage() {
-  return <PublicDiscovery scenarioId="public.catalogue-error" />;
+  return <PublicHome scenarioId="public.catalogue-error" />;
 }
