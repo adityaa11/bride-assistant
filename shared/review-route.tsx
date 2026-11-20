@@ -1,15 +1,14 @@
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
+import { EmptyState, FixtureForm, StatusNotice } from "@/shared/ui-primitives";
 
 export function ReviewRoute({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>) {
   const scenario = getScenario(scenarioId);
+  const isAdmin = scenario.readModel.surface === "admin";
+  const navItems = isAdmin ? ["Overview", "Bookings", "Catalogue", "Content"] : scenario.readModel.surface === "customer" ? ["Beranda", "Booking Baru", "Booking Saya", "Bantuan"] : ["Beranda", "Layanan", "Paket", "Tentang"];
+  const fixtureItems = "publishedContent" in scenario.readModel ? scenario.readModel.publishedContent.map((item) => ({ title:item.title, detail:"Published fixture content", tag:"Published" })) : "bookings" in scenario.readModel ? scenario.readModel.bookings.map((item) => ({ title:item.id, detail:"Booking fixture", tag:item.status })) : "content" in scenario.readModel ? scenario.readModel.content.map((item) => ({ title:item.title, detail:"Content fixture", tag:item.publication })) : [];
+  const navigation = <nav className="primary-nav" aria-label={isAdmin ? "Admin navigation" : "Primary navigation"}>{navItems.map((item, index) => <a href="#review-content" aria-current={index === 0 ? "page" : undefined} key={item}>{item}</a>)}</nav>;
+  const content = <main className="page-content" id="review-content" data-scenario-id={scenario.scenarioId} data-scenario-version={scenario.version}><header className="page-heading"><span className="eyebrow">{isAdmin ? "Ranur workspace" : "Ranur Bridal Care"}</span><h1>{scenario.readModel.title}</h1><p>{scenario.readModel.description}</p></header><div className="review-grid"><section className="review-panel" aria-labelledby="fixture-heading"><div className="panel-heading"><div><p className="eyebrow">Fixture state</p><h2 id="fixture-heading">Review state</h2></div><span className="tag">{scenario.version}</span></div><StatusNotice state={scenario.state} />{fixtureItems.length > 0 ? <ul className="fixture-list">{fixtureItems.map((item) => <li key={item.title}><div><strong>{item.title}</strong><span>{item.detail}</span></div><span className="tag">{item.tag}</span></li>)}</ul> : <EmptyState>This state has no fixture records to display. Its absence is intentional and documented for review.</EmptyState>}<FixtureForm scenarioId={scenario.scenarioId} /></section><aside className="review-panel provenance" aria-labelledby="review-notes-heading"><div><p className="eyebrow">Review notes</p><h2 id="review-notes-heading">Bounded by design</h2></div><p>{scenario.state.nextReviewAction}</p><p>{scenario.provenance.label}</p><p>{scenario.interaction.summary}</p><p className="metadata">Scenario {scenario.scenarioId}</p></aside></div></main>;
 
-  return (
-    <main data-scenario-id={scenario.scenarioId} data-scenario-version={scenario.version}>
-      <h1>{scenario.readModel.title}</h1>
-      <p>{scenario.readModel.description}</p>
-      <p>Review state: {scenario.state.kind}</p>
-      <p>{scenario.provenance.label}</p>
-      <p>{scenario.interaction.summary}</p>
-    </main>
-  );
+  if (isAdmin) return <div className="admin-shell"><a className="skip-link" href="#review-content">Skip to review content</a><aside className="admin-rail"><a className="brand" href="#review-content"><span className="brand-name">Ranur</span><span className="brand-kicker">Bridal Care</span></a>{navigation}</aside><div className="admin-main">{content}</div></div>;
+  return <div className="app-shell"><a className="skip-link" href="#review-content">Skip to review content</a><header className="site-header"><div className="header-inner"><a className="brand" href="#review-content"><span className="brand-name">Ranur</span><span className="brand-kicker">Bridal Care</span></a>{navigation}</div></header>{content}</div>;
 }
