@@ -72,3 +72,12 @@
 .footer { padding:19px 18px; color:#fff9f6; background:#8c5053; font:italic 17px Georgia,serif; letter-spacing:.6px; text-align:center; }
 @media (max-width:850px) { .wrap { width:min(100% - 32px, 1230px); } .header .wrap { grid-template-columns:1fr auto; min-height:82px; } .nav { display:none; } .heroGrid,.split { grid-template-columns:1fr; } .hero { min-height:unset; } .heroCopy { padding:65px 0 10px; } .heroCopy h1 { font-size:clamp(46px,12vw,64px); } .artPanel { min-height:540px; max-width:580px; width:100%; margin:auto; } .artPanel::before { inset:95px 0 0; } .artwork { right:0; height:520px; } .seal { bottom:30px; width:180px; height:158px; } .signature { right:0; bottom:4px; font-size:24px; } .heroFacts { gap:18px; flex-wrap:wrap; margin-top:35px; } .packageGrid { grid-template-columns:1fr; max-width:480px; } .bookingInner { display:grid; gap:30px; } }
 @media (max-width:500px) { .topline { font-size:7px; letter-spacing:1.5px; } .brand strong { font-size:20px; } .mark { width:52px; height:52px; } .account { gap:12px; } .account .register { padding:14px 15px; } .heroCopy > p:not(.eyebrow) { font-size:14px; line-height:1.9; } .actions { gap:17px; align-items:start; flex-direction:column; } .artPanel { min-height:455px; } .artwork { height:455px; } .seal { width:145px; height:125px; padding:12px; } .seal .mark { width:63px; height:63px; } .signature { font-size:19px; } .about,.events,.products { padding:70px 0; } .site h2 { font-size:35px; } .contentGrid { grid-template-columns:1fr; } .footer { font-size:19px; } }
+
+/* M1-T04-A1: extracted static assets only; no prototype HTML, CSS, or script is reused. */
+.brand::before { display:block; width:57px; height:56px; flex:none; background:url("/reference-assets/ranur-header-logo.webp") center / contain no-repeat; content:""; }
+.brand .mark { display:none; }
+.seal { background:#fffdfbf0 url("/reference-assets/ranur-hero-stamp.webp") center / 100% 100% no-repeat; }
+.seal > * { display:none; }
+.footer { display:grid; place-items:center; gap:12px; }
+.footer::before { display:block; width:138px; height:112px; background:url("/reference-assets/ranur-footer-logo.webp") center / contain no-repeat; content:""; }
+@media (max-width:500px) { .brand::before { width:47px; height:48px; } .footer::before { width:108px; height:88px; } }
