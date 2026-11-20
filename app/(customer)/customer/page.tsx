@@ -1,5 +1,5 @@
 import { ReviewRoute } from "@/shared/review-route";
 
 export default function CustomerReviewPage() {
-  return <ReviewRoute audience="customer" />;
+  return <ReviewRoute scenarioId="customer.whatsapp-unavailable" />;
 }

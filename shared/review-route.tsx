@@ -1,17 +1,15 @@
-type ReviewAudience = "public" | "customer" | "admin";
+import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
 
-const labels: Record<ReviewAudience, string> = {
-  public: "Public",
-  customer: "Customer",
-  admin: "Admin",
-};
+export function ReviewRoute({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>) {
+  const scenario = getScenario(scenarioId);
 
-export function ReviewRoute({ audience }: Readonly<{ audience: ReviewAudience }>) {
   return (
-    <main>
-      <h1>{labels[audience]} fixture review route</h1>
-      <p>Fixture UI composition will be added in later M1 tickets.</p>
-      <p>This review build is non-authoritative and performs no account, data, or service operation.</p>
+    <main data-scenario-id={scenario.scenarioId} data-scenario-version={scenario.version}>
+      <h1>{scenario.readModel.title}</h1>
+      <p>{scenario.readModel.description}</p>
+      <p>Review state: {scenario.state.kind}</p>
+      <p>{scenario.provenance.label}</p>
+      <p>{scenario.interaction.summary}</p>
     </main>
   );
 }
