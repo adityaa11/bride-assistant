@@ -3,23 +3,37 @@ import type { ScenarioResult } from "@/shared/scenarios/contracts";
 export const scenarioCatalogue = {
   "public.catalogue-loading": {
     state: { kind: "loading", message: "Packages are being prepared for review.", nextReviewAction: "Wait for the fixture state." },
-    readModel: { surface: "public", title: "Package review", description: "Published package data is loading.", publishedContent: [] },
+    readModel: { surface: "public", title: "Package review", description: "Published package data is loading.", publishedContent: [], packages: [], promotions: [] },
   },
   "public.catalogue-empty": {
     state: { kind: "empty", message: "No published packages are available in this fixture.", nextReviewAction: "Review the empty catalogue state." },
-    readModel: { surface: "public", title: "No packages yet", description: "There are no published packages to show.", publishedContent: [] },
+    readModel: { surface: "public", title: "No packages yet", description: "There are no published packages to show.", publishedContent: [], packages: [], promotions: [] },
   },
   "public.published-content-empty": {
     state: { kind: "empty", message: "No published content is available in this fixture.", nextReviewAction: "Review the empty public-content state." },
-    readModel: { surface: "public", title: "No published content", description: "Draft content is not included in public reads.", publishedContent: [] },
+    readModel: { surface: "public", title: "No published content", description: "Draft content is not included in public reads.", publishedContent: [], packages: [], promotions: [] },
   },
-  "public.published-content-success": {
-    state: { kind: "success", message: "Published content is ready for review.", nextReviewAction: "Review the published-content state." },
-    readModel: { surface: "public", title: "Ranur Bridal Care", description: "Published fixture content for public review.", publishedContent: [{ id: "content-rose", title: "Soft Rose Atelier" }] },
+  "public.discovery-success": {
+    state: { kind: "success", message: "Published discovery content is ready for review.", nextReviewAction: "Review the public discovery fixture." },
+    readModel: {
+      surface: "public",
+      title: "Ranur Bridal Care",
+      description: "Published fixture content for public review.",
+      publishedContent: [
+        { id: "story-rose", kind: "story", title: "A moment held with care", body: "Quiet, attentive bridal companionship shaped around the rhythm of your celebration." },
+        { id: "event-consultation", kind: "event", title: "Private consultation", body: "A thoughtful first conversation to understand the support your day needs." },
+      ],
+      packages: [
+        { id: "intimate", category: "The essentials", title: "The Intimate Care", duration: "3 jam pendampingan", description: "Pendampingan singkat untuk momen pernikahan yang intim dan berkesan.", inclusions: ["Personal Bridal Companion", "Bantuan gaun, veil, dan aksesori", "Pengingat touch-up & kebutuhan personal"], featured: false },
+        { id: "gentle", category: "The signature", title: "The Gentle Companion", duration: "5 jam pendampingan", description: "Dukungan personal mulai dari persiapan hingga prosesi utama.", inclusions: ["Seluruh Essential Bridal Care", "Pemeriksaan barang pribadi", "Pendampingan selama rangkaian utama"], featured: true },
+        { id: "full-day", category: "The extended", title: "The Full Day Care", duration: "8 jam pendampingan", description: "Perhatian lebih lengkap untuk rangkaian hari yang lebih panjang.", inclusions: ["Seluruh Essential Bridal Care", "Dukungan transisi antarprosesi", "Pendampingan pergantian busana"], featured: false },
+      ],
+      promotions: [{ id: "welcome-care", title: "A little more care for your moment", description: "A published seasonal offer for a considered bridal companion.", value: "10%", endsOn: "31 Desember 2026" }],
+    },
   },
   "public.catalogue-error": {
     state: { kind: "error", message: "The package fixture could not be prepared.", nextReviewAction: "Review the error state." },
-    readModel: { surface: "public", title: "Package review unavailable", description: "No package data is displayed for this review state.", publishedContent: [] },
+    readModel: { surface: "public", title: "Package review unavailable", description: "No package data is displayed for this review state.", publishedContent: [], packages: [], promotions: [] },
   },
   "customer.booking-loading": {
     state: { kind: "loading", message: "Booking fixture data is loading.", nextReviewAction: "Wait for the fixture state." },

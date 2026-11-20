@@ -1,5 +1,5 @@
-import { ReviewRoute } from "@/shared/review-route";
+import { PublicDiscovery } from "@/shared/public-discovery";
 
 export default function PublicReviewPage() {
-  return <ReviewRoute scenarioId="public.published-content-success" />;
+  return <PublicDiscovery scenarioId="public.discovery-success" />;
 }

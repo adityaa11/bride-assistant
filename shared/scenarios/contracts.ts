@@ -37,8 +37,35 @@ type BaseReadModel = Readonly<{
 export type PublicReadModel = BaseReadModel &
   Readonly<{
     surface: "public";
-    publishedContent: readonly Readonly<{ id: string; title: string }> [];
+    publishedContent: readonly PublishedContent[];
+    packages: readonly PublicPackage[];
+    promotions: readonly PublishedPromotion[];
   }>;
+
+export type PublishedContent = Readonly<{
+  id: string;
+  title: string;
+  body: string;
+  kind: "story" | "event";
+}>;
+
+export type PublicPackage = Readonly<{
+  id: string;
+  category: string;
+  title: string;
+  duration: string;
+  description: string;
+  inclusions: readonly string[];
+  featured: boolean;
+}>;
+
+export type PublishedPromotion = Readonly<{
+  id: string;
+  title: string;
+  description: string;
+  value: string;
+  endsOn: string;
+}>;
 
 export type CustomerReadModel = BaseReadModel &
   Readonly<{
