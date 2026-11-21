@@ -6,7 +6,7 @@
 .intro {
   position: relative;
   overflow: hidden;
-  padding: 62px 0 38px;
+  padding: 48px 0 43px;
   border-bottom: 1px solid #eededb;
   background: linear-gradient(114deg, #fff9f7, #f8eeeb 75%, #f4e1df);
   color: #49383e;
@@ -33,7 +33,7 @@
   z-index: 1;
 }
 .breadcrumb {
-  margin: 0 0 26px;
+  margin: 0 0 20px;
   color: #9e8587;
   font-size: 11px;
 }
@@ -42,30 +42,30 @@
 }
 .eyebrow {
   margin: 0;
-  color: #ad7a7a;
+  color: #ab6d6c;
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 850;
   letter-spacing: 2.4px;
 }
 .intro h1 {
-  margin: 12px 0 15px;
-  color: #503840;
+  margin: 9px 0 14px;
+  color: #6c444b;
   font:
-    normal clamp(38px, 4.1vw, 58px)/1.1 Georgia,
+    normal clamp(38px, 4.4vw, 58px)/1.08 Georgia,
     "Palatino Linotype",
     "Book Antiqua",
     serif;
-  letter-spacing: -1.1px;
+  letter-spacing: -1.5px;
 }
 .intro h1 em {
-  color: #925459;
+  color: #ad7873;
 }
 .intro p:not(.eyebrow) {
-  max-width: 630px;
+  max-width: 660px;
   margin: 0;
   color: #6b575c;
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.85;
 }
 .introActions {
   display: flex;
