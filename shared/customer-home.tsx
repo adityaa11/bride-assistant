@@ -7,63 +7,661 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./customer-home.module.css";
 
 const assets = "/reference-assets/ui-reference";
-const nav = [["Beranda", "/beranda"], ["Booking Baru", "/booking"], ["Booking Saya", "/booking-saya"], ["Bantuan", "/bantuan"]] as const;
+const nav = [
+  ["Beranda", "/beranda"],
+  ["Booking Baru", "/booking"],
+  ["Booking Saya", "/booking-saya"],
+  ["Bantuan", "/bantuan"],
+] as const;
 
-export function CustomerHome({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>) {
+export function CustomerHome({
+  scenarioId,
+}: Readonly<{ scenarioId: ScenarioId }>) {
   const scenario = getScenario(scenarioId);
   if (scenario.readModel.surface !== "customer") return null;
-  const bookingMessage = scenario.state.kind === "empty" ? scenario.state.message : "Booking yang kamu ajukan akan tampil di sini, lengkap dengan statusnya.";
-  return <CustomerFrame active="Beranda" scenarioId={scenarioId}>
-    <main className={styles.main} id="main">
-      <header className={styles.heading}><div><p className={styles.eyebrow}>YOUR PERSONAL BRIDAL SPACE</p><h1>My Bridal Journey</h1></div><p>A little care, for every beautiful moment ✧</p></header>
-      <section aria-labelledby="heroTitle" className={styles.hero}><div className={styles.heroCopy}><p className={styles.eyebrow}>WELCOME TO RANUR BRIDAL CARE</p><h2 id="heroTitle">Hello, <em>bride-to-be.</em><br />Your beautiful day<br />starts here.</h2><p>Kami siap menemanimu mempersiapkan momen istimewa. Jelajahi layanan Bride Assistant dan mulai rencanakan pendampingan yang paling sesuai untukmu.</p><div className={styles.actions}><button className={styles.primary} type="button">Mulai Booking <Arrow /></button><a className={styles.secondary} href="#packages">Lihat Pilihan Paket</a></div></div><div aria-hidden="true" className={styles.heroArt}><i>For your lovely day.</i><Botanical /><span><small>MADE WITH LOVE</small><strong>Your moment,<br />our heart. ♡</strong></span></div></section>
-      <section aria-label="Ringkasan akun" className={styles.stats}><Stat icon="calendar" label="Booking Aktif" value="0" /><Stat icon="clock" label="Menunggu Konfirmasi" value="0" /><Stat icon="pin" label="Jadwal Terdekat" value="Belum ada" /></section>
-      <section aria-labelledby="bookingSectionTitle" className={styles.section} id="bookings">
-        <div className={styles.sectionHead}><div><p className={styles.eyebrow}>YOUR BOOKING SPACE</p><h2 id="bookingSectionTitle">Perjalanan yang sedang berjalan</h2><p>Pantau jadwal dan rencana pendampinganmu dengan lebih nyaman.</p></div></div>
-        <div className={styles.columns}>
-          <div className={`${styles.panel} ${styles.panelPad}`}><div className={styles.panelTitle}><h3>Booking Saya</h3><Link className={styles.textLink} href="/booking-saya">Lihat Semua →</Link></div><div className={styles.empty}><div aria-hidden="true" className={styles.emptyIllustration}>♡</div><h4>Belum ada booking, dear.</h4><p>{bookingMessage}</p><button className={styles.primary} type="button">Ajukan Booking Baru</button></div></div>
-          <div className={`${styles.panel} ${styles.panelPad}`}><div className={styles.panelTitle}><h3>How Your Journey Works</h3><span className={styles.hint}>A thoughtful process</span></div><div className={styles.journey}>{[["01. Pilih layanan pendampingan", "Temukan paket Bride Assistant yang sesuai dengan kebutuhan acara dan durasi pendampinganmu."], ["02. Ajukan & konfirmasi booking", "Isi informasi acaramu. Tim Ranur akan meninjau permintaan dan mengonfirmasi ketersediaan."], ["03. Enjoy your special day", "Fokus pada momen berhargamu. Kami siap hadir untuk mendampingi kebutuhan personalmu."]].map(([title, copy], index) => <div className={styles.journeyItem} key={title}><div className={styles.stepIcon}><JourneyIcon index={index} /></div><div><h4>{title}</h4><p>{copy}</p></div></div>)}</div></div>
-        </div>
-      </section>
-      <section aria-labelledby="packagesTitle" className={styles.section} id="packages"><div className={styles.sectionHead}><div><p className={styles.eyebrow}>OUR CARE COLLECTION</p><h2 id="packagesTitle">A little care, just for you.</h2><p>Tiga pilihan pendampingan personal untuk membuat hari pernikahanmu terasa lebih tenang dan istimewa.</p></div><a className={styles.textLink} href="#packages">Lihat Semua Detail <Arrow /></a></div><div className={styles.packages}><Package number="01." note="3 JAM PENDAMPINGAN" title="The Intimate Care" packageId="intimate" /><Package featured number="02." note="5 JAM PENDAMPINGAN" title="The Gentle Companion" packageId="gentle" /><Package number="03." note="8 JAM PENDAMPINGAN" title="The Full Day Care" packageId="full-day" /></div></section>
-      <section aria-labelledby="helpTitle" className={styles.helpBand} id="help"><div><p className={styles.eyebrow}>HERE FOR YOU, ALWAYS</p><h2 id="helpTitle">Need a little guidance?</h2><p>Masih bingung memilih paket atau ingin mengenal layanan kami lebih dekat? Kami siap membantumu melalui WhatsApp. Kunjungi halaman Bantuan untuk menghubungi tim Ranur.</p></div><Link className={styles.primary} href="/bantuan">Hubungi Tim Ranur <Arrow /></Link></section>
-    </main>
-  </CustomerFrame>;
+  const bookingMessage =
+    scenario.state.kind === "empty"
+      ? scenario.state.message
+      : "Booking yang kamu ajukan akan tampil di sini, lengkap dengan statusnya.";
+  return (
+    <CustomerFrame active="Beranda" scenarioId={scenarioId}>
+      <main className={styles.main} id="main">
+        <header className={styles.heading}>
+          <div>
+            <p className={styles.eyebrow}>YOUR PERSONAL BRIDAL SPACE</p>
+            <h1>My Bridal Journey</h1>
+          </div>
+          <p>A little care, for every beautiful moment ✧</p>
+        </header>
+        <section aria-labelledby="heroTitle" className={styles.hero}>
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>WELCOME TO RANUR BRIDAL CARE</p>
+            <h2 id="heroTitle">
+              Hello, <em>bride-to-be.</em>
+              <br />
+              Your beautiful day
+              <br />
+              starts here.
+            </h2>
+            <p>
+              Kami siap menemanimu mempersiapkan momen istimewa. Jelajahi
+              layanan Bride Assistant dan mulai rencanakan pendampingan yang
+              paling sesuai untukmu.
+            </p>
+            <div className={styles.actions}>
+              <button className={styles.primary} type="button">
+                Mulai Booking <Arrow />
+              </button>
+              <a className={styles.secondary} href="#packages">
+                Lihat Pilihan Paket
+              </a>
+            </div>
+          </div>
+          <div aria-hidden="true" className={styles.heroArt}>
+            <i>For your lovely day.</i>
+            <Botanical />
+            <span>
+              <small>MADE WITH LOVE</small>
+              <strong>
+                Your moment,
+                <br />
+                our heart. ♡
+              </strong>
+            </span>
+          </div>
+        </section>
+        <section aria-label="Ringkasan akun" className={styles.stats}>
+          <Stat icon="calendar" label="Booking Aktif" value="0" />
+          <Stat icon="clock" label="Menunggu Konfirmasi" value="0" />
+          <Stat icon="pin" label="Jadwal Terdekat" value="Belum ada" />
+        </section>
+        <section
+          aria-labelledby="bookingSectionTitle"
+          className={styles.section}
+          id="bookings"
+        >
+          <div className={styles.sectionHead}>
+            <div>
+              <p className={styles.eyebrow}>YOUR BOOKING SPACE</p>
+              <h2 id="bookingSectionTitle">Perjalanan yang sedang berjalan</h2>
+              <p>
+                Pantau jadwal dan rencana pendampinganmu dengan lebih nyaman.
+              </p>
+            </div>
+          </div>
+          <div className={styles.columns}>
+            <div className={`${styles.panel} ${styles.panelPad}`}>
+              <div className={styles.panelTitle}>
+                <h3>Booking Saya</h3>
+                <Link className={styles.textLink} href="/booking-saya">
+                  Lihat Semua →
+                </Link>
+              </div>
+              <div className={styles.empty}>
+                <div aria-hidden="true" className={styles.emptyIllustration}>
+                  ♡
+                </div>
+                <h4>Belum ada booking, dear.</h4>
+                <p>{bookingMessage}</p>
+                <button className={styles.primary} type="button">
+                  Ajukan Booking Baru
+                </button>
+              </div>
+            </div>
+            <div className={`${styles.panel} ${styles.panelPad}`}>
+              <div className={styles.panelTitle}>
+                <h3>How Your Journey Works</h3>
+                <span className={styles.hint}>A thoughtful process</span>
+              </div>
+              <div className={styles.journey}>
+                {[
+                  [
+                    "01. Pilih layanan pendampingan",
+                    "Temukan paket Bride Assistant yang sesuai dengan kebutuhan acara dan durasi pendampinganmu.",
+                  ],
+                  [
+                    "02. Ajukan & konfirmasi booking",
+                    "Isi informasi acaramu. Tim Ranur akan meninjau permintaan dan mengonfirmasi ketersediaan.",
+                  ],
+                  [
+                    "03. Enjoy your special day",
+                    "Fokus pada momen berhargamu. Kami siap hadir untuk mendampingi kebutuhan personalmu.",
+                  ],
+                ].map(([title, copy], index) => (
+                  <div className={styles.journeyItem} key={title}>
+                    <div className={styles.stepIcon}>
+                      <JourneyIcon index={index} />
+                    </div>
+                    <div>
+                      <h4>{title}</h4>
+                      <p>{copy}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          aria-labelledby="packagesTitle"
+          className={styles.section}
+          id="packages"
+        >
+          <div className={styles.sectionHead}>
+            <div>
+              <p className={styles.eyebrow}>OUR CARE COLLECTION</p>
+              <h2 id="packagesTitle">A little care, just for you.</h2>
+              <p>
+                Tiga pilihan pendampingan personal untuk membuat hari
+                pernikahanmu terasa lebih tenang dan istimewa.
+              </p>
+            </div>
+            <a className={styles.textLink} href="#packages">
+              Lihat Semua Detail <Arrow />
+            </a>
+          </div>
+          <div className={styles.packages}>
+            <Package
+              number="01."
+              note="3 JAM PENDAMPINGAN"
+              title="The Intimate Care"
+              packageId="intimate"
+            />
+            <Package
+              featured
+              number="02."
+              note="5 JAM PENDAMPINGAN"
+              title="The Gentle Companion"
+              packageId="gentle"
+            />
+            <Package
+              number="03."
+              note="8 JAM PENDAMPINGAN"
+              title="The Full Day Care"
+              packageId="full-day"
+            />
+          </div>
+        </section>
+        <section
+          aria-labelledby="helpTitle"
+          className={styles.helpBand}
+          id="help"
+        >
+          <div>
+            <p className={styles.eyebrow}>HERE FOR YOU, ALWAYS</p>
+            <h2 id="helpTitle">Need a little guidance?</h2>
+            <p>
+              Masih bingung memilih paket atau ingin mengenal layanan kami lebih
+              dekat? Kami siap membantumu melalui WhatsApp. Kunjungi halaman
+              Bantuan untuk menghubungi tim Ranur.
+            </p>
+          </div>
+          <Link className={styles.primary} href="/bantuan">
+            Hubungi Tim Ranur <Arrow />
+          </Link>
+        </section>
+      </main>
+    </CustomerFrame>
+  );
 }
 
-export function CustomerHelp({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>) {
+export function CustomerHelp({
+  scenarioId,
+}: Readonly<{ scenarioId: ScenarioId }>) {
   const scenario = getScenario(scenarioId);
   const [message, setMessage] = useState("");
-  return <CustomerFrame active="Bantuan" scenarioId={scenarioId}><main className={`${styles.main} ${styles.helpPage}`} id="main"><div className={styles.helpIntro}><div className={styles.helpKicker}>WE&apos;RE HERE FOR YOU</div><h1>Butuh bantuan? <em>♡</em></h1><p>Butuh informasi tentang paket Bride Assistant, proses booking, atau jadwal pendampingan? Tim Ranur Bridal Care siap membantu menjawab pertanyaanmu.</p></div><section aria-labelledby="helpCardTitle" className={styles.helpCard}><span aria-hidden="true" className={styles.helpSymbol}><WhatsAppIcon /></span><h2 id="helpCardTitle">Chat dengan Tim Ranur</h2><p>Ceritakan kebutuhanmu dan kami akan membantumu melalui percakapan WhatsApp.</p><button aria-describedby="contactMessage" className={`${styles.primary} ${styles.helpAction}`} onClick={() => setMessage(scenario.state.message)} type="button"><WhatsAppIcon />Hubungi via WhatsApp</button><p aria-live="polite" className={styles.helpMessage} id="contactMessage" role="status">{message}</p><span aria-hidden="true" className={styles.helpAsterisk}>With care, always.</span></section></main></CustomerFrame>;
+  return (
+    <CustomerFrame active="Bantuan" scenarioId={scenarioId}>
+      <main className={`${styles.main} ${styles.helpPage}`} id="main">
+        <div className={styles.helpIntro}>
+          <div className={styles.helpKicker}>WE&apos;RE HERE FOR YOU</div>
+          <h1>
+            Butuh bantuan? <em>♡</em>
+          </h1>
+          <p>
+            Butuh informasi tentang paket Bride Assistant, proses booking, atau
+            jadwal pendampingan? Tim Ranur Bridal Care siap membantu menjawab
+            pertanyaanmu.
+          </p>
+        </div>
+        <section aria-labelledby="helpCardTitle" className={styles.helpCard}>
+          <span aria-hidden="true" className={styles.helpSymbol}>
+            <WhatsAppIcon />
+          </span>
+          <h2 id="helpCardTitle">Chat dengan Tim Ranur</h2>
+          <p>
+            Ceritakan kebutuhanmu dan kami akan membantumu melalui percakapan
+            WhatsApp.
+          </p>
+          <button
+            aria-describedby="contactMessage"
+            className={`${styles.primary} ${styles.helpAction}`}
+            onClick={() => setMessage(scenario.state.message)}
+            type="button"
+          >
+            <WhatsAppIcon />
+            Hubungi via WhatsApp
+          </button>
+          <p
+            aria-live="polite"
+            className={styles.helpMessage}
+            id="contactMessage"
+            role="status"
+          >
+            {message}
+          </p>
+          <span aria-hidden="true" className={styles.helpAsterisk}>
+            With care, always.
+          </span>
+        </section>
+      </main>
+    </CustomerFrame>
+  );
 }
 
-export function CustomerFrame({ active, children, scenarioId }: Readonly<{ active: string; children: React.ReactNode; scenarioId: string }>) {
+export function CustomerFrame({
+  active,
+  children,
+  scenarioId,
+}: Readonly<{
+  active: string;
+  children: React.ReactNode;
+  scenarioId: string;
+}>) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const toolsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") { setMenuOpen(false); setNotificationOpen(false); setProfileOpen(false); }
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setNotificationOpen(false);
+        setProfileOpen(false);
+      }
     };
     const closeOnOutsidePress = (event: MouseEvent) => {
-      if (!toolsRef.current?.contains(event.target as Node)) { setNotificationOpen(false); setProfileOpen(false); }
+      if (!toolsRef.current?.contains(event.target as Node)) {
+        setNotificationOpen(false);
+        setProfileOpen(false);
+      }
     };
     document.addEventListener("keydown", closeOnEscape);
     document.addEventListener("click", closeOnOutsidePress);
-    return () => { document.removeEventListener("keydown", closeOnEscape); document.removeEventListener("click", closeOnOutsidePress); };
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      document.removeEventListener("click", closeOnOutsidePress);
+    };
   }, []);
-  return <div className={styles.page} data-scenario-id={scenarioId} data-scenario-version="m1-fixture-v1"><a className={styles.skip} href="#main">Langsung ke konten</a><header className={styles.header}><div className={styles.nav}><Link aria-label="Ranur Bridal Care" className={styles.brand} href="/beranda"><Image alt="" aria-hidden="true" height={58} src={`${assets}/home-image-01-5cfb309f414c.webp`} width={64} /><span><strong>RANUR</strong><small>BRIDAL CARE</small></span></Link><nav aria-label="Navigasi customer" className={styles.desktopNav}>{nav.map(([label, href]) => <Link aria-current={label === active ? "page" : undefined} className={label === active ? styles.active : ""} href={href} key={label}>{label}</Link>)}</nav><div className={styles.tools} ref={toolsRef}><div className={styles.navPopWrap}><button aria-controls="notificationPopover" aria-expanded={notificationOpen} aria-label="Notifikasi" className={styles.circle} onClick={() => { setNotificationOpen(!notificationOpen); setProfileOpen(false); }} type="button"><Bell /></button>{notificationOpen && <div aria-label="Notifikasi" className={styles.popover} id="notificationPopover" role="region"><h4>Notifikasi</h4><p>Belum ada kabar terbaru. Informasi booking dan jadwalmu akan muncul di sini.</p></div>}</div><div className={`${styles.navPopWrap} ${styles.profileWrap}`}><button aria-controls="profilePopover" aria-expanded={profileOpen} aria-label="Menu akun" className={styles.avatar} onClick={() => { setProfileOpen(!profileOpen); setNotificationOpen(false); }} type="button">R</button>{profileOpen && <div aria-label="Menu akun" className={styles.popover} id="profilePopover" role="menu"><div className={styles.userLine}><span>CUSTOMER ACCOUNT</span><strong>Bride-to-be</strong></div><button role="menuitem" type="button">Nama Sapaan</button><Link href="/" role="menuitem">Kunjungi Website</Link></div>}</div><button aria-expanded={menuOpen} aria-label={menuOpen ? "Tutup menu" : "Buka menu"} className={`${styles.circle} ${styles.menuButton}`} onClick={() => { setMenuOpen(!menuOpen); setNotificationOpen(false); setProfileOpen(false); }} type="button"><Menu /></button></div></div>{menuOpen && <nav aria-label="Navigasi mobile" className={styles.mobileNav}>{nav.map(([label, href]) => <Link href={href} key={label} onClick={() => setMenuOpen(false)}>{label}</Link>)}</nav>}</header>{children}<footer className={styles.footer}><div className={styles.footerInner}><div className={styles.footerRow}><div><div className={styles.footerBrand}>RANUR <small>BRIDAL CARE</small></div><p>Personal care, for your once-in-a-lifetime moment.</p></div><nav aria-label="Navigasi footer" className={styles.footerLinks}><Link href="#main">Beranda</Link><a href="#packages">Paket Layanan</a><Link href="/booking-saya">Booking Saya</Link><Link href="/bantuan">Bantuan</Link><a href="#main">Website Ranur</a></nav></div><div className={styles.footerBottom}><span>© 2026 Ranur Bridal Care</span><span>Your moment, our heart. ♡</span></div></div></footer></div>;
+  return (
+    <div
+      className={styles.page}
+      data-scenario-id={scenarioId}
+      data-scenario-version="m1-fixture-v1"
+    >
+      <a className={styles.skip} href="#main">
+        Langsung ke konten
+      </a>
+      <header className={styles.header}>
+        <div className={styles.nav}>
+          <Link
+            aria-label="Ranur Bridal Care"
+            className={styles.brand}
+            href="/beranda"
+          >
+            <Image
+              alt=""
+              aria-hidden="true"
+              height={58}
+              src={`${assets}/home-image-01-5cfb309f414c.webp`}
+              width={64}
+            />
+            <span>
+              <strong>RANUR</strong>
+              <small>BRIDAL CARE</small>
+            </span>
+          </Link>
+          <nav aria-label="Navigasi customer" className={styles.desktopNav}>
+            {nav.map(([label, href]) => (
+              <Link
+                aria-current={label === active ? "page" : undefined}
+                className={label === active ? styles.active : ""}
+                href={href}
+                key={label}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <div className={styles.tools} ref={toolsRef}>
+            <div className={styles.navPopWrap}>
+              <button
+                aria-controls="notificationPopover"
+                aria-expanded={notificationOpen}
+                aria-label="Notifikasi"
+                className={styles.circle}
+                onClick={() => {
+                  setNotificationOpen(!notificationOpen);
+                  setProfileOpen(false);
+                }}
+                type="button"
+              >
+                <Bell />
+              </button>
+              {notificationOpen && (
+                <div
+                  aria-label="Notifikasi"
+                  className={styles.popover}
+                  id="notificationPopover"
+                  role="region"
+                >
+                  <h4>Notifikasi</h4>
+                  <p>
+                    Belum ada kabar terbaru. Informasi booking dan jadwalmu akan
+                    muncul di sini.
+                  </p>
+                </div>
+              )}
+            </div>
+            <div className={`${styles.navPopWrap} ${styles.profileWrap}`}>
+              <button
+                aria-controls="profilePopover"
+                aria-expanded={profileOpen}
+                aria-label="Menu akun"
+                className={styles.avatar}
+                onClick={() => {
+                  setProfileOpen(!profileOpen);
+                  setNotificationOpen(false);
+                }}
+                type="button"
+              >
+                R
+              </button>
+              {profileOpen && (
+                <div
+                  aria-label="Menu akun"
+                  className={styles.popover}
+                  id="profilePopover"
+                  role="menu"
+                >
+                  <div className={styles.userLine}>
+                    <span>CUSTOMER ACCOUNT</span>
+                    <strong>Bride-to-be</strong>
+                  </div>
+                  <button role="menuitem" type="button">
+                    Nama Sapaan
+                  </button>
+                  <Link href="/" role="menuitem">
+                    Kunjungi Website
+                  </Link>
+                </div>
+              )}
+            </div>
+            <button
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+              className={`${styles.circle} ${styles.menuButton}`}
+              onClick={() => {
+                setMenuOpen(!menuOpen);
+                setNotificationOpen(false);
+                setProfileOpen(false);
+              }}
+              type="button"
+            >
+              <Menu />
+            </button>
+          </div>
+        </div>
+        {menuOpen && (
+          <nav aria-label="Navigasi mobile" className={styles.mobileNav}>
+            {nav.map(([label, href]) => (
+              <Link href={href} key={label} onClick={() => setMenuOpen(false)}>
+                {label}
+              </Link>
+            ))}
+          </nav>
+        )}
+      </header>
+      {children}
+      <footer className={styles.footer}>
+        <div className={styles.footerInner}>
+          <div className={styles.footerRow}>
+            <div>
+              <div className={styles.footerBrand}>
+                RANUR <small>BRIDAL CARE</small>
+              </div>
+              <p>Personal care, for your once-in-a-lifetime moment.</p>
+            </div>
+            <nav aria-label="Navigasi footer" className={styles.footerLinks}>
+              <Link href="#main">Beranda</Link>
+              <a href="#packages">Paket Layanan</a>
+              <Link href="/booking-saya">Booking Saya</Link>
+              <Link href="/bantuan">Bantuan</Link>
+              <a href="#main">Website Ranur</a>
+            </nav>
+          </div>
+          <div className={styles.footerBottom}>
+            <span>© 2026 Ranur Bridal Care</span>
+            <span>Your moment, our heart. ♡</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 }
 
-function Stat({ icon, label, value }: Readonly<{ icon: "calendar" | "clock" | "pin"; label: string; value: string }>) { return <article className={styles.stat}><div><small>{label}</small><strong className={value === "Belum ada" ? styles.upcoming : undefined}>{value}</strong></div><b aria-hidden="true">{icon === "calendar" ? <Calendar /> : icon === "clock" ? <Clock /> : <Pin />}</b></article>; }
-function Package({ featured = false, note, number, packageId, title }: Readonly<{ featured?: boolean; note: string; number: string; packageId: string; title: string }>) { const details = title === "The Intimate Care" ? "Perhatian personal untuk momen pernikahan yang intim, hangat, dan penuh makna." : title === "The Gentle Companion" ? "Teman setia dari persiapan hingga prosesi utama, dengan perhatian pada setiap detail kecil." : "Pendampingan lebih menyeluruh untuk rangkaian hari istimewa yang panjang dan dinamis."; return <article className={`${styles.package} ${featured ? styles.featured : ""}`}>{featured && <div className={styles.ribbon}>SIGNATURE CARE</div>}<div className={styles.topline}><span className={styles.number}>{number}</span><span className={styles.duration}>{note}</span></div><h3>{title}</h3><p>{details}</p><div className={styles.packageAction}><button data-package={packageId} type="button">Pilih Paket <Arrow /></button><a href="#packages">Detail Paket</a></div></article>; }
-function Arrow() { return <svg aria-hidden="true" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>; }
-function JourneyIcon({ index }: Readonly<{ index: number }>) { const common = { fill: "none", stroke: "currentColor", strokeLinecap: "round" as const, strokeLinejoin: "round" as const, strokeWidth: 1.5, viewBox: "0 0 24 24" }; return index === 0 ? <svg {...common}><path d="M3 5h18v14H3zM3 9h18M8 14h4" /></svg> : index === 1 ? <svg {...common}><rect height="16" rx="2" width="18" x="3" y="5" /><path d="M7 3v4m10-4v4M3 10h18M8 15l2 2 5-5" /></svg> : <svg {...common}><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2 4.5 4.5 0 0 1 8 2c0 6-8 11-8 11Z" /></svg>; }
-function WhatsAppIcon() { return <svg aria-hidden="true" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M20.8 11.5a8.7 8.7 0 0 1-8.8 8.7c-1.5 0-2.8-.3-4-.9L3 20.5l1.3-4.8A8.7 8.7 0 1 1 20.8 11.5Z" /><path d="M9 9.3c.6 2.4 2.2 4.2 4.7 5l1.4-1.3" /></svg>; }
-function Bell() { return <svg aria-hidden="true" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" /><path d="M10 21h4" /></svg>; }
-function Menu() { return <svg aria-hidden="true" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.7" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></svg>; }
-function Calendar() { return <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" viewBox="0 0 24 24"><rect height="16" rx="2" width="18" x="3" y="5" /><path d="M7 3v4m10-4v4M3 10h18m-13 5 2 2 4-4" /></svg>; }
-function Clock() { return <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>; }
-function Pin() { return <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" viewBox="0 0 24 24"><path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" /><circle cx="12" cy="10" r="2" /></svg>; }
-function Botanical() { return <svg className={styles.botanical} fill="none" viewBox="0 0 330 390"><path d="M170 393c-4-87-5-144-24-196-17-45-44-80-64-125m85 222c15-62 59-125 104-172m-120 122c-36-20-73-27-123-25" stroke="#b7807d" strokeLinecap="round" strokeWidth="1.9" /><path d="M85 70c-23-11-39-33-39-54 28-1 53 11 57 36C96 60 91 66 85 70ZM95 105c-28-12-51-11-74 4 9 24 40 39 64 24l10-28Zm32 66c-23-25-25-55-12-80 30 8 48 35 37 59l-25 21Zm21 32c25-33 56-43 87-35-4 34-23 55-57 51l-30-16Zm-6 47c-32-17-67-12-92 8 15 29 47 42 72 20l20-28Zm38-45c-7-32 9-68 33-85 24 20 29 50 11 73l-44 12Z" fill="#f3cbc6" fillOpacity=".48" stroke="#b7807d" strokeWidth="1.8" /></svg>; }
+function Stat({
+  icon,
+  label,
+  value,
+}: Readonly<{
+  icon: "calendar" | "clock" | "pin";
+  label: string;
+  value: string;
+}>) {
+  return (
+    <article className={styles.stat}>
+      <div>
+        <small>{label}</small>
+        <strong className={value === "Belum ada" ? styles.upcoming : undefined}>
+          {value}
+        </strong>
+      </div>
+      <b aria-hidden="true">
+        {icon === "calendar" ? (
+          <Calendar />
+        ) : icon === "clock" ? (
+          <Clock />
+        ) : (
+          <Pin />
+        )}
+      </b>
+    </article>
+  );
+}
+function Package({
+  featured = false,
+  note,
+  number,
+  packageId,
+  title,
+}: Readonly<{
+  featured?: boolean;
+  note: string;
+  number: string;
+  packageId: string;
+  title: string;
+}>) {
+  const details =
+    title === "The Intimate Care"
+      ? "Perhatian personal untuk momen pernikahan yang intim, hangat, dan penuh makna."
+      : title === "The Gentle Companion"
+        ? "Teman setia dari persiapan hingga prosesi utama, dengan perhatian pada setiap detail kecil."
+        : "Pendampingan lebih menyeluruh untuk rangkaian hari istimewa yang panjang dan dinamis.";
+  return (
+    <article className={`${styles.package} ${featured ? styles.featured : ""}`}>
+      {featured && <div className={styles.ribbon}>SIGNATURE CARE</div>}
+      <div className={styles.topline}>
+        <span className={styles.number}>{number}</span>
+        <span className={styles.duration}>{note}</span>
+      </div>
+      <h3>{title}</h3>
+      <p>{details}</p>
+      <div className={styles.packageAction}>
+        <button data-package={packageId} type="button">
+          Pilih Paket <Arrow />
+        </button>
+        <a href="#packages">Detail Paket</a>
+      </div>
+    </article>
+  );
+}
+function Arrow() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.8"
+      viewBox="0 0 24 24"
+    >
+      <path d="M5 12h14m-6-6 6 6-6 6" />
+    </svg>
+  );
+}
+function JourneyIcon({ index }: Readonly<{ index: number }>) {
+  const common = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    strokeWidth: 1.5,
+    viewBox: "0 0 24 24",
+  };
+  return index === 0 ? (
+    <svg {...common}>
+      <path d="M3 5h18v14H3zM3 9h18M8 14h4" />
+    </svg>
+  ) : index === 1 ? (
+    <svg {...common}>
+      <rect height="16" rx="2" width="18" x="3" y="5" />
+      <path d="M7 3v4m10-4v4M3 10h18M8 15l2 2 5-5" />
+    </svg>
+  ) : (
+    <svg {...common}>
+      <path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2 4.5 4.5 0 0 1 8 2c0 6-8 11-8 11Z" />
+    </svg>
+  );
+}
+function WhatsAppIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.8"
+      viewBox="0 0 24 24"
+    >
+      <path d="M20.8 11.5a8.7 8.7 0 0 1-8.8 8.7c-1.5 0-2.8-.3-4-.9L3 20.5l1.3-4.8A8.7 8.7 0 1 1 20.8 11.5Z" />
+      <path d="M9 9.3c.6 2.4 2.2 4.2 4.7 5l1.4-1.3" />
+    </svg>
+  );
+}
+function Bell() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.6"
+      viewBox="0 0 24 24"
+    >
+      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+      <path d="M10 21h4" />
+    </svg>
+  );
+}
+function Menu() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeWidth="1.7"
+      viewBox="0 0 24 24"
+    >
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  );
+}
+function Calendar() {
+  return (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.7"
+      viewBox="0 0 24 24"
+    >
+      <rect height="16" rx="2" width="18" x="3" y="5" />
+      <path d="M7 3v4m10-4v4M3 10h18m-13 5 2 2 4-4" />
+    </svg>
+  );
+}
+function Clock() {
+  return (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.7"
+      viewBox="0 0 24 24"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  );
+}
+function Pin() {
+  return (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.7"
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" />
+      <circle cx="12" cy="10" r="2" />
+    </svg>
+  );
+}
+function Botanical() {
+  return (
+    <svg className={styles.botanical} fill="none" viewBox="0 0 330 390">
+      <path
+        d="M170 393c-4-87-5-144-24-196-17-45-44-80-64-125m85 222c15-62 59-125 104-172m-120 122c-36-20-73-27-123-25"
+        stroke="#b7807d"
+        strokeLinecap="round"
+        strokeWidth="1.9"
+      />
+      <path
+        d="M85 70c-23-11-39-33-39-54 28-1 53 11 57 36C96 60 91 66 85 70ZM95 105c-28-12-51-11-74 4 9 24 40 39 64 24l10-28Zm32 66c-23-25-25-55-12-80 30 8 48 35 37 59l-25 21Zm21 32c25-33 56-43 87-35-4 34-23 55-57 51l-30-16Zm-6 47c-32-17-67-12-92 8 15 29 47 42 72 20l20-28Zm38-45c-7-32 9-68 33-85 24 20 29 50 11 73l-44 12Z"
+        fill="#f3cbc6"
+        fillOpacity=".48"
+        stroke="#b7807d"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}

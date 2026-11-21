@@ -11,7 +11,13 @@ const states: Record<string, ScenarioId> = {
   reschedule: "customer.booking-history-reschedule",
 };
 
-export default async function BookingHistoryStatePage({ params }: Readonly<{ params: Promise<{ state: string }> }>) {
+export default async function BookingHistoryStatePage({
+  params,
+}: Readonly<{ params: Promise<{ state: string }> }>) {
   const { state } = await params;
-  return <CustomerBookingHistory scenarioId={states[state] ?? "customer.booking-history-success"} />;
+  return (
+    <CustomerBookingHistory
+      scenarioId={states[state] ?? "customer.booking-history-success"}
+    />
+  );
 }

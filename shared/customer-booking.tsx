@@ -17,7 +17,9 @@ export function CustomerBooking({
       ? scenario.readModel.bookingRequest
       : undefined;
   const [selectedDate, setSelectedDate] = useState(request?.selectedDate);
-  const [visibleMonth, setVisibleMonth] = useState<"november" | "december">(request?.selectedDate ? "december" : "november");
+  const [visibleMonth, setVisibleMonth] = useState<"november" | "december">(
+    request?.selectedDate ? "december" : "november",
+  );
   const [submitted, setSubmitted] = useState(
     scenarioId === "customer.booking-request-result",
   );
@@ -51,7 +53,9 @@ export function CustomerBooking({
           <div className={styles.breadcrumb}>
             <Link href="/beranda">Beranda</Link> / Booking Baru
           </div>
-          <div className={styles.eyebrow}>LET&apos;S PLAN YOUR BEAUTIFUL DAY</div>
+          <div className={styles.eyebrow}>
+            LET&apos;S PLAN YOUR BEAUTIFUL DAY
+          </div>
           <h1>
             Find your perfect date,
             <br />
@@ -90,10 +94,20 @@ export function CustomerBooking({
                   <p>Pilih tanggal untuk pengajuan booking.</p>
                 </div>
                 <div className={styles.calendarActions}>
-                    <button aria-label="Bulan sebelumnya" disabled={!showingDecember} onClick={() => setVisibleMonth("november")} type="button">
+                  <button
+                    aria-label="Bulan sebelumnya"
+                    disabled={!showingDecember}
+                    onClick={() => setVisibleMonth("november")}
+                    type="button"
+                  >
                     ‹
                   </button>
-                    <button aria-label="Bulan berikutnya" disabled={showingDecember} onClick={() => setVisibleMonth("december")} type="button">
+                  <button
+                    aria-label="Bulan berikutnya"
+                    disabled={showingDecember}
+                    onClick={() => setVisibleMonth("december")}
+                    type="button"
+                  >
                     ›
                   </button>
                 </div>
@@ -108,31 +122,38 @@ export function CustomerBooking({
                 className={styles.calendar}
                 role="group"
               >
-                {Array.from({ length: leadingBlanks }, (_, index) => <span aria-hidden="true" className={styles.blank} key={`blank-${index}`} />)}
-                {Array.from({ length: calendarDays }, (_, index) => index + 1).map(
-                  (day) => {
-                    const date = `${calendarPrefix}-${String(day).padStart(2, "0")}`;
-                    const blocked = unavailable.has(date);
-                    const selected = selectedDate === date;
-                    const past = !showingDecember && day < 21;
-                    return (
-                      <button
-                        aria-label={`${day} Desember 2026${blocked ? ", tidak tersedia" : ""}`}
-                        aria-pressed={selected || undefined}
-                        className={`${styles.day} ${selected ? styles.selected : ""} ${blocked ? styles.unavailable : ""}`}
+                {Array.from({ length: leadingBlanks }, (_, index) => (
+                  <span
+                    aria-hidden="true"
+                    className={styles.blank}
+                    key={`blank-${index}`}
+                  />
+                ))}
+                {Array.from(
+                  { length: calendarDays },
+                  (_, index) => index + 1,
+                ).map((day) => {
+                  const date = `${calendarPrefix}-${String(day).padStart(2, "0")}`;
+                  const blocked = unavailable.has(date);
+                  const selected = selectedDate === date;
+                  const past = !showingDecember && day < 21;
+                  return (
+                    <button
+                      aria-label={`${day} Desember 2026${blocked ? ", tidak tersedia" : ""}`}
+                      aria-pressed={selected || undefined}
+                      className={`${styles.day} ${selected ? styles.selected : ""} ${blocked ? styles.unavailable : ""}`}
                       disabled={blocked || past}
-                        key={date}
-                        onClick={() => setSelectedDate(date)}
-                        type="button"
-                      >
-                        <span>{day}</span>
-                        <small>
-                          {blocked ? "Penuh" : selected ? "Dipilih" : ""}
-                        </small>
-                      </button>
-                    );
-                  },
-                )}
+                      key={date}
+                      onClick={() => setSelectedDate(date)}
+                      type="button"
+                    >
+                      <span>{day}</span>
+                      <small>
+                        {blocked ? "Penuh" : selected ? "Dipilih" : ""}
+                      </small>
+                    </button>
+                  );
+                })}
               </div>
               <div className={styles.legend}>
                 <span>
@@ -173,7 +194,10 @@ export function CustomerBooking({
               >
                 <label>
                   Pilihan Paket *
-                <select aria-invalid={invalid || undefined} defaultValue={selectedPackage?.id ?? ""}>
+                  <select
+                    aria-invalid={invalid || undefined}
+                    defaultValue={selectedPackage?.id ?? ""}
+                  >
                     <option value="">
                       {noPackage
                         ? "Belum ada paket pendampingan"
