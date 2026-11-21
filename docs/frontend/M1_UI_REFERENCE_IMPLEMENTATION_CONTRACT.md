@@ -83,6 +83,13 @@ and content-fit rules.
 
 ## Visual acceptance rule
 
+For M1-T08–T16, the ticket-specific inspection, asset inventory, breakpoint,
+scenario, and evidence requirements in
+`docs/frontend/M1_REMAINING_UI_REFERENCE_CONTRACT.md` are binding. Complete the
+reference ledger before implementing a mapped screen and close every material
+comparison finding before a visual handoff. M1-T04 retains its own more
+specific public rendered-reference contract.
+
 For every mapped route and state, capture the implementation beside the source
 reference at the same desktop viewport and every defined narrow breakpoint.
 Review visible structure, hierarchy, copy, typography, colors, spacing,

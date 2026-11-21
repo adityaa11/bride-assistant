@@ -43,3 +43,8 @@ Target WCAG 2.2 AA. Preserve keyboard navigation, visible focus, semantic landma
 The supplied references define the rendered visual result, not an implementation dependency. No reference source, prototype logic, localStorage behavior, or external asset origin is reused. All M1 UI must match the reference while remaining implemented through the typed fixture contracts, shared project primitives, and safe framework rendering.
 
 All new UI work must conform to this contract unless an approved ticket changes it.
+
+For M1, a mapped rendered reference and its ticket-specific rendered-reference
+contract take precedence when a generic measure, radius, token, navigation
+pattern, or decoration rule above would change the source's visible result.
+The implementation still uses safe framework rendering and typed fixture data.
