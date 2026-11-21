@@ -38,7 +38,7 @@ function AuthFixture({ scenarioId, model, state, provenance }: Readonly<{ scenar
         <div className={styles.editorialFooter}>Your moment, our heart. ✧</div>
       </section>
       <section aria-labelledby="auth-form-title" className={styles.formSide}>
-        <div className={styles.topnav}><a className={styles.backLink} href="#auth-form-title">←&nbsp; Kembali ke website</a></div>
+        <div className={styles.topnav}><Link className={styles.backLink} href="/">←&nbsp; Kembali ke website</Link></div>
         <div className={styles.formWrap}>
           <div className={styles.smallTop}>RANUR BRIDAL CARE · CUSTOMER ACCESS</div>
           <h2 id="auth-form-title">{model.title}</h2><p className={styles.subtitle}>{model.description}</p>
