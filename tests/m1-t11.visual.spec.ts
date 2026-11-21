@@ -73,7 +73,7 @@ test.describe("M1-T11 Booking Saya reference and fixture evidence", () => {
   });
 
   for (const [route, text] of [["/booking-saya/loading", "Menyiapkan booking, dear."], ["/booking-saya/error", "Booking belum dapat ditampilkan."], ["/booking-saya/payment", "Menunggu pembayaran"], ["/booking-saya/cancellation", "Booking dalam peninjauan"], ["/booking-saya/cancelled", "Booking dibatalkan"], ["/booking-saya/reschedule", "Booking dalam peninjauan"]] as const) {
-    test(`renders the named fixture state ${route}`, async ({ page, baseURL }) => { await page.goto(`${baseURL}${route}`, { waitUntil: "networkidle" }); await expect(page.getByText(text, { exact: true })).toBeVisible(); await expect(page.locator("[data-scenario-id]")).toBeVisible(); await capture(page, `state-${route.slice(1).replaceAll("/", "-")}.png`); });
+    test(`renders the named fixture state ${route}`, async ({ page, baseURL }) => { await page.goto(`${baseURL}${route}`, { waitUntil: "networkidle" }); await expect(page.getByText(text, { exact: true }).first()).toBeVisible(); await expect(page.locator("[data-scenario-id]")).toBeVisible(); await capture(page, `state-${route.slice(1).replaceAll("/", "-")}.png`); });
   }
 
   test("keeps keyboard navigation and the mobile menu inside the fixture boundary", async ({ page, baseURL }) => {
