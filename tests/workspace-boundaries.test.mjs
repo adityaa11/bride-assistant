@@ -19,20 +19,23 @@ const sourceFiles = [
   "shared/customer-auth.tsx",
   "shared/customer-home.tsx",
   "shared/customer-booking-history.tsx",
+  "shared/admin-booking-workspace.tsx",
   "shared/scenarios/contracts.ts",
   "shared/scenarios/catalogue.ts",
   "shared/scenarios/adapter.ts",
 ];
 
-test("public, customer, and admin route groups compose through the shared seam", async () => {
+test("public, customer, and admin route groups compose through the approved fixture seams", async () => {
   const pages = await Promise.all([sourceFiles[0], sourceFiles[1], sourceFiles[6]].map((file) => readFile(resolve(root, file), "utf8")));
 
-  for (const page of pages.slice(1)) {
+  for (const page of pages.slice(1, 2)) {
     assert.match(page, /@\/shared\/review-route/);
     assert.match(page, /<ReviewRoute scenarioId=/);
   }
   assert.match(pages[0], /@\/shared\/public-home/);
   assert.match(pages[0], /<PublicHome scenarioId=/);
+  assert.match(pages[2], /@\/shared\/admin-booking-workspace/);
+  assert.match(pages[2], /<AdminBookingWorkspace scenarioId="admin\.booking-workspace"/);
 });
 
 test("public review states are named routes with declared scenario IDs", async () => {
@@ -46,17 +49,16 @@ test("public review states are named routes with declared scenario IDs", async (
 });
 
 test("feature routes reach declared scenarios only through the versioned adapter seam", async () => {
-  const [publicRoute, customerRoute, adminRoute, publicHome, reviewRoute, adapter, catalogue] = await Promise.all([
+  const [publicRoute, customerRoute, publicHome, reviewRoute, adapter, catalogue] = await Promise.all([
     readFile(resolve(root, "app/(public)/page.tsx"), "utf8"),
     readFile(resolve(root, "app/(customer)/customer/page.tsx"), "utf8"),
-    readFile(resolve(root, "app/(admin)/admin/page.tsx"), "utf8"),
     readFile(resolve(root, "shared/public-home.tsx"), "utf8"),
     readFile(resolve(root, "shared/review-route.tsx"), "utf8"),
     readFile(resolve(root, "shared/scenarios/adapter.ts"), "utf8"),
     readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
   ]);
 
-  for (const featureSource of [publicRoute, customerRoute, adminRoute]) {
+  for (const featureSource of [publicRoute, customerRoute]) {
     assert.doesNotMatch(featureSource, /shared\/scenarios\/(?:catalogue|contracts|adapter)/);
   }
   assert.match(publicHome, /getScenario/);
@@ -64,6 +66,21 @@ test("feature routes reach declared scenarios only through the versioned adapter
   assert.match(reviewRoute, /getScenario/);
   assert.match(adapter, /scenarioCatalogue/);
   assert.match(catalogue, /satisfies Record<string/);
+});
+
+test("admin booking and availability routes use named adapter fixtures without mutation authority", async () => {
+  const [adminRoute, bookingsState, availabilityRoute, workspace, catalogue] = await Promise.all([
+    readFile(resolve(root, "app/(admin)/admin/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(admin)/admin/bookings/[state]/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(admin)/admin/availability/page.tsx"), "utf8"),
+    readFile(resolve(root, "shared/admin-booking-workspace.tsx"), "utf8"),
+    readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
+  ]);
+  for (const route of [adminRoute, bookingsState, availabilityRoute]) assert.match(route, /AdminBookingWorkspace/);
+  for (const scenario of ["admin.booking-workspace", "admin.booking-empty", "admin.availability-workspace"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
+  assert.match(workspace, /getScenario/);
+  assert.match(workspace, /scenario\.interaction\.summary/);
+  for (const forbidden of ["localStorage", "sessionStorage", "fetch(", "dangerouslySetInnerHTML", "Confirmed", "On Hold"]) assert.doesNotMatch(workspace, new RegExp(forbidden.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 });
 
 test("customer auth fixture routes expose declared register and sign-in states without authority", async () => {

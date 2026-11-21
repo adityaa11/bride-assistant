@@ -164,6 +164,22 @@ export const scenarioCatalogue = {
     state: { kind: "success", message: "Admin booking fixture data is ready for review.", nextReviewAction: "Review canonical lifecycle labels." },
     readModel: { surface: "admin", title: "Booking review", description: "Administrative fixture data is not an authority decision.", content: [], bookingStatuses: ["Menunggu Konfirmasi", "Menunggu Pembayaran", "Booking Berhasil", "Menunggu Pembatalan Booking", "Dibatalkan", "Menunggu Reschedule Booking"] },
   },
+  "admin.booking-workspace": {
+    state: { kind: "success", message: "Workspace booking fixture siap ditinjau.", nextReviewAction: "Tinjau kalender, filter, detail, dan hasil kontrol non-authoritative." },
+    readModel: { surface: "admin", title: "Your bookings", description: "Tinjau jadwal bridal care dalam workspace fixture.", content: [], bookingStatuses: ["Menunggu Konfirmasi", "Menunggu Pembayaran", "Booking Berhasil", "Menunggu Pembatalan Booking", "Dibatalkan", "Menunggu Reschedule Booking"], adminBooking: { mode: "bookings", blockedDates: ["2026-11-18", "2026-11-26"], records: [
+      { id: "BA-001", customer: "Putri Amelia", packageName: "The Gentle Companion", date: "2026-11-12", start: "09:00", end: "14:00", location: "Serpong, Tangerang Selatan", status: "Menunggu Konfirmasi" },
+      { id: "BA-002", customer: "Dinda Prameswari", packageName: "The Intimate Care", date: "2026-11-12", start: "14:00", end: "17:00", location: "Tangerang", status: "Menunggu Pembayaran" },
+      { id: "BA-003", customer: "Salsa Dewi", packageName: "The Full Day Care", date: "2026-11-14", start: "08:00", end: "16:00", location: "Jakarta Selatan", status: "Booking Berhasil" }
+    ] } },
+  },
+  "admin.booking-empty": {
+    state: { kind: "empty", message: "Belum ada booking pada rentang fixture ini.", nextReviewAction: "Tinjau empty state tanpa membuat data booking." },
+    readModel: { surface: "admin", title: "Your bookings", description: "Tidak ada hasil booking untuk ditampilkan.", content: [], bookingStatuses: [], adminBooking: { mode: "bookings", blockedDates: [], records: [] } },
+  },
+  "admin.availability-workspace": {
+    state: { kind: "success", message: "Availability fixture siap ditinjau.", nextReviewAction: "Tinjau jam kerja, tanggal terblokir, dan hasil kontrol non-authoritative." },
+    readModel: { surface: "admin", title: "Your availability", description: "Atur tampilan availability fixture tanpa mengubah jadwal operasional.", content: [], bookingStatuses: [], adminBooking: { mode: "availability", blockedDates: ["2026-11-18", "2026-11-26"], records: [] } },
+  },
   "admin.content-draft-success": {
     state: { kind: "success", message: "Draft and published content are ready for admin review.", nextReviewAction: "Review publication distinctions." },
     readModel: { surface: "admin", title: "Content publication review", description: "Admin fixtures may distinguish draft from published content.", content: [{ id: "draft-rose", title: "Draft consultation", publication: "draft" }, { id: "published-rose", title: "Published consultation", publication: "published" }], bookingStatuses: [] },

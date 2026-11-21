@@ -112,6 +112,11 @@ export type AdminReadModel = BaseReadModel &
     surface: "admin";
     content: readonly Readonly<{ id: string; title: string; publication: "draft" | "published" }> [];
     bookingStatuses: readonly CanonicalBookingStatus[];
+    adminBooking?: Readonly<{
+      mode: "bookings" | "availability";
+      records: readonly Readonly<{ id: string; customer: string; packageName: string; date: string; start: string; end: string; location: string; status: CanonicalBookingStatus }> [];
+      blockedDates: readonly string[];
+    }>;
   }>;
 
 export type SystemReadModel = BaseReadModel &

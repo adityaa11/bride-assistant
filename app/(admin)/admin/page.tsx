@@ -1,5 +1,5 @@
-import { ReviewRoute } from "@/shared/review-route";
+import { AdminBookingWorkspace } from "@/shared/admin-booking-workspace";
 
 export default function AdminReviewPage() {
-  return <ReviewRoute scenarioId="admin.content-draft-success" />;
+  return <AdminBookingWorkspace scenarioId="admin.booking-workspace" />;
 }
