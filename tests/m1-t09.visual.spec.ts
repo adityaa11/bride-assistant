@@ -60,6 +60,11 @@ test.describe("M1-T09 source-reference and fixture evidence", () => {
     await page.keyboard.press("Enter");
     await expect(page.getByRole("heading", { name: "Butuh bantuan? ♡" })).toBeVisible();
 
+    await page.getByRole("button", { name: "Notifikasi" }).click();
+    await expect(page.getByRole("region", { name: "Notifikasi" })).toContainText("Belum ada kabar terbaru");
+    await page.getByRole("button", { name: "Menu akun" }).click();
+    await expect(page.getByRole("menu", { name: "Menu akun" })).toContainText("Bride-to-be");
+
     await page.setViewportSize({ width: 820, height: 900 });
     await page.reload({ waitUntil: "networkidle" });
     const menu = page.getByRole("button", { name: "Buka menu" });
