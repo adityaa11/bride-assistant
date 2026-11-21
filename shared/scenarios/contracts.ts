@@ -1,6 +1,6 @@
 export const SCENARIO_ADAPTER_VERSION = "m1-fixture-v1" as const;
 
-export type Surface = "public" | "customer" | "admin" | "system";
+export type Surface = "public" | "customer" | "customer-auth" | "admin" | "system";
 
 export type CanonicalBookingStatus =
   | "Menunggu Konfirmasi"
@@ -74,6 +74,14 @@ export type CustomerReadModel = BaseReadModel &
     availability: readonly Readonly<{ date: string; state: "available" | "unavailable" }> [];
   }>;
 
+export type CustomerAuthReadModel = BaseReadModel &
+  Readonly<{
+    surface: "customer-auth";
+    mode: "register" | "sign-in";
+    fields: readonly ("name" | "email")[];
+    feedback?: string;
+  }>;
+
 export type AdminReadModel = BaseReadModel &
   Readonly<{
     surface: "admin";
@@ -87,7 +95,7 @@ export type SystemReadModel = BaseReadModel &
     requestedScenarioId: string;
   }>;
 
-export type ScenarioReadModel = PublicReadModel | CustomerReadModel | AdminReadModel | SystemReadModel;
+export type ScenarioReadModel = PublicReadModel | CustomerReadModel | CustomerAuthReadModel | AdminReadModel | SystemReadModel;
 
 export type ScenarioResult = Readonly<{
   version: typeof SCENARIO_ADAPTER_VERSION;

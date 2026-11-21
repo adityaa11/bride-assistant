@@ -7,18 +7,23 @@ const root = process.cwd();
 const sourceFiles = [
   "app/(public)/page.tsx",
   "app/(customer)/customer/page.tsx",
+  "app/(customer)/daftar/page.tsx",
+  "app/(customer)/masuk/page.tsx",
+  "app/(customer)/daftar/[state]/page.tsx",
+  "app/(customer)/masuk/[state]/page.tsx",
   "app/(admin)/admin/page.tsx",
   "app/(public)/fixtures/empty/page.tsx",
   "app/(public)/fixtures/error/page.tsx",
   "shared/public-home.tsx",
   "shared/review-route.tsx",
+  "shared/customer-auth.tsx",
   "shared/scenarios/contracts.ts",
   "shared/scenarios/catalogue.ts",
   "shared/scenarios/adapter.ts",
 ];
 
 test("public, customer, and admin route groups compose through the shared seam", async () => {
-  const pages = await Promise.all(sourceFiles.slice(0, 3).map((file) => readFile(resolve(root, file), "utf8")));
+  const pages = await Promise.all([sourceFiles[0], sourceFiles[1], sourceFiles[6]].map((file) => readFile(resolve(root, file), "utf8")));
 
   for (const page of pages.slice(1)) {
     assert.match(page, /@\/shared\/review-route/);
@@ -57,6 +62,23 @@ test("feature routes reach declared scenarios only through the versioned adapter
   assert.match(reviewRoute, /getScenario/);
   assert.match(adapter, /scenarioCatalogue/);
   assert.match(catalogue, /satisfies Record<string/);
+});
+
+test("customer auth fixture routes expose declared register and sign-in states without authority", async () => {
+  const [registerPage, signInPage, registerStates, signInStates, auth, catalogue] = await Promise.all([
+    readFile(resolve(root, "app/(customer)/daftar/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(customer)/masuk/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(customer)/daftar/[state]/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(customer)/masuk/[state]/page.tsx"), "utf8"),
+    readFile(resolve(root, "shared/customer-auth.tsx"), "utf8"),
+    readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
+  ]);
+
+  for (const source of [registerPage, signInPage, registerStates, signInStates]) assert.match(source, /CustomerAuth/);
+  for (const scenario of ["customer.register-validation", "customer.register-loading", "customer.register-error", "customer.register-success", "customer.signin-validation", "customer.signin-loading", "customer.signin-error", "customer.signin-success"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
+  assert.match(auth, /getScenario/);
+  assert.match(auth, /provenance/);
+  assert.doesNotMatch(auth, /localStorage|sessionStorage|location\.assign|fetch\(/);
 });
 
 test("the public success route renders only adapter-provided published promotions", async () => {
