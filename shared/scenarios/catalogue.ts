@@ -64,6 +64,10 @@ export const scenarioCatalogue = {
     state: { kind: "error", message: "Periksa kembali data yang ditandai sebelum melanjutkan review.", nextReviewAction: "Review the registration validation fixture." },
     readModel: { surface: "customer-auth", mode: "register", title: "Daftar Akun", description: "Buat akun customer untuk mempersiapkan pengalaman bridal care yang lebih personal.", fields: ["name"], feedback: "Nama lengkap, nomor WhatsApp, dan konfirmasi kata sandi perlu diperiksa. Ini hanya hasil validasi fixture." },
   },
+  "customer.register-default": {
+    state: { kind: "success", message: "Registration form fixture is ready for review.", nextReviewAction: "Review the default registration composition." },
+    readModel: { surface: "customer-auth", mode: "register", title: "Daftar Akun", description: "Buat akun customer untuk mempersiapkan pengalaman bridal care yang lebih personal.", fields: ["name"] },
+  },
   "customer.register-loading": {
     state: { kind: "loading", message: "Fixture pendaftaran sedang disiapkan untuk review.", nextReviewAction: "Review the registration loading state." },
     readModel: { surface: "customer-auth", mode: "register", title: "Daftar Akun", description: "Buat akun customer untuk mempersiapkan pengalaman bridal care yang lebih personal.", fields: ["name"] },
@@ -79,6 +83,10 @@ export const scenarioCatalogue = {
   "customer.signin-validation": {
     state: { kind: "error", message: "Masukkan alamat email dan kata sandi untuk meninjau validasi fixture.", nextReviewAction: "Review the sign-in validation fixture." },
     readModel: { surface: "customer-auth", mode: "sign-in", title: "Masuk Akun", description: "Masukkan email dan kata sandimu untuk melanjutkan.", fields: ["email"], feedback: "Email atau kata sandi perlu diperiksa. Tidak ada sesi yang dibuat." },
+  },
+  "customer.signin-default": {
+    state: { kind: "success", message: "Sign-in form fixture is ready for review.", nextReviewAction: "Review the default sign-in composition." },
+    readModel: { surface: "customer-auth", mode: "sign-in", title: "Masuk Akun", description: "Masukkan email dan kata sandimu untuk melanjutkan.", fields: ["email"] },
   },
   "customer.signin-loading": {
     state: { kind: "loading", message: "Fixture masuk sedang disiapkan untuk review.", nextReviewAction: "Review the sign-in loading state." },
