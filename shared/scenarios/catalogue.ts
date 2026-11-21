@@ -1,4 +1,8 @@
 import type { ScenarioResult } from "@/shared/scenarios/contracts";
+import {
+  defaultCustomerBookingRecords,
+  defaultCustomerBookings,
+} from "@/shared/scenarios/customer-booking-fixtures";
 
 export const scenarioCatalogue = {
   "public.catalogue-loading": {
@@ -46,7 +50,7 @@ export const scenarioCatalogue = {
   },
   "customer.booking-history-success": {
     state: { kind: "success", message: "Booking fixture siap ditinjau.", nextReviewAction: "Tinjau daftar dan detail Booking Saya tanpa perubahan resmi." },
-    readModel: { surface: "customer", title: "Booking Saya", description: "Daftar booking fixture hanya untuk peninjauan.", bookings: [{ id: "BR-2026-001", status: "Menunggu Konfirmasi" }, { id: "BR-2026-002", status: "Booking Berhasil" }], availability: [], bookingHistory: { records: [{ id: "BR-2026-001", status: "Menunggu Konfirmasi", packageName: "The Gentle Companion", duration: "5 jam pendampingan", packageDescription: "Dukungan personal mulai dari persiapan hingga prosesi utama.", inclusions: ["Seluruh Essential Bridal Care", "Pemeriksaan barang pribadi", "Pendampingan selama rangkaian utama"], date: "2026-12-12", startTime: "09.00", endTime: "14.00", location: "The Garden Ballroom, Jakarta", submittedAt: "12 November 2026, 10.30", customerName: "Bride-to-be", customerWhatsapp: "+62 812 0000 0000", customerEmail: "bride@example.test", notes: "Mohon pendampingan saat persiapan dan prosesi utama." }, { id: "BR-2026-002", status: "Booking Berhasil", packageName: "The Intimate Care", duration: "3 jam pendampingan", packageDescription: "Pendampingan singkat untuk momen pernikahan yang intim dan berkesan.", inclusions: ["Personal Bridal Companion", "Bantuan gaun, veil, dan aksesori", "Pengingat touch-up & kebutuhan personal"], date: "2026-11-22", startTime: "13.00", endTime: "16.00", location: "Rumah Kaca, Bandung", submittedAt: "4 November 2026, 09.15", customerName: "Bride-to-be", customerWhatsapp: "+62 812 0000 0000", customerEmail: "bride@example.test", notes: "Tidak ada catatan tambahan." }] } },
+    readModel: { surface: "customer", title: "Booking Saya", description: "Daftar booking fixture hanya untuk peninjauan.", bookings: defaultCustomerBookings, availability: [], bookingHistory: { records: defaultCustomerBookingRecords } },
   },
   "customer.booking-history-payment": {
     state: { kind: "success", message: "Status pembayaran fixture siap ditinjau.", nextReviewAction: "Tinjau status Menunggu Pembayaran tanpa transaksi." },
@@ -78,7 +82,7 @@ export const scenarioCatalogue = {
   },
   "customer.home-success": {
     state: { kind: "success", message: "Ringkasan customer fixture siap ditinjau.", nextReviewAction: "Tinjau beranda customer dan langkah berikutnya." },
-    readModel: { surface: "customer", title: "Halo, Bride-to-be", description: "Ringkasan Bride Assistant ini hanya menggunakan data fixture.", bookings: [], availability: [{ date: "2026-12-12", state: "available" }] },
+    readModel: { surface: "customer", title: "Halo, Bride-to-be", description: "Ringkasan Bride Assistant ini hanya menggunakan data fixture.", bookings: defaultCustomerBookings, availability: [{ date: "2026-12-12", state: "available" }], bookingHistory: { records: defaultCustomerBookingRecords } },
   },
   "customer.home-empty": {
     state: { kind: "empty", message: "Belum ada booking pada fixture ini.", nextReviewAction: "Tinjau empty state customer tanpa data tersembunyi." },

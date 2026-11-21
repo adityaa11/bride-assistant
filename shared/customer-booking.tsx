@@ -2,6 +2,11 @@
 
 import { CustomerFrame } from "@/shared/customer-home";
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
+import {
+  bookingFixtureId,
+  readCreatedBookingFixtures,
+  saveCreatedBookingFixture,
+} from "@/shared/scenarios/customer-booking-store";
 import Link from "next/link";
 import { useState } from "react";
 import styles from "./customer-booking.module.css";
@@ -23,6 +28,8 @@ export function CustomerBooking({
   const [submitted, setSubmitted] = useState(
     scenarioId === "customer.booking-request-result",
   );
+  const [selectedPackageId, setSelectedPackageId] = useState("");
+  const [formError, setFormError] = useState("");
   if (scenario.readModel.surface !== "customer") return null;
   const packages = request?.packages ?? [];
   const unavailable = new Set(
@@ -30,7 +37,8 @@ export function CustomerBooking({
       .filter((item) => item.state === "unavailable")
       .map((item) => item.date),
   );
-  const selectedPackage = packages[0];
+  const selectedPackage =
+    packages.find((item) => item.id === selectedPackageId) ?? packages[0];
   const invalid = scenarioId === "customer.booking-request-invalid";
   const noPackage = scenarioId === "customer.booking-request-no-package";
   const unavailableState =
@@ -188,8 +196,38 @@ export function CustomerBooking({
                 className={styles.form}
                 onSubmit={(event) => {
                   event.preventDefault();
-                  if (!invalid && !noPackage && !unavailableState)
-                    setSubmitted(true);
+                  if (invalid || noPackage || unavailableState) return;
+                  if (!selectedDate || !selectedPackage) {
+                    setFormError(
+                      "Pilih paket dan tanggal wedding sebelum mengajukan booking.",
+                    );
+                    return;
+                  }
+                  const form = new FormData(event.currentTarget);
+                  const created = readCreatedBookingFixtures();
+                  saveCreatedBookingFixture({
+                    id: bookingFixtureId(created.length),
+                    status: "Menunggu Konfirmasi",
+                    packageName: selectedPackage.name,
+                    duration: selectedPackage.duration,
+                    packageDescription: selectedPackage.description,
+                    inclusions: [],
+                    date: selectedDate,
+                    startTime: String(form.get("startTime")),
+                    endTime: "",
+                    location: String(form.get("location")),
+                    submittedAt: new Intl.DateTimeFormat("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    }).format(new Date()),
+                    customerName: String(form.get("customerName")),
+                    customerWhatsapp: String(form.get("whatsapp")),
+                    customerEmail: String(form.get("email")),
+                    notes: String(form.get("notes")),
+                  });
+                  setFormError("");
+                  setSubmitted(true);
                 }}
               >
                 <label>
@@ -197,6 +235,9 @@ export function CustomerBooking({
                   <select
                     aria-invalid={invalid || undefined}
                     defaultValue={selectedPackage?.id ?? ""}
+                    name="package"
+                    onChange={(event) => setSelectedPackageId(event.target.value)}
+                    required
                   >
                     <option value="">
                       {noPackage
@@ -219,35 +260,44 @@ export function CustomerBooking({
                   <Field
                     invalid={invalid}
                     label="Nama Lengkap *"
+                    name="customerName"
                     placeholder="Nama lengkap"
+                    required
                   />
                   <Field
                     invalid={invalid}
                     label="WhatsApp *"
+                    name="whatsapp"
                     placeholder="08xxxxxxxxxx"
+                    required
                     type="tel"
                   />
                 </div>
                 <Field
                   invalid={invalid}
                   label="Email *"
+                  name="email"
                   placeholder="nama@email.com"
+                  required
                   type="email"
                 />
                 <div className={styles.two}>
                   <label>
                     Tanggal Wedding *<input readOnly value={dateLabel} />
+                    <input name="date" required type="hidden" value={selectedDate ?? ""} />
                   </label>
-                  <Field invalid={invalid} label="Waktu Mulai *" type="time" />
+                  <Field invalid={invalid} label="Waktu Mulai *" name="startTime" required type="time" />
                 </div>
                 <Field
                   invalid={invalid}
                   label="Lokasi Wedding *"
+                  name="location"
                   placeholder="Venue, area, atau kota"
+                  required
                 />
                 <label>
                   Catatan
-                  <textarea placeholder="Informasi prosesi, kebutuhan khusus, atau detail lainnya" />
+                  <textarea name="notes" placeholder="Informasi prosesi, kebutuhan khusus, atau detail lainnya" />
                 </label>
                 <div className={styles.summary}>
                   <small>RINGKASAN PENGAJUAN</small>
@@ -258,9 +308,9 @@ export function CustomerBooking({
                       : "Pilih paket pendampingan dan tanggal wedding."}
                   </span>
                 </div>
-                {(invalid || noPackage || unavailableState) && (
+                {(invalid || noPackage || unavailableState || formError) && (
                   <p className={styles.message} role="alert">
-                    {scenario.state.message}
+                    {formError || scenario.state.message}
                   </p>
                 )}
                 <button
@@ -285,8 +335,8 @@ export function CustomerBooking({
             <h2>Booking berhasil diajukan ♡</h2>
             <b>Menunggu Konfirmasi</b>
             <p>
-              Hasil pengajuan ini adalah fixture untuk review. Tidak ada
-              booking, data customer, atau transisi resmi yang dibuat.
+              Booking fixture dibuat dari detail form ini dan tersedia di
+              Beranda serta Booking Saya pada browser ini.
             </p>
             <Link className={styles.submit} href="/booking-saya">
               Lihat Booking Saya
@@ -301,12 +351,16 @@ export function CustomerBooking({
 function Field({
   invalid = false,
   label,
+  name,
   placeholder,
+  required = false,
   type = "text",
 }: Readonly<{
   invalid?: boolean;
   label: string;
+  name?: string;
   placeholder?: string;
+  required?: boolean;
   type?: string;
 }>) {
   return (
@@ -314,7 +368,9 @@ function Field({
       {label}
       <input
         aria-invalid={invalid || undefined}
+        name={name}
         placeholder={placeholder}
+        required={required}
         type={type}
       />
     </label>

@@ -6,6 +6,7 @@ import type {
   CanonicalBookingStatus,
   CustomerBookingRecord,
 } from "@/shared/scenarios/contracts";
+import { useCustomerBookingRecords } from "@/shared/scenarios/customer-booking-store";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import styles from "./customer-booking-history.module.css";
@@ -23,13 +24,14 @@ export function CustomerBookingHistory({
   scenarioId,
 }: Readonly<{ scenarioId: ScenarioId }>) {
   const scenario = useMemo(() => getScenario(scenarioId), [scenarioId]);
-  const records = useMemo(
+  const baseRecords = useMemo(
     () =>
       scenario.readModel.surface === "customer"
         ? (scenario.readModel.bookingHistory?.records ?? [])
         : [],
     [scenario],
   );
+  const records = useCustomerBookingRecords(baseRecords);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<CanonicalBookingStatus | "all">("all");
   const [selectedId, setSelectedId] = useState(records[0]?.id ?? "");

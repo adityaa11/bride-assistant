@@ -1,6 +1,8 @@
 "use client";
 
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
+import type { CustomerBookingRecord } from "@/shared/scenarios/contracts";
+import { useCustomerBookingRecords } from "@/shared/scenarios/customer-booking-store";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -18,11 +20,19 @@ export function CustomerHome({
   scenarioId,
 }: Readonly<{ scenarioId: ScenarioId }>) {
   const scenario = getScenario(scenarioId);
+  const records = useCustomerBookingRecords(
+    scenario.readModel.surface === "customer"
+      ? (scenario.readModel.bookingHistory?.records ?? [])
+      : [],
+  );
   if (scenario.readModel.surface !== "customer") return null;
-  const bookingMessage =
-    scenario.state.kind === "empty"
-      ? scenario.state.message
-      : "Booking yang kamu ajukan akan tampil di sini, lengkap dengan statusnya.";
+  const activeBookings = records.filter((record) => record.status !== "Dibatalkan");
+  const waitingBookings = records.filter(
+    (record) => record.status === "Menunggu Konfirmasi",
+  );
+  const nearestBooking = [...activeBookings].sort((left, right) =>
+    left.date.localeCompare(right.date),
+  )[0];
   return (
     <CustomerFrame active="Beranda" scenarioId={scenarioId}>
       <main className={styles.main} id="main">
@@ -71,9 +81,13 @@ export function CustomerHome({
           </div>
         </section>
         <section aria-label="Ringkasan akun" className={styles.stats}>
-          <Stat icon="calendar" label="Booking Aktif" value="0" />
-          <Stat icon="clock" label="Menunggu Konfirmasi" value="0" />
-          <Stat icon="pin" label="Jadwal Terdekat" value="Belum ada" />
+          <Stat icon="calendar" label="Booking Aktif" value={String(activeBookings.length)} />
+          <Stat icon="clock" label="Menunggu Konfirmasi" value={String(waitingBookings.length)} />
+          <Stat
+            icon="pin"
+            label="Jadwal Terdekat"
+            value={nearestBooking ? formatShortDate(nearestBooking.date) : "Belum ada"}
+          />
         </section>
         <section
           aria-labelledby="bookingSectionTitle"
@@ -97,16 +111,23 @@ export function CustomerHome({
                   Lihat Semua →
                 </Link>
               </div>
-              <div className={styles.empty}>
-                <div aria-hidden="true" className={styles.emptyIllustration}>
-                  ♡
+              {records.length === 0 ? (
+                <div className={styles.empty}>
+                  <div aria-hidden="true" className={styles.emptyIllustration}>
+                    ♡
+                  </div>
+                  <h4>Belum ada booking, dear.</h4>
+                  <p>
+                    Booking yang kamu ajukan akan tampil di sini, lengkap dengan
+                    statusnya.
+                  </p>
+                  <Link className={styles.primary} href="/booking">
+                    Ajukan Booking Baru
+                  </Link>
                 </div>
-                <h4>Belum ada booking, dear.</h4>
-                <p>{bookingMessage}</p>
-                <button className={styles.primary} type="button">
-                  Ajukan Booking Baru
-                </button>
-              </div>
+              ) : (
+                <BookingPreview records={records} />
+              )}
             </div>
             <div className={`${styles.panel} ${styles.panelPad}`}>
               <div className={styles.panelTitle}>
@@ -203,6 +224,38 @@ export function CustomerHome({
       </main>
     </CustomerFrame>
   );
+}
+
+function BookingPreview({
+  records,
+}: Readonly<{ records: readonly CustomerBookingRecord[] }>) {
+  return (
+    <div className={styles.bookingPreview}>
+      {records.slice(-2).reverse().map((record) => (
+        <article className={styles.bookingItem} key={record.id}>
+          <div className={styles.bookingItemTop}>
+            <span>{record.id}</span>
+            <b>{record.status}</b>
+          </div>
+          <h4>{record.packageName}</h4>
+          <p>
+            {formatShortDate(record.date)} · {record.startTime} · {record.location}
+          </p>
+        </article>
+      ))}
+      <Link className={styles.previewAction} href="/booking-saya">
+        Lihat detail booking →
+      </Link>
+    </div>
+  );
+}
+
+function formatShortDate(value: string) {
+  return new Intl.DateTimeFormat("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(`${value}T00:00:00`));
 }
 
 export function CustomerHelp({

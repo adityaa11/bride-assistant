@@ -938,6 +938,59 @@
 .empty .primary {
   min-height: 45px;
 }
+.bookingPreview {
+  display: grid;
+  gap: 11px;
+  padding: 22px 0 0;
+}
+.bookingItem {
+  border: 1px solid #eadbd7;
+  border-radius: 10px;
+  background: #fffaf7;
+  padding: 15px 16px;
+}
+.bookingItemTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.bookingItemTop span {
+  color: var(--rose);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+.bookingItemTop b {
+  border-radius: 999px;
+  background: #faefd9;
+  color: #86632d;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 5px 8px;
+}
+.bookingItem h4 {
+  color: var(--deep);
+  font: normal 19px Georgia, serif;
+  margin: 7px 0 3px;
+}
+.bookingItem p {
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 0;
+}
+.previewAction {
+  color: var(--deep);
+  font-size: 11px;
+  font-weight: 800;
+  justify-self: start;
+  margin: 2px 0 3px;
+}
+.previewAction:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 .journey {
   margin: 25px 0 0;
   display: grid;
