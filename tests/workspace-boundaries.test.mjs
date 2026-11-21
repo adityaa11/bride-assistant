@@ -17,6 +17,7 @@ const sourceFiles = [
   "shared/public-home.tsx",
   "shared/review-route.tsx",
   "shared/customer-auth.tsx",
+  "shared/customer-home.tsx",
   "shared/scenarios/contracts.ts",
   "shared/scenarios/catalogue.ts",
   "shared/scenarios/adapter.ts",
@@ -79,6 +80,22 @@ test("customer auth fixture routes expose declared register and sign-in states w
   assert.match(auth, /getScenario/);
   assert.match(auth, /provenance/);
   assert.doesNotMatch(auth, /localStorage|sessionStorage|location\.assign|fetch\(/);
+});
+
+test("customer home and help routes use declared fixtures and never enable a live WhatsApp URL", async () => {
+  const [homePage, homeStates, helpPage, customerHome, catalogue] = await Promise.all([
+    readFile(resolve(root, "app/(customer)/beranda/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(customer)/beranda/[state]/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(customer)/bantuan/page.tsx"), "utf8"),
+    readFile(resolve(root, "shared/customer-home.tsx"), "utf8"),
+    readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
+  ]);
+
+  for (const source of [homePage, homeStates, helpPage]) assert.match(source, /Customer(?:Home|Help)/);
+  for (const scenario of ["customer.home-success", "customer.home-empty", "customer.whatsapp-unavailable"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
+  assert.match(customerHome, /getScenario/);
+  assert.match(customerHome, /Kontak WhatsApp belum tersedia/);
+  assert.doesNotMatch(customerHome, /wa\.me|whatsapp:\/\/|https?:\/\//);
 });
 
 test("the public success route renders only adapter-provided published promotions", async () => {

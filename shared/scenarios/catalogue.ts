@@ -52,6 +52,14 @@ export const scenarioCatalogue = {
     state: { kind: "unavailable", message: "WhatsApp handoff is unavailable in this fixture.", nextReviewAction: "Review the unavailable handoff state." },
     readModel: { surface: "customer", title: "WhatsApp unavailable", description: "The fixture does not open a live WhatsApp handoff.", bookings: [{ id: "booking-review-02", status: "Menunggu Konfirmasi" }], availability: [] },
   },
+  "customer.home-success": {
+    state: { kind: "success", message: "Ringkasan customer fixture siap ditinjau.", nextReviewAction: "Tinjau beranda customer dan langkah berikutnya." },
+    readModel: { surface: "customer", title: "Halo, Bride-to-be", description: "Ringkasan Bride Assistant ini hanya menggunakan data fixture.", bookings: [], availability: [{ date: "2026-12-12", state: "available" }] },
+  },
+  "customer.home-empty": {
+    state: { kind: "empty", message: "Belum ada booking pada fixture ini.", nextReviewAction: "Tinjau empty state customer tanpa data tersembunyi." },
+    readModel: { surface: "customer", title: "Halo, Bride-to-be", description: "Belum ada booking yang ditampilkan pada fixture ini.", bookings: [], availability: [] },
+  },
   "customer.command-result": {
     state: { kind: "success", message: "The fixture command result is visible for review.", nextReviewAction: "Review the non-authoritative result." },
     readModel: { surface: "customer", title: "Booking request review", description: "This result does not create an official booking transition.", bookings: [{ id: "booking-review-03", status: "Menunggu Konfirmasi" }], availability: [] },
