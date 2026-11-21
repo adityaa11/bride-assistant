@@ -94,7 +94,8 @@ test("customer home and help routes use declared fixtures and never enable a liv
   for (const source of [homePage, homeStates, helpPage]) assert.match(source, /Customer(?:Home|Help)/);
   for (const scenario of ["customer.home-success", "customer.home-empty", "customer.whatsapp-unavailable"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
   assert.match(customerHome, /getScenario/);
-  assert.match(customerHome, /Kontak WhatsApp belum tersedia/);
+  assert.match(customerHome, /setMessage\(scenario\.state\.message\)/);
+  assert.match(catalogue, /Kontak WhatsApp belum tersedia/);
   assert.doesNotMatch(customerHome, /wa\.me|whatsapp:\/\/|https?:\/\//);
 });
 

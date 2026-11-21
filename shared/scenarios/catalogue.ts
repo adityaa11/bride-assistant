@@ -49,7 +49,7 @@ export const scenarioCatalogue = {
     readModel: { surface: "customer", title: "Availability", description: "Customer availability exposes only date state.", bookings: [], availability: [{ date: "2026-12-12", state: "unavailable" }] },
   },
   "customer.whatsapp-unavailable": {
-    state: { kind: "unavailable", message: "WhatsApp handoff is unavailable in this fixture.", nextReviewAction: "Review the unavailable handoff state." },
+    state: { kind: "unavailable", message: "Kontak WhatsApp belum tersedia. Silakan coba kembali nanti.", nextReviewAction: "Review the unavailable handoff state." },
     readModel: { surface: "customer", title: "WhatsApp unavailable", description: "The fixture does not open a live WhatsApp handoff.", bookings: [{ id: "booking-review-02", status: "Menunggu Konfirmasi" }], availability: [] },
   },
   "customer.home-success": {

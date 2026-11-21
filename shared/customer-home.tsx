@@ -3,7 +3,7 @@
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./customer-home.module.css";
 
 const assets = "/reference-assets/ui-reference";
@@ -32,12 +32,20 @@ export function CustomerHome({ scenarioId }: Readonly<{ scenarioId: ScenarioId }
 }
 
 export function CustomerHelp({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>) {
+  const scenario = getScenario(scenarioId);
   const [message, setMessage] = useState("");
-  return <CustomerFrame active="Bantuan" scenarioId={scenarioId}><main className={`${styles.main} ${styles.helpPage}`} id="main"><div className={styles.helpIntro}><div className={styles.helpKicker}>WE&apos;RE HERE FOR YOU</div><h1>Butuh bantuan? <em>♡</em></h1><p>Butuh informasi tentang paket Bride Assistant, proses booking, atau jadwal pendampingan? Tim Ranur Bridal Care siap membantu menjawab pertanyaanmu.</p></div><section aria-labelledby="helpCardTitle" className={styles.helpCard}><span aria-hidden="true" className={styles.helpSymbol}><WhatsAppIcon /></span><h2 id="helpCardTitle">Chat dengan Tim Ranur</h2><p>Ceritakan kebutuhanmu dan kami akan membantumu melalui percakapan WhatsApp.</p><button aria-describedby="contactMessage" className={`${styles.primary} ${styles.helpAction}`} onClick={() => setMessage("Kontak WhatsApp belum tersedia. Silakan coba kembali nanti.")} type="button"><WhatsAppIcon />Hubungi via WhatsApp</button><p aria-live="polite" className={styles.helpMessage} id="contactMessage" role="status">{message}</p><span aria-hidden="true" className={styles.helpAsterisk}>With care, always.</span></section></main></CustomerFrame>;
+  return <CustomerFrame active="Bantuan" scenarioId={scenarioId}><main className={`${styles.main} ${styles.helpPage}`} id="main"><div className={styles.helpIntro}><div className={styles.helpKicker}>WE&apos;RE HERE FOR YOU</div><h1>Butuh bantuan? <em>♡</em></h1><p>Butuh informasi tentang paket Bride Assistant, proses booking, atau jadwal pendampingan? Tim Ranur Bridal Care siap membantu menjawab pertanyaanmu.</p></div><section aria-labelledby="helpCardTitle" className={styles.helpCard}><span aria-hidden="true" className={styles.helpSymbol}><WhatsAppIcon /></span><h2 id="helpCardTitle">Chat dengan Tim Ranur</h2><p>Ceritakan kebutuhanmu dan kami akan membantumu melalui percakapan WhatsApp.</p><button aria-describedby="contactMessage" className={`${styles.primary} ${styles.helpAction}`} onClick={() => setMessage(scenario.state.message)} type="button"><WhatsAppIcon />Hubungi via WhatsApp</button><p aria-live="polite" className={styles.helpMessage} id="contactMessage" role="status">{message}</p><span aria-hidden="true" className={styles.helpAsterisk}>With care, always.</span></section></main></CustomerFrame>;
 }
 
 function CustomerFrame({ active, children, scenarioId }: Readonly<{ active: string; children: React.ReactNode; scenarioId: string }>) {
   const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, []);
   return <div className={styles.page} data-scenario-id={scenarioId} data-scenario-version="m1-fixture-v1"><a className={styles.skip} href="#main">Langsung ke konten</a><header className={styles.header}><div className={styles.nav}><Link aria-label="Ranur Bridal Care" className={styles.brand} href="/beranda"><Image alt="" aria-hidden="true" height={58} src={`${assets}/home-image-01-5cfb309f414c.webp`} width={64} /><span><strong>RANUR</strong><small>BRIDAL CARE</small></span></Link><nav aria-label="Navigasi customer" className={styles.desktopNav}>{nav.map(([label, href]) => <Link aria-current={label === active ? "page" : undefined} className={label === active ? styles.active : ""} href={href} key={label}>{label}</Link>)}</nav><div className={styles.tools}><button aria-label="Notifikasi" className={styles.circle} type="button"><Bell /></button><button aria-label="Menu akun" className={styles.avatar} type="button">R</button><button aria-expanded={menuOpen} aria-label={menuOpen ? "Tutup menu" : "Buka menu"} className={`${styles.circle} ${styles.menuButton}`} onClick={() => setMenuOpen(!menuOpen)} type="button"><Menu /></button></div></div>{menuOpen && <nav aria-label="Navigasi mobile" className={styles.mobileNav}>{nav.map(([label, href]) => <Link href={href} key={label} onClick={() => setMenuOpen(false)}>{label}</Link>)}</nav>}</header>{children}<footer className={styles.footer}><div className={styles.footerInner}><div className={styles.footerRow}><div><div className={styles.footerBrand}>RANUR <small>BRIDAL CARE</small></div><p>Personal care, for your once-in-a-lifetime moment.</p></div><nav aria-label="Navigasi footer" className={styles.footerLinks}><Link href="#main">Beranda</Link><a href="#packages">Paket Layanan</a><Link href="/booking-saya">Booking Saya</Link><Link href="/bantuan">Bantuan</Link><a href="#main">Website Ranur</a></nav></div><div className={styles.footerBottom}><span>© 2026 Ranur Bridal Care</span><span>Your moment, our heart. ♡</span></div></div></footer></div>;
 }
 
