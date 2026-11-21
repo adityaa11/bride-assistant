@@ -64,6 +64,26 @@ export const scenarioCatalogue = {
     state: { kind: "success", message: "The fixture command result is visible for review.", nextReviewAction: "Review the non-authoritative result." },
     readModel: { surface: "customer", title: "Booking request review", description: "This result does not create an official booking transition.", bookings: [{ id: "booking-review-03", status: "Menunggu Konfirmasi" }], availability: [] },
   },
+  "customer.booking-request-default": {
+    state: { kind: "success", message: "Booking request fixture is ready for review.", nextReviewAction: "Review package, date, and detail entry without creating a booking." },
+    readModel: { surface: "customer", title: "Booking Baru", description: "A fixture booking request remains non-authoritative.", bookings: [], availability: [{ date: "2026-12-12", state: "available" }, { date: "2026-12-13", state: "unavailable" }], bookingRequest: { packages: [{ id: "intimate", name: "The Intimate Care", duration: "3 jam pendampingan", description: "Pendampingan singkat untuk momen pernikahan yang intim dan berkesan." }, { id: "gentle", name: "The Gentle Companion", duration: "5 jam pendampingan", description: "Dukungan personal mulai dari persiapan hingga prosesi utama." }, { id: "full-day", name: "The Full Day Care", duration: "8 jam pendampingan", description: "Perhatian lebih lengkap untuk rangkaian hari yang lebih panjang." }] } },
+  },
+  "customer.booking-request-invalid": {
+    state: { kind: "error", message: "Pilih paket dan lengkapi detail yang diperlukan sebelum meninjau hasil fixture.", nextReviewAction: "Review the required-field validation state." },
+    readModel: { surface: "customer", title: "Booking Baru", description: "The fixture shows validation without submitting data.", bookings: [], availability: [{ date: "2026-12-12", state: "available" }], bookingRequest: { packages: [{ id: "intimate", name: "The Intimate Care", duration: "3 jam pendampingan", description: "Pendampingan singkat untuk momen pernikahan yang intim dan berkesan." }], selectedDate: "2026-12-12" } },
+  },
+  "customer.booking-request-unavailable": {
+    state: { kind: "unavailable", message: "Tanggal yang dipilih tidak dapat diajukan. Silakan pilih tanggal lain.", nextReviewAction: "Review the unavailable-date fixture without customer information." },
+    readModel: { surface: "customer", title: "Booking Baru", description: "Availability exposes only a date state.", bookings: [], availability: [{ date: "2026-12-12", state: "unavailable" }], bookingRequest: { packages: [{ id: "intimate", name: "The Intimate Care", duration: "3 jam pendampingan", description: "Pendampingan singkat untuk momen pernikahan yang intim dan berkesan." }], selectedDate: "2026-12-12" } },
+  },
+  "customer.booking-request-no-package": {
+    state: { kind: "empty", message: "Belum ada paket pendampingan yang dapat dipilih pada fixture ini.", nextReviewAction: "Review the no-package state without an alternate action." },
+    readModel: { surface: "customer", title: "Booking Baru", description: "No package is available in this fixture.", bookings: [], availability: [{ date: "2026-12-12", state: "available" }], bookingRequest: { packages: [], selectedDate: "2026-12-12" } },
+  },
+  "customer.booking-request-result": {
+    state: { kind: "success", message: "Hasil pengajuan fixture siap ditinjau.", nextReviewAction: "Review the non-authoritative Menunggu Konfirmasi result." },
+    readModel: { surface: "customer", title: "Booking Baru", description: "This result does not create an official booking transition.", bookings: [{ id: "booking-review-10", status: "Menunggu Konfirmasi" }], availability: [{ date: "2026-12-12", state: "available" }], bookingRequest: { packages: [{ id: "intimate", name: "The Intimate Care", duration: "3 jam pendampingan", description: "Pendampingan singkat untuk momen pernikahan yang intim dan berkesan." }], selectedDate: "2026-12-12" } },
+  },
   "customer.booking-error": {
     state: { kind: "error", message: "The booking fixture could not be prepared.", nextReviewAction: "Review the error state." },
     readModel: { surface: "customer", title: "Booking review unavailable", description: "No customer details are shown for this review state.", bookings: [], availability: [] },

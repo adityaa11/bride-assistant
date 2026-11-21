@@ -1,0 +1,474 @@
+.wrap,
+.hero,
+.grid,
+.success,
+.provenance {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+.wrap {
+  width: min(1180px, calc(100% - 48px));
+  margin: auto;
+}
+.hero {
+  padding: 62px 0 38px;
+  background: linear-gradient(118deg, #fff9f6, #f8ece8 68%, #f8e6e4);
+}
+.breadcrumb {
+  font-size: 11px;
+  color: #988184;
+  margin: 0 0 26px;
+}
+.breadcrumb a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.eyebrow {
+  margin: 0;
+  color: #ad7a7a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.4px;
+}
+.hero h1 {
+  max-width: 850px;
+  margin: 12px 0 15px;
+  color: #503840;
+  font:
+    normal clamp(38px, 4.1vw, 58px)/1.1 Georgia,
+    "Palatino Linotype",
+    serif;
+  letter-spacing: -1.1px;
+}
+.hero h1 em {
+  color: #925459;
+  font-weight: normal;
+}
+.hero > div > p:not(.breadcrumb):not(.eyebrow) {
+  max-width: 630px;
+  color: #6b575c;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 13px;
+  border: 1px solid #e8d5d0;
+  border-radius: 40px;
+  background: #fffaf8b3;
+  color: #87676c;
+  font-size: 11px;
+}
+.step b {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border-radius: 50%;
+  background: #edd3cf;
+  color: #925459;
+  font-size: 10px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.23fr) minmax(320px, 0.77fr);
+  gap: 23px;
+  align-items: start;
+  margin: 36px 0 34px;
+}
+.card {
+  min-width: 0;
+  border: 1px solid #eadbd7;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 12px 42px rgba(99, 51, 53, 0.05);
+}
+.calendarCard {
+  padding: 30px;
+}
+.calendarTop {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.calendarTop h2 {
+  margin: 0;
+  color: #503840;
+  font:
+    normal clamp(26px, 3vw, 37px) Georgia,
+    "Palatino Linotype",
+    serif;
+}
+.calendarTop p:not(.eyebrow) {
+  margin: 6px 0 0;
+  color: #6b575c;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.formHead p:not(.eyebrow) {
+  margin: 0;
+  color: #6b575c;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.calendarActions {
+  display: flex;
+  gap: 7px;
+}
+.calendarActions button {
+  display: grid;
+  width: 41px;
+  height: 41px;
+  place-items: center;
+  border: 1px solid #e4cfc8;
+  border-radius: 10px;
+  background: #fff;
+  color: #503840;
+  font-size: 21px;
+}
+.weekdays,
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+.weekdays {
+  margin: 25px 0 9px;
+  text-align: center;
+}
+.weekdays span {
+  color: #af9094;
+  font-size: 11px;
+  font-weight: 750;
+}
+.day {
+  position: relative;
+  display: flex;
+  min-height: 67px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #eee1dd;
+  border-radius: 11px;
+  background: #fdfafa;
+  color: #664b51;
+  text-align: left;
+}
+.blank{visibility:hidden}
+.day span {
+  font-size: 13px;
+  font-weight: 750;
+}
+.day small {
+  color: #9b7f82;
+  font-size: 10px;
+}
+.day:not(:disabled):hover {
+  border-color: #bf8d87;
+  background: #fff4f0;
+}
+.day:disabled {
+  background: #fbf9f8;
+  color: #c0acac;
+  opacity: 0.58;
+}
+.selected {
+  border: 2px solid #925459;
+  background: #f3dfda !important;
+  color: #925459;
+  padding: 9px;
+}
+.unavailable {
+  background: #f3e9e5 !important;
+  color: #ae7773;
+  opacity: 0.75;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #f0e5e1;
+  color: #92787b;
+  font-size: 11px;
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #d9c8c3;
+  border-radius: 3px;
+  background: #fdfafa;
+}
+.legendSelected {
+  border-color: #d9a6a0 !important;
+  background: #d9a6a0 !important;
+}
+.legendUnavailable {
+  border-color: #c9b7b4 !important;
+  background: #c9b7b4 !important;
+}
+.note {
+  margin: 16px 0 0;
+  color: #967f81;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.formCard {
+  overflow: hidden;
+  color: #503840;
+  font: 16px Inter, "Segoe UI", Arial, sans-serif;
+  line-height: normal;
+}
+.formHead {
+  padding: 25px 27px;
+  border-bottom: 1px solid #eadbd7;
+  background: #f8eeeb;
+}
+.formHead h2 {
+  margin: 7px 0;
+  color: #503840;
+  font:
+    normal 31px Georgia,
+    "Palatino Linotype",
+    serif;
+}
+.form {
+  display: grid;
+  gap: 18px;
+  padding: 28px 27px 30px;
+}
+.form label {
+  display: grid;
+  gap: 8px;
+  color: #765d62;
+  font-size: 12px;
+  font-weight: 750;
+}
+.form input,
+.form select,
+.form textarea {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 13px;
+  border: 1px solid #e5d8d3;
+  border-radius: 9px;
+  background: #fff;
+  color: #59474b;
+  font: inherit;
+  font-size: 13px;
+}
+.form textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+.form input[readonly] {
+  background: #faf3f1;
+  color: #85686b;
+}
+.form input[aria-invalid="true"],
+.form select[aria-invalid="true"] {
+  border-color: #a04848;
+}
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+.packageDetail {
+  margin: -11px 0 0;
+  color: #9d7b7b;
+  font-size: 11px;
+}
+.summary {
+  display: grid;
+  gap: 8px;
+  padding: 15px;
+  border: 1px solid #f1e1db;
+  border-radius: 9px;
+  background: #fbf3f1;
+}
+.summary small {
+  color: #b0837e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+.summary strong {
+  color: #78464b;
+  font:
+    normal 22px Georgia,
+    "Palatino Linotype",
+    serif;
+}
+.summary span {
+  color: #947a7b;
+  font-size: 11px;
+}
+.message {
+  margin: 0;
+  color: #a04848;
+  font-size: 12px;
+}
+.submit {
+  display: inline-flex;
+  min-height: 49px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: #925459;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.submit:disabled {
+  opacity: 0.58;
+}
+.tip {
+  margin: 0;
+  color: #978183;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.success {
+  display: grid;
+  justify-items: center;
+  gap: 15px;
+  margin: 36px 0 34px;
+  padding: 32px 35px;
+  border: 1px solid #e6d5d1;
+  border-radius: 15px;
+  background: #fff;
+  text-align: center;
+}
+.successIcon {
+  display: grid;
+  width: 53px;
+  height: 53px;
+  place-items: center;
+  border-radius: 50%;
+  background: #f1dbd6;
+  color: #925459;
+  font-size: 25px;
+}
+.success h2 {
+  margin: 0;
+  color: #503840;
+  font:
+    normal 34px Georgia,
+    "Palatino Linotype",
+    serif;
+}
+.success > b {
+  padding: 8px 13px;
+  border-radius: 30px;
+  background: #faf0df;
+  color: #865d28;
+  font-size: 11px;
+}
+.success > p:not(.eyebrow) {
+  max-width: 650px;
+  margin: 0;
+  color: #6b575c;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.provenance {
+  margin: 0 0 52px;
+  color: #806b6f;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+.referenceFooter{padding:32px 0;background:#503840;color:#f9e5e0;text-align:center;font-size:11px;letter-spacing:.4px}
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .calendarCard {
+    padding: 25px;
+  }
+}
+@media (max-width: 640px) {
+  .wrap {
+    width: calc(100% - 28px);
+  }
+  .hero {
+    padding: 41px 0 32px;
+  }
+  .hero h1 {
+    font-size: 40px;
+  }
+  .steps {
+    gap: 7px;
+  }
+  .step {
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+  .grid {
+    margin: 20px 0 28px;
+  }
+  .calendarCard {
+    padding: 15px;
+  }
+  .calendarTop h2 {
+    font-size: 27px;
+  }
+  .calendarActions button {
+    width: 34px;
+    height: 34px;
+  }
+  .weekdays,
+  .calendar {
+    gap: 4px;
+  }
+  .weekdays span {
+    font-size: 10px;
+  }
+  .day {
+    min-height: 50px;
+    padding: 6px;
+    border-radius: 7px;
+  }
+  .day small {
+    display: none;
+  }
+  .selected {
+    padding: 5px;
+  }
+  .two {
+    grid-template-columns: 1fr;
+  }
+  .form {
+    padding: 23px 18px;
+  }
+  .formHead {
+    padding: 23px 18px;
+  }
+  .legend {
+    gap: 9px;
+  }
+  .success {
+    padding: 25px 17px;
+  }
+}

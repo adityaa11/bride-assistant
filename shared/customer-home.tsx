@@ -37,7 +37,7 @@ export function CustomerHelp({ scenarioId }: Readonly<{ scenarioId: ScenarioId }
   return <CustomerFrame active="Bantuan" scenarioId={scenarioId}><main className={`${styles.main} ${styles.helpPage}`} id="main"><div className={styles.helpIntro}><div className={styles.helpKicker}>WE&apos;RE HERE FOR YOU</div><h1>Butuh bantuan? <em>♡</em></h1><p>Butuh informasi tentang paket Bride Assistant, proses booking, atau jadwal pendampingan? Tim Ranur Bridal Care siap membantu menjawab pertanyaanmu.</p></div><section aria-labelledby="helpCardTitle" className={styles.helpCard}><span aria-hidden="true" className={styles.helpSymbol}><WhatsAppIcon /></span><h2 id="helpCardTitle">Chat dengan Tim Ranur</h2><p>Ceritakan kebutuhanmu dan kami akan membantumu melalui percakapan WhatsApp.</p><button aria-describedby="contactMessage" className={`${styles.primary} ${styles.helpAction}`} onClick={() => setMessage(scenario.state.message)} type="button"><WhatsAppIcon />Hubungi via WhatsApp</button><p aria-live="polite" className={styles.helpMessage} id="contactMessage" role="status">{message}</p><span aria-hidden="true" className={styles.helpAsterisk}>With care, always.</span></section></main></CustomerFrame>;
 }
 
-function CustomerFrame({ active, children, scenarioId }: Readonly<{ active: string; children: React.ReactNode; scenarioId: string }>) {
+export function CustomerFrame({ active, children, scenarioId }: Readonly<{ active: string; children: React.ReactNode; scenarioId: string }>) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);

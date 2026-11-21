@@ -72,6 +72,10 @@ export type CustomerReadModel = BaseReadModel &
     surface: "customer";
     bookings: readonly Readonly<{ id: string; status: CanonicalBookingStatus }> [];
     availability: readonly Readonly<{ date: string; state: "available" | "unavailable" }> [];
+    bookingRequest?: Readonly<{
+      packages: readonly Readonly<{ id: string; name: string; duration: string; description: string }> [];
+      selectedDate?: string;
+    }>;
   }>;
 
 export type CustomerAuthReadModel = BaseReadModel &
