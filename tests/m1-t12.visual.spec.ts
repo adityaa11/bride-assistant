@@ -53,6 +53,8 @@ test("admin Bookings and Availability preserve reference shell and responsive ge
 
 test("admin controls show fixture states without mutating them", async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/admin`, { waitUntil: "networkidle" });
+  await expect(page.getByText(/Fixture note:/)).toHaveCount(0);
+  await expect(page.locator("main#admin-workspace footer")).toHaveCount(0);
   await page.getByRole("button", { name: "List", exact: true }).click();
   await expect(page.getByText("All Bookings")).toBeVisible();
   await capture(page, "implementation-list.png");
@@ -78,6 +80,7 @@ test("admin controls show fixture states without mutating them", async ({ page, 
   await expect(page.getByText("Belum ada booking sesuai filter pada pilihan ini.")).toBeVisible();
   await capture(page, "implementation-empty-scenario.png");
   await page.goto(`${baseURL}/admin/availability`);
+  await expect(page.locator("main#admin-workspace footer")).toHaveCount(0);
   await page.getByRole("button", { name: "Save availability" }).click();
   await expect(page.getByRole("status")).toBeVisible();
   await capture(page, "implementation-availability-result.png");
