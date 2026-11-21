@@ -72,4 +72,34 @@ test.describe("M1-T08 customer-auth visual and boundary evidence", () => {
     const hrefs = await page.locator("a").evaluateAll((links) => links.map((link) => link.getAttribute("href") || ""));
     expect(hrefs.every((href) => href.startsWith("/") || href.startsWith("#"))).toBeTruthy();
   });
+
+  test("translates the frozen source controls and dialog keyboard behavior without authority", async ({ page, baseURL }) => {
+    await page.goto(`${baseURL}/daftar`, { waitUntil: "networkidle" });
+    const confirmation = page.getByRole("textbox", { name: "Konfirmasi kata sandi" });
+    const confirmationToggle = page.getByRole("button", { name: "Tampilkan konfirmasi kata sandi" });
+    await expect(confirmationToggle).toBeVisible();
+    await expect(confirmation).toHaveAttribute("type", "password");
+    await confirmationToggle.click();
+    await expect(confirmation).toHaveAttribute("type", "text");
+    await expect(page.getByRole("button", { name: "Sembunyikan konfirmasi kata sandi" })).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByText("Sudah punya akun? Masuk di sini")).toBeVisible();
+    await capture(page, "daftar-confirmation-visible.png");
+
+    await page.getByRole("link", { name: "Ranur Bridal Care — kembali ke website" }).click();
+    await expect(page).toHaveURL(`${baseURL}/`);
+
+    await page.goto(`${baseURL}/masuk`, { waitUntil: "networkidle" });
+    const opener = page.getByRole("button", { name: "Lupa kata sandi?" });
+    await opener.click();
+    const dialog = page.getByRole("dialog", { name: "Lupa kata sandi?" });
+    const close = dialog.getByRole("button", { name: "Mengerti" });
+    await expect(close).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(close).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+    await expect(opener).toBeFocused();
+    expect(await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length }))).toEqual({ local: 0, session: 0 });
+    await capture(page, "masuk-dialog-keyboard.png");
+  });
 });
