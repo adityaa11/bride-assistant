@@ -58,9 +58,7 @@ export function AdminBookingWorkspace({ scenarioId }: Readonly<{ scenarioId: Sce
       </nav>
       <div className={styles.sidebarSeparator} /><div className={styles.sidebarLabel}>Website Content</div>
       <nav className={styles.navigation} aria-label="Kelola konten website">{([["Portfolio & Testimonials", "image"], ["Events", "calendar"], ["Promotions", "megaphone"]] as const).map(([label, icon]) => <a className={styles.nav} href="#admin-workspace" key={label}><Icon name={icon} />{label}</a>)}</nav>
-      <div className={styles.sidebarSeparator} /><div className={styles.sidebarLabel}>Customer experience</div>
-      <nav className={styles.navigation} aria-label="Customer experience"><a className={styles.nav} href="#admin-workspace"><Icon name="globe" />Public Booking Page</a></nav>
-      <div className={styles.sidebarBottom}><div className={styles.studio}><span className={styles.avatar}>B</span><span><strong>My Bridal Studio</strong><small>Independent Bride Assistant</small></span></div><div className={styles.offline}>✳ Standalone fixture review<br />Data demo tidak disimpan di browser.</div></div>
+      <div className={styles.sidebarBottom}><div className={styles.studio}><span className={styles.avatar}>B</span><span><strong>My Bridal Studio</strong><small>Independent Bride Assistant</small></span></div></div>
     </aside>
     <div className={styles.content}>
       <header className={styles.topbar}><div className={styles.breadcrumbs}>Bride Assistant Planner <span aria-hidden="true">/</span> <strong>{availability ? "Availability" : "Bookings"}</strong></div><div className={styles.topActions}><span className={styles.todayLabel}><Icon name="sparkle" small /> Made for your bridal moments</span><span className={styles.profileDot}>B</span></div></header>

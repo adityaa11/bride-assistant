@@ -16,8 +16,8 @@ async function rect(page: Page, selector: string) {
     return { x, y, width, height };
   });
 }
-function sameGeometry(source: Awaited<ReturnType<typeof rect>>, implementation: Awaited<ReturnType<typeof rect>>, fields: ("x" | "y" | "width" | "height")[]) {
-  for (const field of fields) expect(Math.abs(source[field] - implementation[field]), `${field} differs`).toBeLessThan(2);
+function sameGeometry(source: Awaited<ReturnType<typeof rect>>, implementation: Awaited<ReturnType<typeof rect>>, fields: ("x" | "y" | "width" | "height")[], contentOffset = 0) {
+  for (const field of fields) expect(Math.abs(source[field] - implementation[field] + (field === "y" ? contentOffset : 0)), `${field} differs`).toBeLessThan(2);
 }
 
 test("admin Bookings and Availability preserve reference shell and responsive geometry", async ({ page, baseURL }) => {
@@ -37,13 +37,18 @@ test("admin Bookings and Availability preserve reference shell and responsive ge
       await capture(page, `reference-${surface}-${width}.png`);
       await page.goto(`${baseURL}/admin${surface === "availability" ? "/availability" : ""}`, { waitUntil: "networkidle" });
       await expect(page.locator("[data-scenario-id]")).toHaveAttribute("data-scenario-id", surface === "bookings" ? "admin.booking-workspace" : "admin.availability-workspace");
-      sameGeometry(source.topbar, await rect(page, '[class*="topbar"]'), ["x", "y", "width", "height"]);
-      sameGeometry(source.title, await rect(page, '[class*="sectionTitle"]'), ["x", "y", "width", "height"]);
-      sameGeometry(source.content, await rect(page, '[class*="content"]'), ["x", "y", "width"]);
-      sameGeometry(source.main, await rect(page, surface === "bookings" ? '[class*="mainGrid"]' : '[class*="availabilityGrid"]'), ["x", "y", "width"]);
+      await expect(page.getByText("Customer experience")).toHaveCount(0);
+      await expect(page.getByRole("link", { name: "Public Booking Page" })).toHaveCount(0);
+      await expect(page.getByText("Standalone fixture review")).toHaveCount(0);
+      const implementationContent = await rect(page, '[class*="content"]');
+      const contentOffset = implementationContent.y - source.content.y;
+      sameGeometry(source.topbar, await rect(page, '[class*="topbar"]'), ["x", "y", "width", "height"], contentOffset);
+      sameGeometry(source.title, await rect(page, '[class*="sectionTitle"]'), ["x", "y", "width", "height"], contentOffset);
+      sameGeometry(source.content, implementationContent, ["x", "width"]);
+      sameGeometry(source.main, await rect(page, surface === "bookings" ? '[class*="mainGrid"]' : '[class*="availabilityGrid"]'), ["x", "y", "width"], contentOffset);
       if (surface === "bookings" && source.filters && source.calendar) {
-        sameGeometry(source.filters, await rect(page, '[class*="filters"]'), ["x", "y", "width", "height"]);
-        sameGeometry(source.calendar, await rect(page, '[class*="calendarGrid"]'), ["x", "y", "width"]);
+        sameGeometry(source.filters, await rect(page, '[class*="filters"]'), ["x", "y", "width", "height"], contentOffset);
+        sameGeometry(source.calendar, await rect(page, '[class*="calendarGrid"]'), ["x", "y", "width"], contentOffset);
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
       await capture(page, `implementation-${surface}-${width}.png`);
