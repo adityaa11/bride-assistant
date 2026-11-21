@@ -20,7 +20,6 @@ function AuthFixture({ scenarioId, model, state, provenance }: Readonly<{ scenar
   const [forgotOpen, setForgotOpen] = useState(false);
   const isRegister = model.mode === "register";
   const logo = isRegister ? "daftar-image-01-5cfb309f414c.webp" : "masuk-image-01-5cfb309f414c.webp";
-  const flower = isRegister ? "daftar-inline-svg-01-7499bdf895f0.svg" : "masuk-inline-svg-01-7499bdf895f0.svg";
   const eyebrow = isRegister ? "YOUR BRIDAL JOURNEY" : "WELCOME BACK";
   const heading = isRegister ? <>The beginning of <em>something beautiful.</em></> : <>A little care for <em>your big day.</em></>;
   const editorial = isRegister ? "Kenali layanan, rencanakan kebutuhan, dan siapkan momen istimewamu bersama pendamping personal pengantin." : "Seluruh detail untuk hari istimewamu layak mendapatkan perhatian. Selamat datang kembali di Ranur Bridal Care.";
@@ -35,7 +34,7 @@ function AuthFixture({ scenarioId, model, state, provenance }: Readonly<{ scenar
           <span><strong>RANUR</strong><small>BRIDAL CARE</small></span>
         </a>
         <div className={styles.editorialBody}><div className={styles.eyebrow}>{eyebrow}</div><h1>{heading}</h1><p>{editorial}</p></div>
-        <Image alt="" aria-hidden="true" className={styles.flower} height={560} src={`${assetRoot}/${flower}`} width={540} />
+        <div aria-hidden="true" className={styles.flower} />
         <div className={styles.editorialFooter}>Your moment, our heart. ✧</div>
       </section>
       <section aria-labelledby="auth-form-title" className={styles.formSide}>
