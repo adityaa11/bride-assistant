@@ -8,6 +8,30 @@ const viewports = [{ name: "desktop", width: 1280, height: 960 }, { name: "1051"
 
 async function capture(page: Page, name: string) { if (captureDir) { await mkdir(captureDir, { recursive: true }); await page.screenshot({ fullPage: true, path: path.join(captureDir, name) }); } }
 
+async function introMetrics(page: Page, selector: string) {
+  return page.locator(selector).evaluate((intro) => {
+    const read = (element: Element) => {
+      const style = getComputedStyle(element);
+      return { color: style.color, fontFamily: style.fontFamily, fontSize: style.fontSize, fontWeight: style.fontWeight, letterSpacing: style.letterSpacing, lineHeight: style.lineHeight, marginTop: style.marginTop, marginBottom: style.marginBottom };
+    };
+    const action = intro.querySelector(".btn-primary, [class*='primary']");
+    const eyebrow = intro.querySelector(".eyebrow, [class*='eyebrow']");
+    const heading = intro.querySelector("h1");
+    if (!action || !eyebrow || !heading) throw new Error("Booking Saya intro is incomplete");
+    const introStyle = getComputedStyle(intro);
+    return {
+      backgroundImage: introStyle.backgroundImage,
+      borderBottomColor: introStyle.borderBottomColor,
+      paddingTop: introStyle.paddingTop,
+      paddingBottom: introStyle.paddingBottom,
+      intro: read(intro),
+      eyebrow: read(eyebrow),
+      heading: read(heading),
+      action: read(action),
+    };
+  });
+}
+
 test.describe("M1-T11 Booking Saya reference and fixture evidence", () => {
   test("captures the mapped empty source and fixture at desktop and every source breakpoint edge", async ({ page, baseURL }) => {
     for (const viewport of viewports) {
@@ -21,6 +45,15 @@ test.describe("M1-T11 Booking Saya reference and fixture evidence", () => {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
       await capture(page, `implementation-booking-saya-empty-${viewport.name}.png`);
     }
+  });
+
+  test("uses the mapped source intro typography, color, spacing, and action treatment", async ({ page, baseURL }) => {
+    await page.setViewportSize({ width: 1280, height: 960 });
+    await page.goto(`${referenceBaseUrl}/booking_saya.html`, { waitUntil: "networkidle" });
+    const reference = await introMetrics(page, "section.portal-intro");
+    await page.goto(`${baseURL}/booking-saya/empty`, { waitUntil: "networkidle" });
+    await expect(page.locator("[data-scenario-id]")).toHaveAttribute("data-scenario-id", "customer.bookings-empty");
+    await expect(introMetrics(page, "section[class*='intro']")).resolves.toEqual(reference);
   });
 
   test("renders list, selected detail, canonical lifecycle, filter, and non-authoritative result through T02", async ({ page, baseURL }) => {
