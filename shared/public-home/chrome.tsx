@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "@/shared/public-home.module.css";
 
 const navigation = [
@@ -48,7 +49,7 @@ export function PublicHeader() {
     <div className={styles.wrap}>
       <Brand />
       <nav className={styles.nav} aria-label="Menu utama"><NavigationLinks activeSection={activeSection} /></nav>
-      <div className={styles.account}><a href="#booking">Masuk</a><a className={styles.register} href="#booking">DAFTAR</a></div>
+      <div className={styles.account}><Link href="/masuk">Masuk</Link><Link className={styles.register} href="/daftar">DAFTAR</Link></div>
       <button className={styles.menuToggle} type="button" aria-expanded={isMenuOpen} aria-controls={menuId} aria-label={isMenuOpen ? "Tutup menu" : "Buka menu"} onClick={() => setIsMenuOpen((open) => !open)}><span /><span /><span /></button>
     </div>
     <nav id={menuId} className={`${styles.mobileMenu} ${isMenuOpen ? styles.mobileMenuOpen : ""}`} aria-label="Menu utama mobile" aria-hidden={!isMenuOpen}>
