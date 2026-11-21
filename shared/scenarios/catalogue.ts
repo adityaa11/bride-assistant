@@ -4,6 +4,12 @@ import {
   defaultCustomerBookings,
 } from "@/shared/scenarios/customer-booking-fixtures";
 
+// Typed M1-T12 presentation snapshots transcribed from the mapped admin reference.
+const essentialServices = ["Personal Bridal Companion — Layanan pendampingan personal pengantin selama acara", "Bridal Attire Assistance — Merapikan gaun, veil, dan aksesori pengantin", "Makeup Touch-up Reminder — Mengingatkan pengantin untuk touch-up makeup", "Bride Mobility Assistance — Mendampingi mobilitas pengantin sepanjang acara", "Personal Care Assistance — Membantu kebutuhan personal pengantin"];
+const intimatePackage = { durationHours: 3, price: 200000, includedServices: essentialServices };
+const gentlePackage = { durationHours: 5, price: 300000, includedServices: [...essentialServices, "Personal Belongings Check — Mengecek dan menyerahkan kembali barang pribadi"] };
+const fullDayPackage = { durationHours: 8, price: 400000, includedServices: [...essentialServices, "Ceremony Transition Support — Mendampingi pengantin saat transisi antarprosesi", "Personal Belongings Check — Mengecek dan menyerahkan kembali barang pribadi", "Outfit Change Assistance — Mendampingi pergantian busana pengantin"] };
+
 export const scenarioCatalogue = {
   "public.catalogue-loading": {
     state: { kind: "loading", message: "Packages are being prepared for review.", nextReviewAction: "Wait for the fixture state." },
@@ -167,9 +173,12 @@ export const scenarioCatalogue = {
   "admin.booking-workspace": {
     state: { kind: "success", message: "Workspace booking fixture siap ditinjau.", nextReviewAction: "Tinjau kalender, filter, detail, dan hasil kontrol non-authoritative." },
     readModel: { surface: "admin", title: "Your bookings", description: "Tinjau jadwal bridal care dalam workspace fixture.", content: [], bookingStatuses: ["Menunggu Konfirmasi", "Menunggu Pembayaran", "Booking Berhasil", "Menunggu Pembatalan Booking", "Dibatalkan", "Menunggu Reschedule Booking"], adminBooking: { mode: "bookings", blockedDates: ["2026-11-18", "2026-11-26"], records: [
-      { id: "BA-001", customer: "Putri Amelia", packageName: "The Gentle Companion", date: "2026-11-12", start: "09:00", end: "14:00", location: "Serpong, Tangerang Selatan", status: "Menunggu Konfirmasi" },
-      { id: "BA-002", customer: "Dinda Prameswari", packageName: "The Intimate Care", date: "2026-11-12", start: "14:00", end: "17:00", location: "Tangerang", status: "Menunggu Pembayaran" },
-      { id: "BA-003", customer: "Salsa Dewi", packageName: "The Full Day Care", date: "2026-11-14", start: "08:00", end: "16:00", location: "Jakarta Selatan", status: "Booking Berhasil" }
+      { id: "BA-001", customer: "Putri Amelia", phone: "0812-0000-1105", source: "BA", packageName: "The Gentle Companion", ...gentlePackage, notes: "Perhatikan aksesori saat prosesi.", date: "2026-11-05", start: "09:00", end: "14:00", location: "Serpong, Tangerang Selatan", status: "Booking Berhasil" },
+      { id: "BA-002", customer: "Dinda Prameswari", phone: "0812-0000-1112", source: "BA", packageName: "The Intimate Care", ...intimatePackage, notes: "Tiba lebih awal untuk persiapan veil.", date: "2026-11-12", start: "08:00", end: "11:00", location: "Tangerang", status: "Booking Berhasil" },
+      { id: "BA-003", customer: "Nabila Putri", phone: "0812-0000-1212", source: "Customer", packageName: "The Gentle Companion", ...gentlePackage, notes: "", date: "2026-11-12", start: "14:00", end: "19:00", location: "BSD City", status: "Menunggu Konfirmasi" },
+      { id: "BA-004", customer: "Salsa Dewi", phone: "0812-0000-1114", source: "BA", packageName: "The Full Day Care", ...fullDayPackage, notes: "Menunggu konfirmasi DP.", date: "2026-11-14", start: "08:00", end: "16:00", location: "Jakarta Selatan", status: "Menunggu Pembayaran" },
+      { id: "BA-005", customer: "Aulia Rahma", phone: "0812-0000-1120", source: "Customer", packageName: "The Gentle Companion", ...gentlePackage, notes: "", date: "2026-11-20", start: "07:00", end: "12:00", location: "Jakarta Barat", status: "Menunggu Konfirmasi" },
+      { id: "BA-006", customer: "Rania Kamil", phone: "0812-0000-1124", source: "BA", packageName: "The Intimate Care", ...intimatePackage, notes: "", date: "2026-11-24", start: "08:00", end: "11:00", location: "Ciputat", status: "Booking Berhasil" }
     ] } },
   },
   "admin.booking-empty": {
