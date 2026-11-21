@@ -18,6 +18,7 @@ const sourceFiles = [
   "shared/review-route.tsx",
   "shared/customer-auth.tsx",
   "shared/customer-home.tsx",
+  "shared/customer-booking-history.tsx",
   "shared/scenarios/contracts.ts",
   "shared/scenarios/catalogue.ts",
   "shared/scenarios/adapter.ts",
@@ -97,6 +98,22 @@ test("customer home and help routes use declared fixtures and never enable a liv
   assert.match(customerHome, /setMessage\(scenario\.state\.message\)/);
   assert.match(catalogue, /Kontak WhatsApp belum tersedia/);
   assert.doesNotMatch(customerHome, /wa\.me|whatsapp:\/\/|https?:\/\//);
+});
+
+test("Booking Saya routes use typed fixture history and preserve the lifecycle and owner boundary", async () => {
+  const [page, states, history, catalogue] = await Promise.all([
+    readFile(resolve(root, "app/(customer)/booking-saya/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(customer)/booking-saya/[state]/page.tsx"), "utf8"),
+    readFile(resolve(root, "shared/customer-booking-history.tsx"), "utf8"),
+    readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
+  ]);
+  assert.match(page, /CustomerBookingHistory/);
+  assert.match(states, /customer\.booking-history-(?:error|payment|cancellation|cancelled|reschedule)/);
+  assert.match(history, /getScenario/);
+  assert.match(history, /bookingHistory/);
+  assert.doesNotMatch(history, /localStorage|sessionStorage|wa\.me|fetch\(/);
+  assert.doesNotMatch(history, /Ditolak/);
+  for (const scenario of ["customer.booking-history-success", "customer.booking-history-payment", "customer.booking-history-cancellation", "customer.booking-history-cancelled", "customer.booking-history-reschedule", "customer.booking-history-error"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
 });
 
 test("the public success route renders only adapter-provided published promotions", async () => {

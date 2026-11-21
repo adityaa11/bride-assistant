@@ -76,7 +76,28 @@ export type CustomerReadModel = BaseReadModel &
       packages: readonly Readonly<{ id: string; name: string; duration: string; description: string }> [];
       selectedDate?: string;
     }>;
+    bookingHistory?: Readonly<{
+      records: readonly CustomerBookingRecord[];
+    }>;
   }>;
+
+export type CustomerBookingRecord = Readonly<{
+  id: string;
+  status: CanonicalBookingStatus;
+  packageName: string;
+  duration: string;
+  packageDescription: string;
+  inclusions: readonly string[];
+  date: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  submittedAt: string;
+  customerName: string;
+  customerWhatsapp: string;
+  customerEmail: string;
+  notes: string;
+}>;
 
 export type CustomerAuthReadModel = BaseReadModel &
   Readonly<{

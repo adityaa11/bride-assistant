@@ -264,9 +264,9 @@ export function CustomerBooking({
               Hasil pengajuan ini adalah fixture untuk review. Tidak ada
               booking, data customer, atau transisi resmi yang dibuat.
             </p>
-            <a className={styles.submit} href="/booking-saya">
+            <Link className={styles.submit} href="/booking-saya">
               Lihat Booking Saya
-            </a>
+            </Link>
           </section>
         )}
       </main>
