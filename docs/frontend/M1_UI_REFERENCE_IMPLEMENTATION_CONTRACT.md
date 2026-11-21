@@ -2,15 +2,20 @@
 
 ## Purpose
 
-`project's goal/UI Reference/` is the rendered visual authority for every M1
-UI surface. Each M1 implementation independently refactors its corresponding
-reference page into typed, fixture-backed Next.js components. It must render
-the same visual result, including responsive transformations—not an inspired
-version of the page or a generic application shell.
+`project's goal/UI Reference/` is the source and rendered visual authority for
+every mapped M1 UI surface. Each remaining M1 UI ticket starts with its mapped
+HTML page or admin panel and refactors that source into typed, fixture-backed
+Next.js components. Preserve its recognizable DOM structure, class/section
+relationships, CSS visual rules, artwork, and visible interaction states so the
+rendered result matches the source at the same viewport.
 
 This contract supplements each ticket's product, scenario, publication, and
-non-authority boundaries. It never authorizes use of reference HTML, CSS,
-JavaScript, localStorage, seed data, event handlers, or executable behaviour.
+non-authority boundaries. The reference HTML, CSS, and JavaScript are permitted
+as **refactor inputs**, not as an unmodified runtime page or a source of data,
+identity, persistence, publication, or booking authority. This later user
+direction supersedes earlier prohibitions on using or adapting reference
+HTML/CSS/JS for M1-T08–T16; M1-T04's historical implementation contract is
+unchanged.
 
 ## Ticket-to-reference map
 
@@ -30,22 +35,43 @@ JavaScript, localStorage, seed data, event handlers, or executable behaviour.
 
 ## Refactor rules
 
-1. Build reusable Next.js components around repeated semantics: public,
-   customer, and admin shell families; navigation; controls; field/status
-   primitives; tables/cards/calendars; and local composition modules. Do not
-   duplicate a page document, paste reference CSS wholesale, or port its
-   scripts.
-2. Every visible value, list, status, form state, and apparent action comes
+1. Extract the mapped HTML's structural regions into JSX/TSX first. Preserve
+   element order, semantic roles, meaningful classes, copy, and visual
+   hierarchy. Extract repeated **reference-derived** regions into reusable
+   components when they truly recur; retain one-off compositions locally.
+   Do not invent a replacement card, shell, navigation, form, or calendar
+   design merely because an existing generic component is convenient.
+2. Extract and adapt the mapped CSS into project stylesheets or CSS modules.
+   Keep the reference's selectors, values, media-query behavior, and visible
+   state treatment where they produce the required result. Deduplicate shared
+   rules only after comparing related pages; a token or primitive may not
+   change reference geometry. Resolve selector scoping and Next.js style
+   ownership without changing the rendered appearance.
+3. Inventory each mapped script's visible interactions and state transitions,
+   then translate the needed UI behavior into React state, event props, and
+   accessible controls. Preserve observable menu, tab, filter, selection,
+   form-validation, dialog, and feedback behavior where the ticket covers it.
+   Replace prototype data reads/writes and business decisions with typed T02
+   scenario values and non-authoritative results. Never execute/copy inline
+   scripts, HTML event attributes, `innerHTML`, localStorage, seed mutation,
+   network calls, or simulated account/booking/admin authority at runtime.
+4. Every visible value, list, status, form state, and apparent action comes
    through the T02 typed scenario adapter. Components take typed presentation
    props; they do not import raw reference seeds, retain reference storage, or
    create authority.
-3. Preserve each reference page's actual information architecture. Shared
+5. Preserve each reference page's actual information architecture. Shared
    components may share implementation, never force the public editorial,
    customer workflow, and admin data-workspace surfaces into one layout.
-4. When a required fixture state is absent from its reference, extend the
+6. When a required fixture state is absent from its reference, extend the
    nearest corresponding component using its exact shell, type roles, spacing,
    interaction treatment, and responsive rules. It may not introduce a new
    local visual language.
+
+Record a source-to-component map for each page/panel: original region and CSS
+rule group, destination component/style module, extracted asset, translated
+interaction, T02 prop/state, and any intentionally omitted prototype behavior.
+An omission of a visible reference region or interaction needs an explicit
+ticket reason and visual comparison evidence.
 
 ## Static asset boundary
 
@@ -57,9 +83,10 @@ named, role-specific assets in `public/reference-assets/`) for their
 corresponding screen only.
 
 Before use, SVG extraction rejects scripts, event attributes, and
-`foreignObject`. Do not add external media origins. Do not use embedded
-reference source as a runtime asset, and do not reuse prototype icons or art
-outside the mapped visual role without an explicit ticket amendment.
+`foreignObject`. Do not add external media origins. Extracted HTML/CSS/JS must
+be transformed into reviewed TSX, stylesheets, and React handlers; do not serve
+the original page or script as a runtime asset. Keep visual assets in their
+mapped role unless a ticket explicitly widens that role.
 
 ## Responsive extraction rule
 
@@ -86,9 +113,9 @@ and content-fit rules.
 For M1-T08–T16, the ticket-specific inspection, asset inventory, breakpoint,
 scenario, and evidence requirements in
 `docs/frontend/M1_REMAINING_UI_REFERENCE_CONTRACT.md` are binding. Complete the
-reference ledger before implementing a mapped screen and close every material
-comparison finding before a visual handoff. M1-T04 retains its own more
-specific public rendered-reference contract.
+reference ledger and source-to-component map for each mapped screen and close
+every material comparison finding before a visual handoff. M1-T04 retains its
+own historical public rendered-reference contract.
 
 For every mapped route and state, capture the implementation beside the source
 reference at the same desktop viewport and every defined narrow breakpoint.

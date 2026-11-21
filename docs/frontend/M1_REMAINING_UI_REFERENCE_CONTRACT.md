@@ -12,11 +12,12 @@ Before implementation of each ticket, record a short reference ledger in its
 checkpoint or an attached evidence file. The ledger names every mapped page or
 admin panel, its desktop viewport, ordered visible regions, source text and
 type roles, palette, shell and panel geometry, imagery/icon roles, responsive
-breakpoints and transformations, and all ticket-required fixture states. Use
+breakpoints and transformations, script-driven visible interactions, and all
+ticket-required fixture states. Use
 measured values from the rendered source and its CSS where useful. Resolve an
-unclear reference detail before replacing it with a generic component. T03
-primitives may implement common semantics but must preserve each page's actual
-composition.
+unclear reference detail before coding it. Extract components from actual
+reference regions; T03 primitives may implement common semantics only when
+they preserve each page's DOM relationships and rendered composition.
 
 ## Ticket-specific visible composition
 
@@ -47,10 +48,13 @@ state explicitly when a page has none. Keep assets local and specific to their
 mapped role. Re-run `node scripts/extract-ui-reference-assets.mjs` only when
 source assets change, then inspect the manifest and SVG safety checks.
 
-The reference HTML/CSS/JavaScript, prototype seeds, storage, event handlers and
-business behavior are not implementation dependencies. Implement the visible
-result with typed T02 presentation props and safe framework rendering. No
-external media origin or new source of authority is granted by this contract.
+Use the mapped HTML as the structural refactor input, its CSS as the styling
+input, and its JavaScript as the inventory of visible interaction behavior.
+Convert them into reviewed TSX components, scoped stylesheets, and React event
+handlers according to `M1_UI_REFERENCE_IMPLEMENTATION_CONTRACT.md`. Record the
+source-to-component map. Reference seeds, storage, raw script execution,
+business decisions, external media origins, and new authority remain excluded.
+All displayed data and results come from typed T02 fixtures.
 
 ## Acceptance evidence and stop condition
 
@@ -60,7 +64,9 @@ just above and at a breakpoint where the layout changes; record CSS viewport
 width if browser zoom or device scale reports a fractional value. Compare in
 the same record: ordered regions, shell/panel geometry, exact visible copy,
 type roles and wrapping, colors, spacing, art/icon roles, navigation, controls,
-focus, overflow and responsive composition. Record each material mismatch and
+focus, overflow and responsive composition. Also check the translated visible
+interactions against the reference's behavior within the fixture boundary.
+Record each material mismatch and
 its correction before claiming VIS-REF PASS. A reference-specific exception
 requires a ticket amendment that identifies the conflicting source rule and
 the intended visible result; an unrecorded preference is not an exception.
@@ -70,7 +76,8 @@ validation, selected and non-authoritative result state. Where appropriate,
 include negative evidence for public drafts, private data, persistence, active
 external links, or authority claims. Check keyboard order, labels, visible
 focus, menu/dialog behavior, narrow reflow and reduced motion. Record asset
-inventory and a source scan for copied executable reference behavior.
+inventory and a source scan proving that no raw executable reference script,
+inline handler, unsafe HTML sink, or prototype storage path reached runtime.
 
 Build, lint, unit tests and general visual similarity do not prove this visual
 contract. A material visible mismatch or missing required capture blocks the

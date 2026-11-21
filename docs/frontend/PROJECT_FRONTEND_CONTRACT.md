@@ -12,7 +12,7 @@ The system is calm, warm, editorial, trustworthy, and precise. It should feel fe
 
 `project's goal/UI Reference/` is the binding visual source of truth for M1. Every corresponding screen must match the reference's visible structure, hierarchy, copy, typography, colors, spacing, geometry, imagery/icon treatment, navigation, and responsive composition. A visually different implementation is a failure even when it is functional or uses the same general Soft Rose mood.
 
-Reference HTML/CSS/JS and prototype storage are not imported or copied. The project UI system must reproduce the rendered result. For states not shown in the reference, extend the same visual treatment and component geometry without inventing a new visual language or arbitrary per-screen styling. Every route requires a reference-viewport capture and visual comparison record before acceptance.
+For M1-T08–T16, the mapped reference HTML, CSS, and JavaScript are the inputs to a source-led Next.js refactor. Preserve the rendered structure, styling, assets, and visible interactions in reusable reference-derived components, while T02 fixtures replace prototype data and authority. For states not shown in the reference, extend the same visual treatment and component geometry without inventing a new visual language or arbitrary per-screen styling. Every route requires a reference-viewport capture and visual comparison record before acceptance.
 
 ## Density, navigation, and layout
 
@@ -40,7 +40,12 @@ Target WCAG 2.2 AA. Preserve keyboard navigation, visible focus, semantic landma
 
 ## Reference implementation boundary
 
-The supplied references define the rendered visual result, not an implementation dependency. No reference source, prototype logic, localStorage behavior, or external asset origin is reused. All M1 UI must match the reference while remaining implemented through the typed fixture contracts, shared project primitives, and safe framework rendering.
+The supplied references define both the rendered visual result and the source
+material to refactor for remaining M1 UI tickets. Adapt their HTML structure,
+CSS, assets, and observable UI behavior into safe Next.js components. Raw
+reference scripts, prototype logic/data, localStorage behavior, and external
+asset origins do not run in the application. All M1 UI remains wired through
+typed fixture contracts and safe framework rendering.
 
 All new UI work must conform to this contract unless an approved ticket changes it.
 
