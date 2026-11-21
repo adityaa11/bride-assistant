@@ -16,7 +16,7 @@ export function HeroSection() {
 }
 
 function HeroArtwork() {
-  return <div className={styles.artPanel}><div className={styles.halo} /><span className={styles.star} aria-hidden="true">✦</span><Image className={styles.bride} src="/reference-assets/ranur-bride-hero.svg" width={560} height={640} alt="Ilustrasi bride Ranur dengan bunga" /><Image className={styles.seal} src="/reference-assets/ranur-hero-stamp.webp" width={190} height={160} alt="Ranur Bridal Care" /><p className={styles.signature}>with love, Ranur ♡</p></div>;
+  return <div className={styles.artPanel}><div className={styles.halo} /><span className={styles.star} aria-hidden="true">✦</span><Image className={styles.bride} src="/reference-assets/ranur-bride-hero.svg" width={560} height={640} alt="Ilustrasi bride Ranur dengan bunga" loading="eager" /><Image className={styles.seal} src="/reference-assets/ranur-hero-stamp.webp" width={190} height={160} alt="Ranur Bridal Care" /><p className={styles.signature}>with love, Ranur ♡</p></div>;
 }
 
 export function AboutSection() {
