@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import type { PublishedContent, PublicPackage, ScenarioState } from "@/shared/scenarios/contracts";
+import type { PublishedContent, PublishedPromotion, PublicPackage, ScenarioState } from "@/shared/scenarios/contracts";
 import styles from "@/shared/public-home.module.css";
 
 function Eyebrow({ children, line = false }: Readonly<{ children: ReactNode; line?: boolean }>) {
@@ -43,8 +43,14 @@ function PublishedCollection({ items, emptyCopy }: Readonly<{ items: readonly Pu
   return <div className={styles.contentGrid}>{items.map((item) => <article key={item.id}><p>{item.kind === "event" ? "OUR EVENT" : "OUR MOMENT"}</p><h3>{item.title}</h3><span>{item.body}</span></article>)}</div>;
 }
 
-export function PackagesSection({ packages, state }: Readonly<{ packages: readonly PublicPackage[]; state: ScenarioState }>) {
-  return <section className={styles.products} id="products"><div className={styles.wrap}><div className={styles.productsIntro}><SectionHeading eyebrow="04 / OUR CARE COLLECTION" description="Kenali pilihan paket Bride Assistant yang dirancang untuk berbagai kebutuhan dan durasi acara. Setiap pilihan berfokus pada kenyamananmu sebagai pengantin.">A little care for <em>every kind of love.</em></SectionHeading></div>{state.kind !== "success" && <p className={styles.state} role={state.kind === "error" ? "alert" : "status"}>{state.message}</p>}<div className={styles.packageGrid}>{packages.length ? packages.map((pkg, index) => <PackageCard key={pkg.id} package={pkg} index={index} />) : <p className={styles.empty}>Tidak ada paket yang sedang dipublikasikan.</p>}</div>{packages.length > 0 && <p className={styles.catalogFoot}>Informasi harga, cakupan layanan, dan ketersediaan dapat dikonsultasikan bersama tim Ranur Bridal Care.</p>}</div></section>;
+export function PackagesSection({ packages, promotions, state }: Readonly<{ packages: readonly PublicPackage[]; promotions: readonly PublishedPromotion[]; state: ScenarioState }>) {
+  return <section className={styles.products} id="products"><div className={styles.wrap}><div className={styles.productsIntro}><SectionHeading eyebrow="04 / OUR CARE COLLECTION" description="Kenali pilihan paket Bride Assistant yang dirancang untuk berbagai kebutuhan dan durasi acara. Setiap pilihan berfokus pada kenyamananmu sebagai pengantin.">A little care for <em>every kind of love.</em></SectionHeading></div>{state.kind !== "success" && <p className={styles.state} role={state.kind === "error" ? "alert" : "status"}>{state.message}</p>}<PromotionShowcase promotions={promotions} /><div className={styles.packageGrid}>{packages.length ? packages.map((pkg, index) => <PackageCard key={pkg.id} package={pkg} index={index} />) : <p className={styles.empty}>Tidak ada paket yang sedang dipublikasikan.</p>}</div>{packages.length > 0 && <p className={styles.catalogFoot}>Informasi harga, cakupan layanan, dan ketersediaan dapat dikonsultasikan bersama tim Ranur Bridal Care.</p>}</div></section>;
+}
+
+function PromotionShowcase({ promotions }: Readonly<{ promotions: readonly PublishedPromotion[] }>) {
+  if (!promotions.length) return null;
+
+  return <div className={styles.promotionShowcase}>{promotions.map((promotion) => <aside className={styles.promotion} key={promotion.id}><div><p className={styles.promotionLabel}>SPECIAL OFFER</p><h3>{promotion.title}</h3><p>{promotion.description}</p><p className={styles.promotionEnds}>Hingga {promotion.endsOn}</p></div><div className={styles.promotionValue}><strong>{promotion.value}</strong><small>DISCOUNT</small></div></aside>)}</div>;
 }
 
 function PackageCard({ package: pkg, index }: Readonly<{ package: PublicPackage; index: number }>) {

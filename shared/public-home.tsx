@@ -29,7 +29,7 @@ export function PublicHome({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>)
         <AboutSection />
         <ContentSection items={readModel.publishedContent} />
         <EventsSection items={readModel.publishedContent} />
-        <PackagesSection packages={readModel.packages} state={scenario.state} />
+        <PackagesSection packages={readModel.packages} promotions={readModel.promotions} state={scenario.state} />
         <JourneySection />
         <BookingSection provenance={scenario.provenance.label} />
         <FaqSection />

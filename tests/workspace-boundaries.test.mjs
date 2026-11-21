@@ -59,6 +59,23 @@ test("feature routes reach declared scenarios only through the versioned adapter
   assert.match(catalogue, /satisfies Record<string/);
 });
 
+test("the public success route renders only adapter-provided published promotions", async () => {
+  const [publicHome, sections, catalogue] = await Promise.all([
+    readFile(resolve(root, "shared/public-home.tsx"), "utf8"),
+    readFile(resolve(root, "shared/public-home/sections.tsx"), "utf8"),
+    readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
+  ]);
+
+  assert.match(publicHome, /promotions=\{readModel\.promotions\}/);
+  assert.match(sections, /PromotionShowcase promotions=\{promotions\}/);
+  assert.match(sections, /promotion\.title/);
+  assert.match(sections, /promotion\.description/);
+  assert.match(sections, /promotion\.value/);
+  assert.match(sections, /promotion\.endsOn/);
+  assert.match(catalogue, /public\.catalogue-empty[\s\S]*?promotions: \[\]/);
+  assert.match(catalogue, /public\.catalogue-error[\s\S]*?promotions: \[\]/);
+});
+
 test("scenario catalogue covers review states and protects lifecycle, publication, and provenance boundaries", async () => {
   const [contracts, catalogue, adapter] = await Promise.all([
     readFile(resolve(root, "shared/scenarios/contracts.ts"), "utf8"),
