@@ -220,6 +220,29 @@ export const scenarioCatalogue = {
     state: { kind: "success", message: "Long package fixture siap ditinjau.", nextReviewAction: "Tinjau reflow nama dan komposisi paket." },
     readModel: { surface: "admin", title: "Master Packages", description: "Long-content fixture only.", content: [], bookingStatuses: [], adminCatalogue: { mode: "packages", ...catalogueFixture, packages: [{ ...cataloguePackages[2], name: "The Full Day Care — Pendampingan lebih lengkap sepanjang rangkaian acara." }] } },
   },
+  "admin.promotions-default": {
+    state: { kind: "success", message: "Promotion fixture siap ditinjau.", nextReviewAction: "Tinjau promo tanpa perubahan harga atau publikasi." },
+    readModel: { surface: "admin", title: "Promotions", description: "Fixture promotion review only.", content: [], bookingStatuses: [], adminPromotions: { packages: cataloguePackages.map(({ id, name, price }) => ({ id, name, price })), records: [
+      { id: "promo-percent", title: "A little more care for your moment", description: "A published seasonal offer for a considered bridal companion.", type: "percent", value: 10, startDate: "2026-11-01", endDate: "2026-12-31", packageIds: ["p1", "p2"], lifecycle: "Active", published: true },
+      { id: "promo-amount", title: "Special Wedding Month", description: "", type: "amount", value: 50000, startDate: "2026-12-01", endDate: "2026-12-31", packageIds: ["p3"], lifecycle: "Draft", published: false },
+    ] } },
+  },
+  "admin.promotions-empty": {
+    state: { kind: "empty", message: "Belum ada promotion", nextReviewAction: "Tinjau empty state tanpa membuat promo." },
+    readModel: { surface: "admin", title: "Promotions", description: "No promotion fixture records.", content: [], bookingStatuses: [], adminPromotions: { packages: cataloguePackages.map(({ id, name, price }) => ({ id, name, price })), records: [] } },
+  },
+  "admin.promotions-error": {
+    state: { kind: "error", message: "Promotion fixture belum dapat ditampilkan.", nextReviewAction: "Tinjau error tanpa data promo." },
+    readModel: { surface: "admin", title: "Promotions", description: "No promotion records are shown.", content: [], bookingStatuses: [], adminPromotions: { packages: [], records: [] } },
+  },
+  "admin.promotions-long": {
+    state: { kind: "success", message: "Long package selection fixture siap ditinjau.", nextReviewAction: "Tinjau reflow pilihan paket." },
+    readModel: { surface: "admin", title: "Promotions", description: "Long package selection review.", content: [], bookingStatuses: [], adminPromotions: { packages: [{ id: "p3", name: "The Full Day Care — Pendampingan lebih lengkap sepanjang rangkaian acara.", price: 400000 }], records: [{ id: "promo-long", title: "Special Wedding Month", description: "", type: "percent", value: 10, startDate: "2026-12-01", endDate: "2026-12-31", packageIds: ["p3"], lifecycle: "Draft", published: false }] } },
+  },
+  "admin.promotions-proposed-result": {
+    state: { kind: "success", message: "Proposed promotion result fixture siap ditinjau; tidak ada promo atau harga yang berubah.", nextReviewAction: "Tinjau hasil non-authoritative." },
+    readModel: { surface: "admin", title: "Promotions", description: "Proposed result only.", content: [], bookingStatuses: [], adminPromotions: { packages: cataloguePackages.map(({ id, name, price }) => ({ id, name, price })), records: [] } },
+  },
   "admin.booking-success": {
     state: { kind: "success", message: "Admin booking fixture data is ready for review.", nextReviewAction: "Review canonical lifecycle labels." },
     readModel: { surface: "admin", title: "Booking review", description: "Administrative fixture data is not an authority decision.", content: [], bookingStatuses: ["Menunggu Konfirmasi", "Menunggu Pembayaran", "Booking Berhasil", "Menunggu Pembatalan Booking", "Dibatalkan", "Menunggu Reschedule Booking"] },

@@ -131,6 +131,10 @@ export type AdminReadModel = BaseReadModel &
     adminCustomers?: Readonly<{
       records: readonly Readonly<{ id: string; customer: string; phone: string; packageName: string; date: string; start: string; end: string; location: string; status: CanonicalBookingStatus }> [];
     }>;
+    adminPromotions?: Readonly<{
+      records: readonly Readonly<{ id: string; title: string; description: string; type: "percent" | "amount"; value: number; startDate: string; endDate: string; packageIds: readonly string[]; lifecycle: "Draft" | "Scheduled" | "Active" | "Ended"; published: boolean }> [];
+      packages: readonly Readonly<{ id: string; name: string; price: number }> [];
+    }>;
   }>;
 
 export type SystemReadModel = BaseReadModel &
