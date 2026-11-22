@@ -103,6 +103,28 @@ test("admin catalogue and package routes use typed fixtures and preserve no-muta
   for (const forbidden of ["localStorage", "sessionStorage", "fetch(", "dangerouslySetInnerHTML", "innerHTML", "save("]) assert.doesNotMatch(workspace, new RegExp(forbidden.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 });
 
+test("admin customer route keeps its fixture projection in the server-only admin route", async () => {
+  const [route, stateRoute, projection, workspace, frame, publicRoute, customerRoute] = await Promise.all([
+    readFile(resolve(root, "app/(admin)/admin/customers/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(admin)/admin/customers/[state]/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(admin)/admin/customers/scenarios.ts"), "utf8"),
+    readFile(resolve(root, "shared/admin-customer-workspace.tsx"), "utf8"),
+    readFile(resolve(root, "shared/admin-workspace-frame.tsx"), "utf8"),
+    readFile(resolve(root, "app/(public)/page.tsx"), "utf8"),
+    readFile(resolve(root, "app/(customer)/customer/page.tsx"), "utf8"),
+  ]);
+  assert.match(route, /getCustomerScenario\("admin\.customers-directory"\)/);
+  assert.match(stateRoute, /admin\.customers-empty/);
+  assert.match(stateRoute, /admin\.customers-error/);
+  assert.match(projection, /getScenario\("admin\.booking-workspace"\)/);
+  assert.match(projection, /adminCustomers: \{ records \}/);
+  assert.match(workspace, /AdminWorkspaceFrame/);
+  assert.match(frame, /\/admin\/customers/);
+  assert.doesNotMatch(workspace, /shared\/scenarios\/adapter|shared\/scenarios\/catalogue/);
+  for (const source of [route, stateRoute, projection, workspace, publicRoute, customerRoute]) assert.doesNotMatch(source, /shared\/scenarios\/catalogue|localStorage|sessionStorage|dangerouslySetInnerHTML|innerHTML|fetch\(/);
+  for (const source of [publicRoute, customerRoute]) assert.doesNotMatch(source, /adminCustomers|admin-customer-workspace/);
+});
+
 test("customer auth fixture routes expose declared register and sign-in states without authority", async () => {
   const [registerPage, signInPage, registerStates, signInStates, auth, catalogue] = await Promise.all([
     readFile(resolve(root, "app/(customer)/daftar/page.tsx"), "utf8"),

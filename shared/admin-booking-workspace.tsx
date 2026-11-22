@@ -19,7 +19,7 @@ const monthText = (year: number, month: number) => new Intl.DateTimeFormat("id-I
 const isoDate = (year: number, month: number, day: number) => `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 function Status({ status }: { status: CanonicalBookingStatus }) { return <span className={`${styles.status} ${statusStyle[status]}`}>{status}</span>; }
 
-export function AdminBookingWorkspace({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>) {
+export function AdminBookingWorkspace({ scenarioId, initialSelection = null }: Readonly<{ scenarioId: ScenarioId; initialSelection?: string | null }>) {
   const scenario = getScenario(scenarioId);
   const fixture = scenario.readModel.surface === "admin" ? scenario.readModel.adminBooking : undefined;
   const availability = fixture?.mode === "availability";
@@ -29,7 +29,7 @@ export function AdminBookingWorkspace({ scenarioId }: Readonly<{ scenarioId: Sce
   const [status, setStatus] = useState<CanonicalBookingStatus | "all">("all");
   const [month, setMonth] = useState({ year: 2026, month: 10 });
   const [day, setDay] = useState(12);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(initialSelection);
   const [notice, setNotice] = useState<string | null>(null);
   const records = fixture?.records ?? [];
   const filtered = records.filter((booking) => booking.customer.toLocaleLowerCase("id-ID").includes(query.toLocaleLowerCase("id-ID")) && (status === "all" || booking.status === status)).sort((a, b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start));

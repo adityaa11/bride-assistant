@@ -123,6 +123,9 @@ export type AdminReadModel = BaseReadModel &
       records: readonly Readonly<{ id: string; customer: string; phone: string; source: "BA" | "Customer"; packageName: string; durationHours: number; price: number; includedServices: readonly string[]; notes: string; date: string; start: string; end: string; location: string; status: CanonicalBookingStatus }> [];
       blockedDates: readonly string[];
     }>;
+    adminCustomers?: Readonly<{
+      records: readonly Readonly<{ id: string; customer: string; phone: string; packageName: string; date: string; start: string; end: string; location: string; status: CanonicalBookingStatus }> [];
+    }>;
   }>;
 
 export type SystemReadModel = BaseReadModel &
