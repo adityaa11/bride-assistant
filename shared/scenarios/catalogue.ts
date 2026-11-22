@@ -10,6 +10,28 @@ const intimatePackage = { durationHours: 3, price: 200000, includedServices: ess
 const gentlePackage = { durationHours: 5, price: 300000, includedServices: [...essentialServices, "Personal Belongings Check — Mengecek dan menyerahkan kembali barang pribadi"] };
 const fullDayPackage = { durationHours: 8, price: 400000, includedServices: [...essentialServices, "Ceremony Transition Support — Mendampingi pengantin saat transisi antarprosesi", "Personal Belongings Check — Mengecek dan menyerahkan kembali barang pribadi", "Outfit Change Assistance — Mendampingi pergantian busana pengantin"] };
 
+// Presentation-only catalogue records transcribed from the mapped admin panels.
+const catalogueItems = [
+  { id: "attire", type: "Action", name: "Bridal Attire Assistance", description: "Merapikan gaun, veil, dan aksesori pengantin", bundleCount: 1, packageCount: 0 },
+  { id: "makeup", type: "Action", name: "Makeup Touch-up Reminder", description: "Mengingatkan pengantin untuk touch-up makeup", bundleCount: 1, packageCount: 0 },
+  { id: "mobility", type: "Action", name: "Bride Mobility Assistance", description: "Mendampingi mobilitas pengantin sepanjang acara", bundleCount: 1, packageCount: 0 },
+  { id: "personal", type: "Action", name: "Personal Care Assistance", description: "Membantu kebutuhan personal pengantin", bundleCount: 1, packageCount: 0 },
+  { id: "belongings", type: "Action", name: "Personal Belongings Check", description: "Mengecek dan menyerahkan kembali barang pribadi", bundleCount: 1, packageCount: 1 },
+  { id: "outfit", type: "Action", name: "Outfit Change Assistance", description: "Mendampingi pergantian busana pengantin", bundleCount: 1, packageCount: 0 },
+  { id: "service-companion", type: "Service", name: "Personal Bridal Companion", description: "Layanan pendampingan personal pengantin selama acara", bundleCount: 1, packageCount: 0 },
+  { id: "service-transition", type: "Service", name: "Ceremony Transition Support", description: "Mendampingi pengantin saat transisi antarprosesi", bundleCount: 1, packageCount: 0 },
+] as const;
+const catalogueBundles = [
+  { id: "bundle-essentials", name: "Essential Bridal Care", description: "Kebutuhan utama pendampingan pengantin.", itemIds: ["service-companion", "attire", "makeup", "mobility", "personal"], packageCount: 3 },
+  { id: "bundle-extended", name: "Extended Day Support", description: "Dukungan tambahan untuk rangkaian acara yang lebih panjang.", itemIds: ["service-transition", "belongings", "outfit"], packageCount: 1 },
+] as const;
+const cataloguePackages = [
+  { id: "p1", name: "The Intimate Care", hours: 3, price: 200000, description: "Pendampingan singkat untuk momen yang intim dan berkesan.", selections: [{ kind: "bundle", id: "bundle-essentials" }], active: true },
+  { id: "p2", name: "The Gentle Companion", hours: 5, price: 300000, description: "Dukungan personal dari persiapan hingga prosesi utama.", selections: [{ kind: "bundle", id: "bundle-essentials" }, { kind: "item", id: "belongings" }], active: true },
+  { id: "p3", name: "The Full Day Care", hours: 8, price: 400000, description: "Pendampingan lebih lengkap sepanjang rangkaian acara.", selections: [{ kind: "bundle", id: "bundle-essentials" }, { kind: "bundle", id: "bundle-extended" }], active: true },
+] as const;
+const catalogueFixture = { items: catalogueItems, bundles: catalogueBundles, packages: cataloguePackages };
+
 export const scenarioCatalogue = {
   "public.catalogue-loading": {
     state: { kind: "loading", message: "Packages are being prepared for review.", nextReviewAction: "Wait for the fixture state." },
@@ -164,7 +186,39 @@ export const scenarioCatalogue = {
   },
   "admin.catalogue-empty": {
     state: { kind: "empty", message: "No catalogue entries are available in this fixture.", nextReviewAction: "Review the empty admin catalogue state." },
-    readModel: { surface: "admin", title: "Empty catalogue", description: "No durable catalogue data is created.", content: [], bookingStatuses: [] },
+    readModel: { surface: "admin", title: "Empty catalogue", description: "No durable catalogue data is created.", content: [], bookingStatuses: [], adminCatalogue: { mode: "services", items: [], bundles: [], packages: [] } },
+  },
+  "admin.catalogue-services": {
+    state: { kind: "success", message: "Catalogue fixture siap ditinjau.", nextReviewAction: "Tinjau service, action, bundle, dan hasil kontrol tanpa perubahan data." },
+    readModel: { surface: "admin", title: "Services & Actions", description: "Fixture catalogue only.", content: [], bookingStatuses: [], adminCatalogue: { mode: "services", ...catalogueFixture } },
+  },
+  "admin.catalogue-packages": {
+    state: { kind: "success", message: "Master package fixture siap ditinjau.", nextReviewAction: "Tinjau harga dan komposisi tanpa perubahan data." },
+    readModel: { surface: "admin", title: "Master Packages", description: "Fixture packages only.", content: [], bookingStatuses: [], adminCatalogue: { mode: "packages", ...catalogueFixture } },
+  },
+  "admin.catalogue-error": {
+    state: { kind: "error", message: "The catalogue fixture could not be prepared.", nextReviewAction: "Review the error state." },
+    readModel: { surface: "admin", title: "Services & Actions", description: "No catalogue data is displayed for this review state.", content: [], bookingStatuses: [], adminCatalogue: { mode: "services", items: [], bundles: [], packages: [] } },
+  },
+  "admin.catalogue-proposed-result": {
+    state: { kind: "success", message: "Proposed edit result fixture siap ditinjau.", nextReviewAction: "Tinjau hasil non-authoritative tanpa menyimpan data." },
+    readModel: { surface: "admin", title: "Services & Actions", description: "Proposed edit only.", content: [], bookingStatuses: [], adminCatalogue: { mode: "services", ...catalogueFixture } },
+  },
+  "admin.catalogue-packages-empty": {
+    state: { kind: "empty", message: "No catalogue entries are available in this fixture.", nextReviewAction: "Review the empty admin package state." },
+    readModel: { surface: "admin", title: "Master Packages", description: "No durable package data is created.", content: [], bookingStatuses: [], adminCatalogue: { mode: "packages", items: [], bundles: [], packages: [] } },
+  },
+  "admin.catalogue-packages-error": {
+    state: { kind: "error", message: "The catalogue fixture could not be prepared.", nextReviewAction: "Review the package error state." },
+    readModel: { surface: "admin", title: "Master Packages", description: "No package data is displayed for this review state.", content: [], bookingStatuses: [], adminCatalogue: { mode: "packages", items: [], bundles: [], packages: [] } },
+  },
+  "admin.catalogue-packages-proposed-result": {
+    state: { kind: "success", message: "Proposed edit result fixture siap ditinjau.", nextReviewAction: "Tinjau hasil paket non-authoritative tanpa menyimpan data." },
+    readModel: { surface: "admin", title: "Master Packages", description: "Proposed package edit only.", content: [], bookingStatuses: [], adminCatalogue: { mode: "packages", ...catalogueFixture } },
+  },
+  "admin.catalogue-packages-long": {
+    state: { kind: "success", message: "Long package fixture siap ditinjau.", nextReviewAction: "Tinjau reflow nama dan komposisi paket." },
+    readModel: { surface: "admin", title: "Master Packages", description: "Long-content fixture only.", content: [], bookingStatuses: [], adminCatalogue: { mode: "packages", ...catalogueFixture, packages: [{ ...cataloguePackages[2], name: "The Full Day Care — Pendampingan lebih lengkap sepanjang rangkaian acara." }] } },
   },
   "admin.booking-success": {
     state: { kind: "success", message: "Admin booking fixture data is ready for review.", nextReviewAction: "Review canonical lifecycle labels." },

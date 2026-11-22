@@ -112,6 +112,12 @@ export type AdminReadModel = BaseReadModel &
     surface: "admin";
     content: readonly Readonly<{ id: string; title: string; publication: "draft" | "published" }> [];
     bookingStatuses: readonly CanonicalBookingStatus[];
+    adminCatalogue?: Readonly<{
+      mode: "services" | "packages";
+      items: readonly Readonly<{ id: string; type: "Service" | "Action"; name: string; description: string; bundleCount: number; packageCount: number }> [];
+      bundles: readonly Readonly<{ id: string; name: string; description: string; itemIds: readonly string[]; packageCount: number }> [];
+      packages: readonly Readonly<{ id: string; name: string; hours: number; price: number; description: string; selections: readonly Readonly<{ kind: "bundle" | "item"; id: string }> []; active: boolean }> [];
+    }>;
     adminBooking?: Readonly<{
       mode: "bookings" | "availability";
       records: readonly Readonly<{ id: string; customer: string; phone: string; source: "BA" | "Customer"; packageName: string; durationHours: number; price: number; includedServices: readonly string[]; notes: string; date: string; start: string; end: string; location: string; status: CanonicalBookingStatus }> [];

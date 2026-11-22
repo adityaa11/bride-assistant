@@ -20,6 +20,11 @@ const sourceFiles = [
   "shared/customer-home.tsx",
   "shared/customer-booking-history.tsx",
   "shared/admin-booking-workspace.tsx",
+  "app/(admin)/admin/catalogue/page.tsx",
+  "app/(admin)/admin/catalogue/[state]/page.tsx",
+  "app/(admin)/admin/packages/page.tsx",
+  "app/(admin)/admin/packages/[state]/page.tsx",
+  "shared/admin-catalogue-workspace.tsx",
   "shared/scenarios/contracts.ts",
   "shared/scenarios/catalogue.ts",
   "shared/scenarios/adapter.ts",
@@ -81,6 +86,21 @@ test("admin booking and availability routes use named adapter fixtures without m
   assert.match(workspace, /getScenario/);
   assert.match(workspace, /scenario\.interaction\.summary/);
   for (const forbidden of ["localStorage", "sessionStorage", "fetch(", "dangerouslySetInnerHTML", "Confirmed", "On Hold"]) assert.doesNotMatch(workspace, new RegExp(forbidden.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+});
+
+test("admin catalogue and package routes use typed fixtures and preserve no-mutation boundary", async () => {
+  const paths = ["app/(admin)/admin/catalogue/page.tsx", "app/(admin)/admin/catalogue/[state]/page.tsx", "app/(admin)/admin/packages/page.tsx", "app/(admin)/admin/packages/[state]/page.tsx"];
+  const [routes, workspace, catalogue] = await Promise.all([
+    Promise.all(paths.map((file) => readFile(resolve(root, file), "utf8"))),
+    readFile(resolve(root, "shared/admin-catalogue-workspace.tsx"), "utf8"),
+    readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
+  ]);
+  for (const route of routes) assert.match(route, /AdminCatalogueWorkspace/);
+  for (const scenario of ["admin.catalogue-services", "admin.catalogue-packages", "admin.catalogue-empty", "admin.catalogue-error", "admin.catalogue-proposed-result", "admin.catalogue-packages-empty", "admin.catalogue-packages-error", "admin.catalogue-packages-proposed-result", "admin.catalogue-packages-long"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
+  assert.match(workspace, /getScenario/);
+  assert.match(workspace, /AdminWorkspaceFrame/);
+  assert.match(workspace, /scenario\.interaction\.summary/);
+  for (const forbidden of ["localStorage", "sessionStorage", "fetch(", "dangerouslySetInnerHTML", "innerHTML", "save("]) assert.doesNotMatch(workspace, new RegExp(forbidden.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 });
 
 test("customer auth fixture routes expose declared register and sign-in states without authority", async () => {
