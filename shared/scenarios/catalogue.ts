@@ -247,8 +247,8 @@ export const scenarioCatalogue = {
     state: { kind: "success", message: "Draft and published content are ready for admin review.", nextReviewAction: "Review publication distinctions." },
     readModel: { surface: "admin", title: "Content publication review", description: "Admin fixtures may distinguish draft from published content.", content: [{ id: "draft-rose", title: "Draft consultation", publication: "draft" }, { id: "published-rose", title: "Published consultation", publication: "published" }], bookingStatuses: [], adminContent: {
       portfolio: [
-        { id: "portfolio-draft", title: "An intimate bridal morning", publication: "draft", category: "Our Moments", description: "A quiet preparation moment before the celebration." },
-        { id: "portfolio-published", title: "A garden celebration", publication: "published", category: "Wedding moments", description: "A bridal care story from a garden wedding." },
+        { id: "portfolio-draft", title: "An intimate bridal morning", publication: "draft", category: "Our Moments", description: "A quiet preparation moment before the celebration.", imageAsset: "bridal-preparation", imageAlt: "Ivory bridal dress and pink flowers in a quiet preparation room" },
+        { id: "portfolio-published", title: "A garden celebration", publication: "published", category: "Wedding moments", description: "A bridal care story from a garden wedding.", imageAsset: "garden-celebration", imageAlt: "Flowers, blank wedding stationery, and ribbon on a garden table" },
       ],
       testimonials: [
         { id: "testimonial-draft", title: "A thoughtful morning", publication: "draft", quote: "The morning felt calm and thoughtfully arranged.", attribution: "Fictional customer A" },

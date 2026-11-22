@@ -112,7 +112,7 @@ export type AdminReadModel = BaseReadModel &
     surface: "admin";
     content: readonly Readonly<{ id: string; title: string; publication: "draft" | "published" }> [];
     adminContent?: Readonly<{
-      portfolio: readonly Readonly<{ id: string; title: string; publication: "draft" | "published"; category: string; description: string }> [];
+      portfolio: readonly Readonly<{ id: string; title: string; publication: "draft" | "published"; category: string; description: string; imageAsset: "bridal-preparation" | "garden-celebration"; imageAlt: string }> [];
       testimonials: readonly Readonly<{ id: string; title: string; publication: "draft" | "published"; quote: string; attribution: string }> [];
       events: readonly Readonly<{ id: string; title: string; publication: "draft" | "published"; date: string; location: string; description: string; theme: string }> [];
     }>;

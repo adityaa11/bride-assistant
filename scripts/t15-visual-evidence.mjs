@@ -5,7 +5,7 @@ import { pathToFileURL } from "node:url";
 import assert from "node:assert/strict";
 
 const source = pathToFileURL(resolve("project's goal/UI Reference/Bride_Assistant_Planner_Standalone_v3_Content_Management.html")).href;
-const output = resolve(".atlas/evidence/M1-T15");
+const output = resolve(process.env.T15_EVIDENCE_DIR ?? ".atlas/evidence/M1-T15");
 const base = process.env.T15_BASE_URL ?? "http://localhost:3315";
 const widths = [1440, 1251, 1250, 1151, 1150, 931, 930, 721, 720, 486, 485];
 const browser = await chromium.launch({ headless: true });
@@ -36,6 +36,10 @@ for (const width of widths) {
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
 const page = await context.newPage();
 await page.goto(`${base}/admin/content`);
+await page.waitForFunction(() => [...document.querySelectorAll("main img")].length === 2 && [...document.querySelectorAll("main img")].every((img) => img.complete && img.naturalWidth > 0));
+const fixtureImages = await page.locator("main img").evaluateAll((images) => images.map((image) => ({ alt: image.alt, src: image.getAttribute("src"), width: image.naturalWidth })));
+assert.equal(fixtureImages.length, 2);
+assert.equal(fixtureImages.every((image) => image.alt.length > 0 && image.src.includes("fixture-assets%2Fm1-t15") && image.width > 0), true);
 assert.equal(await page.getByText("Draft", { exact: true }).count() > 0, true);
 assert.equal(await page.getByText("Published", { exact: true }).count() > 0, true);
 await page.screenshot({ path: resolve(output, "app-portfolio-populated.png"), fullPage: true });

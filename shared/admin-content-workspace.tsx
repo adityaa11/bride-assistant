@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import Image from "next/image";
 import { AdminIcon, AdminWorkspaceFrame } from "@/shared/admin-workspace-frame";
 import type { ScenarioResult } from "@/shared/scenarios/contracts";
 import styles from "./admin-content-workspace.module.css";
@@ -9,6 +10,10 @@ type Tab = "portfolio" | "testimonials" | "events";
 type Content = NonNullable<Extract<ScenarioResult["readModel"], { surface: "admin" }>["adminContent"]>;
 type RecordItem = Content["portfolio"][number] | Content["testimonials"][number] | Content["events"][number];
 type ProposedAction = "add" | "edit" | "publish" | "unpublish" | "delete";
+const portfolioImage = {
+  "bridal-preparation": "/fixture-assets/m1-t15/bridal-preparation.png",
+  "garden-celebration": "/fixture-assets/m1-t15/garden-celebration.png",
+} as const;
 
 const headings = {
   portfolio: { empty: "Belum ada portfolio", description: "Tambahkan foto dan cerita momen pengantin yang telah memberikan persetujuan.", add: "Tambah Portfolio" },
@@ -32,7 +37,7 @@ function ContentCard({ item, tab, onAction }: { item: RecordItem; tab: Tab; onAc
   const portfolio = tab === "portfolio" ? item as Content["portfolio"][number] : null;
   const testimonial = tab === "testimonials" ? item as Content["testimonials"][number] : null;
   return <article className={styles.webCard}>
-    {tab !== "testimonials" && <div className={styles.webMedia}>{event ? <span className={styles.eventTheme} aria-hidden="true">{event.theme}</span> : <AdminIcon name="image" />}</div>}
+    {tab !== "testimonials" && <div className={styles.webMedia}>{event ? <span className={styles.eventTheme} aria-hidden="true">{event.theme}</span> : portfolio ? <Image src={portfolioImage[portfolio.imageAsset]} alt={portfolio.imageAlt} width={1610} height={977} sizes="(max-width: 485px) 100vw, (max-width: 1150px) 50vw, 33vw" /> : <AdminIcon name="image" />}</div>}
     <div className={styles.webCardBody}>
       <div className={styles.webCardMeta}><StatusBadge publication={item.publication} />{portfolio && <span className={styles.pill}>{portfolio.category}</span>}{event && <span className={styles.pill}>{event.date}</span>}{testimonial && <AdminIcon name="quote" />}</div>
       {testimonial ? <><p className={styles.webQuote}>“{testimonial.quote}”</p><strong className={styles.attribution}>{testimonial.attribution}</strong></> : <><h3>{item.title}</h3>{event && <p>{event.location}</p>}<p>{portfolio?.description ?? event?.description}</p></>}
