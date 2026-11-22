@@ -111,6 +111,11 @@ export type AdminReadModel = BaseReadModel &
   Readonly<{
     surface: "admin";
     content: readonly Readonly<{ id: string; title: string; publication: "draft" | "published" }> [];
+    adminContent?: Readonly<{
+      portfolio: readonly Readonly<{ id: string; title: string; publication: "draft" | "published"; category: string; description: string }> [];
+      testimonials: readonly Readonly<{ id: string; title: string; publication: "draft" | "published"; quote: string; attribution: string }> [];
+      events: readonly Readonly<{ id: string; title: string; publication: "draft" | "published"; date: string; location: string; description: string; theme: string }> [];
+    }>;
     bookingStatuses: readonly CanonicalBookingStatus[];
     adminCatalogue?: Readonly<{
       mode: "services" | "packages";
