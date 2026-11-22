@@ -80,9 +80,26 @@ rules; preserve the mapped reference's content-specific composition.
    components may share implementation, never force the public editorial,
    customer workflow, and admin data-workspace surfaces into one layout.
 6. When a required fixture state is absent from its reference, extend the
-   nearest corresponding component using its exact shell, type roles, spacing,
-   interaction treatment, and responsive rules. It may not introduce a new
-   local visual language.
+   nearest corresponding component only by assembling already evidenced
+   source regions, styles, and interactions with T02 fixture content. Do not
+   invent missing copy, states, assets, geometry, or responsive behavior. If
+   the source has no exact precedent for a required visual decision, record a
+   source gap and stop that part until explicit user direction supplies it.
+
+## Source-faithful decision gate for upcoming tickets
+
+Before implementing each T13–T16 region, identify its exact source location
+and the corresponding HTML structure, CSS selector/value, asset, visible text,
+and interaction. Reuse the existing shared admin frame for shell regions under
+the user-authorized exception above. For route-specific content, do not
+approximate a measurement from memory, substitute a generic component, draw a
+lookalike asset, invent copy, or extrapolate an unshown breakpoint or state.
+Use typed T02 fixture values only for the data slots they actually define.
+The source-to-component map must distinguish direct source evidence, shared
+component reuse, fixture-provided content, and explicit user direction. An
+unsupported requirement is a recorded blocker for that UI portion, not a
+license to improvise. A later explicit user decision must be recorded in the
+ticket before work on that portion resumes.
 
 Record a source-to-component map for each page/panel: original region and CSS
 rule group, destination component/style module, extracted asset, translated

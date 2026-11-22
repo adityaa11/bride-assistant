@@ -12,7 +12,7 @@ The system is calm, warm, editorial, trustworthy, and precise. It should feel fe
 
 `project's goal/UI Reference/` is the binding visual source of truth for M1. Every corresponding screen must match the reference's visible structure, hierarchy, copy, typography, colors, spacing, geometry, imagery/icon treatment, navigation, and responsive composition. A visually different implementation is a failure even when it is functional or uses the same general Soft Rose mood.
 
-For M1-T08–T16, the mapped reference HTML, CSS, and JavaScript are the inputs to a source-led Next.js refactor. Preserve the rendered structure, styling, assets, and visible interactions in reusable reference-derived components, while T02 fixtures replace prototype data and authority. For states not shown in the reference, extend the same visual treatment and component geometry without inventing a new visual language or arbitrary per-screen styling. Every route requires a reference-viewport capture and visual comparison record before acceptance.
+For M1-T08–T16, the mapped reference HTML, CSS, and JavaScript are the inputs to a source-led Next.js refactor. Preserve the rendered structure, styling, assets, and visible interactions in reusable reference-derived components, while T02 fixtures replace prototype data and authority. Fixture-only states may assemble only directly evidenced reference components and styles with fixture-provided content. If a required visual decision has no source or explicit user direction, record the gap and stop that part of the work; do not invent or approximate it. Every route requires a reference-viewport capture and visual comparison record before acceptance.
 
 ## Density, navigation, and layout
 
@@ -52,6 +52,14 @@ asset origins do not run in the application. All M1 UI remains wired through
 typed fixture contracts and safe framework rendering.
 
 All new UI work must conform to this contract unless an approved ticket changes it.
+
+For upcoming UI tickets, every visible region, label, icon, asset, color, type
+role, spacing rule, breakpoint, and interaction must trace to the mapped source,
+an already source-faithful shared component, a typed fixture value, or explicit
+user direction. Record that trace in the ticket's source-to-component map.
+Visual similarity, guessed values, generic replacements, and invented fallback
+states do not satisfy the contract. An unresolved source gap blocks the affected
+UI until the user provides a reference or direction; do not silently decide it.
 
 For M1, a mapped rendered reference and its ticket-specific rendered-reference
 contract take precedence when a generic measure, radius, token, navigation

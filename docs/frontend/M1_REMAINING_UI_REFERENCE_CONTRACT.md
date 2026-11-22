@@ -43,10 +43,21 @@ they preserve each page's DOM relationships and rendered composition.
 | T16 | Admin `Promotions`: sidebar/topbar, promotion tabs/toolbar, list or cards, period/value/package applicability, form/validation/result surfaces. | Apply admin 1250px/930px/485px rules plus content-specific 1150px/720px/485px grid and toolbar transformations. |
 
 The table is an inspection floor, not permission to omit another visible source
-region. Where a fixture state has no source rendering, extend the nearest mapped
-component's shell, spacing, type, controls and status treatment; document that
-extension in the ledger. Do not turn a visual mockup action into a real account,
+region. Where a fixture state has no source rendering, compose only directly
+evidenced source components, styles, controls, and status treatment with typed
+fixture content; document each source in the ledger. If a required visual
+decision has no exact source precedent, record a blocker and obtain explicit
+user direction before implementing that portion. Do not invent or approximate
+the missing UI. Do not turn a visual mockup action into a real account,
 booking, admin, publication, payment or communication capability.
+
+For T13–T16, the ledger and source-to-component map must point to the actual
+admin reference panel for every route-specific region, label, asset, style,
+breakpoint, and interaction. Shared shell regions point to
+`AdminWorkspaceFrame`; data slots point to their T02 fixture fields. A vague
+"matches the style" claim, an inferred value, or an untraced fallback is a
+review failure. T17 must verify this trace and block acceptance when a source
+gap remains unresolved or a visible decision was invented.
 
 ## Asset and source boundary
 
