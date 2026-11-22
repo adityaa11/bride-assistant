@@ -13,3 +13,4 @@ atlas-workflow.local.yaml
 node_modules/
 tsconfig.tsbuildinfo
 /test-results/
+/.local-storage/

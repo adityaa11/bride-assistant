@@ -68,3 +68,9 @@ The route-specific CSS reproduces source selectors/values within a CSS module. A
 | SEC-M1-01/02 | No authority, upload, storage, consent claim, external media or unsafe rendering | Route/source scan and negative interactions | UNRESOLVED |
 
 No implementation, visual comparison, checkpoint, or CK handoff is claimed by this ledger.
+
+## M1-T18 fixture-local media continuation
+
+T18 implements the Portfolio-only upload that T15-A7 authorizes. The mapped source's `openWebsiteEditor()` Portfolio branch supplies the alt-text and file-field order, form labels, modal geometry, and empty preview treatment. `ImageUploadField` in `shared/admin-content-workspace.tsx` converts those regions into a fixture upload form. The source's browser storage, arbitrary HTTPS URL control, and client-side preview script are excluded by T18's server-owned, same-origin storage boundary. The added 5 MiB help text and non-authoritative fixture copy trace to T18 rather than the prototype.
+
+`AdminContentWorkspace` submits `FormData` to the fixture handler, receives `ContentImageMetadata`, and renders the returned opaque key through the exact-key read handler. The local adapter owns bytes and the `records.json` association in the ignored Portfolio namespace. The original two checked-in Portfolio images remain the baseline when no uploaded association exists. Testimonials and Events have no upload field. The T18 evidence script captures source and implementation Portfolio forms at 1440, 930, 720, and 485px and checks the route lifecycle, public/customer negatives, and T15 regressions.
