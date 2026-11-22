@@ -133,21 +133,9 @@
   color: #503840;
   font-size: 21px;
 }
-.weekdays,
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 7px;
-}
-.weekdays {
-  margin: 25px 0 9px;
-  text-align: center;
-}
-.weekdays span {
-  color: #af9094;
-  font-size: 11px;
-  font-weight: 750;
-}
+.calendar { display: block; margin-top: 18px; }
+.calendarGrid { border-spacing: 7px; }
+.calendarWeekday { color: #af9094; font-size: 11px; font-weight: 750; text-align: center; padding-bottom: 9px; }
 .day {
   position: relative;
   display: flex;
@@ -161,9 +149,6 @@
   color: #664b51;
   text-align: left;
 }
-.blank {
-  visibility: hidden;
-}
 .day span {
   font-size: 13px;
   font-weight: 750;
@@ -176,18 +161,18 @@
   border-color: #bf8d87;
   background: #fff4f0;
 }
-.day:disabled {
+.disabledDay .day {
   background: #fbf9f8;
   color: #c0acac;
   opacity: 0.58;
 }
-.selected {
+.selected .day {
   border: 2px solid #925459;
   background: #f3dfda !important;
   color: #925459;
   padding: 9px;
 }
-.unavailable {
+.unavailable .day {
   background: #f3e9e5 !important;
   color: #ae7773;
   opacity: 0.75;
@@ -435,13 +420,8 @@
     width: 34px;
     height: 34px;
   }
-  .weekdays,
-  .calendar {
-    gap: 4px;
-  }
-  .weekdays span {
-    font-size: 10px;
-  }
+  .calendarGrid { border-spacing: 4px; }
+  .calendarWeekday { font-size: 10px; }
   .day {
     min-height: 50px;
     padding: 6px;
@@ -450,7 +430,7 @@
   .day small {
     display: none;
   }
-  .selected {
+  .selected .day {
     padding: 5px;
   }
   .two {

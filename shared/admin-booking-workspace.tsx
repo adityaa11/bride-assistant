@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { AdminIcon as Icon, AdminWorkspaceFrame } from "@/shared/admin-workspace-frame";
+import { BookingCalendar, calendarDate } from "@/shared/booking-calendar";
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
 import type { CanonicalBookingStatus } from "@/shared/scenarios/contracts";
 import styles from "./admin-booking-workspace.module.css";
 
-const iconFile = "/reference-assets/ui-reference/bride-assistant-planner-standalone-v3-content-management-inline-svg-01-e88f0a139761.svg";
-const weekdays = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
 const statuses: CanonicalBookingStatus[] = ["Menunggu Konfirmasi", "Menunggu Pembayaran", "Booking Berhasil", "Menunggu Reschedule Booking", "Menunggu Pembatalan Booking", "Dibatalkan"];
 const statusStyle: Record<CanonicalBookingStatus, string> = {
   "Menunggu Konfirmasi": styles.requested, "Menunggu Pembayaran": styles.hold,
@@ -17,7 +17,6 @@ type Booking = Readonly<{ id: string; customer: string; phone: string; source: "
 const formatDate = (date: string) => new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`));
 const monthText = (year: number, month: number) => new Intl.DateTimeFormat("id-ID", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(year, month, 1)));
 const isoDate = (year: number, month: number, day: number) => `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-function Icon({ name, small = false }: { name: string; small?: boolean }) { return <svg className={`${styles.icon} ${small ? styles.iconSmall : ""}`} aria-hidden="true"><use href={`${iconFile}#i-${name}`} /></svg>; }
 function Status({ status }: { status: CanonicalBookingStatus }) { return <span className={`${styles.status} ${statusStyle[status]}`}>{status}</span>; }
 
 export function AdminBookingWorkspace({ scenarioId }: Readonly<{ scenarioId: ScenarioId }>) {
@@ -32,13 +31,6 @@ export function AdminBookingWorkspace({ scenarioId }: Readonly<{ scenarioId: Sce
   const [day, setDay] = useState(12);
   const [selected, setSelected] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const primaryNavigation = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (availability && primaryNavigation.current) {
-      const navigation = primaryNavigation.current;
-      navigation.scrollLeft = navigation.scrollWidth - navigation.clientWidth;
-    }
-  }, [availability]);
   const records = fixture?.records ?? [];
   const filtered = records.filter((booking) => booking.customer.toLocaleLowerCase("id-ID").includes(query.toLocaleLowerCase("id-ID")) && (status === "all" || booking.status === status)).sort((a, b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start));
   if (!fixture) return null;
@@ -48,37 +40,33 @@ export function AdminBookingWorkspace({ scenarioId }: Readonly<{ scenarioId: Sce
   const sideRecords = view === "calendar" ? filtered.filter((booking) => booking.date === selectedDate) : shown;
   const respond = (action: string) => setNotice(`${action} tidak diterapkan. ${scenario.interaction.summary}`);
   const changeMonth = (offset: number) => { const date = new Date(Date.UTC(month.year, month.month + offset, 1)); setMonth({ year: date.getUTCFullYear(), month: date.getUTCMonth() }); setDay(1); setLookupDate(""); setSelected(null); };
-  return <div className={styles.page} data-scenario-id={scenario.scenarioId} data-scenario-version={scenario.version}>
-    <a className="skip-link" href="#admin-workspace">Lewati ke workspace</a>
-    <aside className={styles.sidebar}>
-      <div className={styles.brand}><span className={styles.brandMark}>✳</span><span><span className={styles.brandName}>bride.</span><span className={styles.brandCaption}>ASSISTANT PLANNER</span></span></div>
-      <div className={styles.sidebarLabel}>Workspace</div>
-      <nav className={styles.navigation} aria-label="Navigasi utama" ref={primaryNavigation}>
-        {([["Overview", "home", "#admin-workspace"], ["Bookings", "calendar", "/admin"], ["Services & Actions", "heart", "#admin-workspace"], ["Master Packages", "package", "#admin-workspace"], ["Customers", "users", "#admin-workspace"], ["Availability", "clock", "/admin/availability"]] as const).map(([label, icon, href]) => <a key={label} className={`${styles.nav} ${(availability ? label === "Availability" : label === "Bookings") ? styles.navActive : ""}`} href={href}><Icon name={icon} />{label}</a>)}
-      </nav>
-      <div className={styles.sidebarSeparator} /><div className={styles.sidebarLabel}>Website Content</div>
-      <nav className={styles.navigation} aria-label="Kelola konten website">{([["Portfolio & Testimonials", "image"], ["Events", "calendar"], ["Promotions", "megaphone"]] as const).map(([label, icon]) => <a className={styles.nav} href="#admin-workspace" key={label}><Icon name={icon} />{label}</a>)}</nav>
-      <div className={styles.sidebarBottom}><div className={styles.studio}><span className={styles.avatar}>B</span><span><strong>My Bridal Studio</strong><small>Independent Bride Assistant</small></span></div></div>
-    </aside>
-    <div className={styles.content}>
-      <header className={styles.topbar}><div className={styles.breadcrumbs}>Bride Assistant Planner <span aria-hidden="true">/</span> <strong>{availability ? "Availability" : "Bookings"}</strong></div><div className={styles.topActions}><span className={styles.todayLabel}><Icon name="sparkle" small /> Made for your bridal moments</span><span className={styles.profileDot}>B</span></div></header>
-      <main id="admin-workspace">
-        <div className={styles.sectionTitle}><div><div className={styles.eyebrow}>{availability ? "Schedule / Availability" : "Your bridal workspace / Bookings"}</div><h1>{availability ? "Your availability" : "Booking Calendar"}<span className={styles.period}>.</span></h1><p className={styles.subtitle}>{availability ? "Decide when customers can request your bridal care service." : "Keep every bridal booking beautifully organized, from first request to the big day."}</p></div><button className={`${styles.btn} ${availability ? "" : styles.primary}`} onClick={() => respond(availability ? "Preview customer page" : "New Booking")}><Icon name={availability ? "globe" : "plus"} />{availability ? "Preview customer page" : "New Booking"}</button></div>
+  return <AdminWorkspaceFrame
+    active={availability ? "Availability" : "Bookings"}
+    scenarioId={scenario.scenarioId}
+    scenarioVersion={scenario.version}
+    eyebrow={availability ? "Schedule / Availability" : "Your bridal workspace / Bookings"}
+    title={availability ? "Your availability" : "Booking Calendar"}
+    subtitle={availability ? "Decide when customers can request your bridal care service." : "Keep every bridal booking beautifully organized, from first request to the big day."}
+    action={<button className={`${styles.btn} ${availability ? "" : styles.primary}`} onClick={() => respond(availability ? "Preview customer page" : "New Booking")}><Icon name={availability ? "globe" : "plus"} />{availability ? "Preview customer page" : "New Booking"}</button>}
+  >
         {availability ? <Availability blockedDates={fixture.blockedDates} onAction={respond} /> : <>
           <div className={styles.filters}><label className={styles.fieldSearch}><Icon name="search" /><span className={styles.visuallyHidden}>Cari customer</span><input className={styles.input} type="search" placeholder="Search customer name..." value={query} onChange={(event) => { setQuery(event.target.value); setSelected(null); }} /></label><label className={styles.dateLookup}><Icon name="calendar" /><span className={styles.visuallyHidden}>Tanggal booking</span><input type="date" title="Pilih tanggal; pada List View memfilter booking" value={lookupDate} onChange={(event) => { setLookupDate(event.target.value); setSelected(null); if (event.target.value && view === "calendar") { const date = new Date(`${event.target.value}T00:00:00Z`); setMonth({ year: date.getUTCFullYear(), month: date.getUTCMonth() }); setDay(date.getUTCDate()); } }} /></label><select className={styles.select} aria-label="Filter status" value={status} onChange={(event) => { setStatus(event.target.value as CanonicalBookingStatus | "all"); setSelected(null); }}><option value="all">All statuses</option>{statuses.map((value) => <option key={value} value={value}>{value}</option>)}</select><button className={styles.filterClear} onClick={() => { setQuery(""); setLookupDate(""); setStatus("all"); setSelected(null); }}>Reset filters</button><div className={styles.viewtoggle} role="group" aria-label="Booking view"><button className={view === "calendar" ? styles.toggleActive : ""} onClick={() => { setView("calendar"); setSelected(null); }}><Icon name="calendar" />Calendar</button><button className={view === "list" ? styles.toggleActive : ""} onClick={() => { setView("list"); setSelected(null); }}><Icon name="list" />List</button></div></div>
           <div className={styles.mainGrid}><section className={styles.card}>{view === "calendar" ? <Calendar records={records} filtered={filtered} blockedDates={fixture.blockedDates} month={month} day={day} onMonth={changeMonth} onDay={(next) => { setDay(next); setSelected(null); }} /> : <List records={shown} lookupDate={lookupDate} onSelect={setSelected} />}</section><aside className={styles.card}>{active ? <Detail booking={active} onBack={() => setSelected(null)} onAction={respond} /> : <SideList records={sideRecords} view={view} selectedDate={selectedDate} onSelect={setSelected} />}</aside></div>
         </>}
         {notice && <div className={styles.toast} role="status"><Icon name="check" />{notice}</div>}
-      </main>
-    </div>
-  </div>;
+  </AdminWorkspaceFrame>;
 }
 
 function Calendar({ records, filtered, blockedDates, month, day, onMonth, onDay }: { records: readonly Booking[]; filtered: readonly Booking[]; blockedDates: readonly string[]; month: { year: number; month: number }; day: number; onMonth: (offset: number) => void; onDay: (day: number) => void }) {
-  const offset = (new Date(Date.UTC(month.year, month.month, 1)).getUTCDay() + 6) % 7;
-  const last = new Date(Date.UTC(month.year, month.month + 1, 0)).getUTCDate();
-  const count = Math.ceil((offset + last) / 7) * 7;
-  return <div className={styles.cardPad}><div className={styles.cardHead}><div><h2>{monthText(month.year, month.month)}</h2><div className={styles.tiny}>Pilih tanggal untuk melihat daftar booking customer.</div></div><div className={styles.monthNav}><button className={`${styles.btn} ${styles.iconOnly}`} aria-label="Bulan sebelumnya" onClick={() => onMonth(-1)}><Icon name="chevron-left" /></button><button className={`${styles.btn} ${styles.iconOnly}`} aria-label="Bulan selanjutnya" onClick={() => onMonth(1)}><Icon name="chevron-right" /></button></div></div><div className={styles.calendarGrid}>{weekdays.map((label) => <div className={styles.calendarWeekday} key={label}>{label}</div>)}{Array.from({ length: count }, (_, index) => { const number = index - offset + 1; if (number < 1 || number > last) return <div className={`${styles.calendarDay} ${styles.calendarEmpty}`} aria-hidden="true" key={index} />; const date = isoDate(month.year, month.month, number); const all = records.filter((booking) => booking.date === date); const visible = filtered.filter((booking) => booking.date === date); const blocked = blockedDates.includes(date); return <button className={`${styles.calendarDay} ${number === day ? styles.calendarSelected : ""}`} key={index} aria-label={`${formatDate(date)}, ${all.length} booking${blocked ? ", blocked" : ""}`} onClick={() => onDay(number)}><span className={styles.dayNumber}>{number}</span>{blocked && <span className={styles.dayBlock}>Blocked</span>}<span className={styles.dots}>{all.slice(0, 5).map((booking) => <span key={booking.id} className={`${styles.dot} ${statusStyle[booking.status]} ${visible.includes(booking) ? "" : styles.dim}`} title={`${booking.customer}: ${booking.status}`} />)}</span>{visible.length > 0 && <span className={styles.dayCount}>{visible.length} booking</span>}</button>; })}</div><div className={styles.legend}><span><i className={`${styles.dot} ${styles.confirmed}`} />Booking Berhasil</span><span><i className={`${styles.dot} ${styles.requested}`} />Menunggu Konfirmasi</span><span><i className={`${styles.dot} ${styles.hold}`} />Menunggu Pembayaran</span><span><i className={`${styles.dot} ${styles.cancelled}`} />Dibatalkan</span></div><div className={styles.calendarFoot}>Booking yang tidak cocok dengan filter ditampilkan sebagai titik samar. Ketersediaan tidak bergantung pada filter.</div></div>;
+  return <div className={styles.cardPad}><div className={styles.cardHead}><div><h2>{monthText(month.year, month.month)}</h2><div className={styles.tiny}>Pilih tanggal untuk melihat daftar booking customer.</div></div><div className={styles.monthNav}><button className={`${styles.btn} ${styles.iconOnly}`} aria-label="Bulan sebelumnya" onClick={() => onMonth(-1)}><Icon name="chevron-left" /></button><button className={`${styles.btn} ${styles.iconOnly}`} aria-label="Bulan selanjutnya" onClick={() => onMonth(1)}><Icon name="chevron-right" /></button></div></div><BookingCalendar
+    ariaLabel="Kalender booking customer"
+    classes={{ root: styles.calendarGrid, grid: styles.calendarTable, weekday: styles.calendarWeekday, day: styles.calendarDay, selected: styles.calendarSelected }}
+    labelDay={(date) => { const key = calendarDate(date); return `${formatDate(key)}, ${records.filter((booking) => booking.date === key).length} booking${blockedDates.includes(key) ? ", blocked" : ""}`; }}
+    month={new Date(month.year, month.month, 1)}
+    onSelect={(date) => onDay(Number(date.slice(-2)))}
+    renderDay={(date) => { const key = calendarDate(date); const all = records.filter((booking) => booking.date === key); const visible = filtered.filter((booking) => booking.date === key); const blocked = blockedDates.includes(key); return <><span className={styles.dayNumber}>{date.getDate()}</span>{blocked && <span className={styles.dayBlock}>Blocked</span>}<span className={styles.dots}>{all.slice(0, 5).map((booking) => <span key={booking.id} className={`${styles.dot} ${statusStyle[booking.status]} ${visible.includes(booking) ? "" : styles.dim}`} title={`${booking.customer}: ${booking.status}`} />)}</span>{visible.length > 0 && <span className={styles.dayCount}>{visible.length} booking</span>}</>; }}
+    selected={isoDate(month.year, month.month, day)}
+  /><div className={styles.legend}><span><i className={`${styles.dot} ${styles.confirmed}`} />Booking Berhasil</span><span><i className={`${styles.dot} ${styles.requested}`} />Menunggu Konfirmasi</span><span><i className={`${styles.dot} ${styles.hold}`} />Menunggu Pembayaran</span><span><i className={`${styles.dot} ${styles.cancelled}`} />Dibatalkan</span></div><div className={styles.calendarFoot}>Booking yang tidak cocok dengan filter ditampilkan sebagai titik samar. Ketersediaan tidak bergantung pada filter.</div></div>;
 }
 
 function List({ records, lookupDate, onSelect }: { records: readonly Booking[]; lookupDate: string; onSelect: (id: string) => void }) { return <><div className={styles.listHead}><div className={styles.cardHead}><div><h2>All Bookings</h2><div className={styles.tiny}>{records.length} reservasi sesuai filter{lookupDate ? ` pada ${formatDate(lookupDate)}` : ""}.</div></div></div></div>{records.length ? <><div className={styles.tableWrap}><table className={styles.listtable}><thead><tr><th>Tanggal</th><th>Customer / Paket</th><th>Jam</th><th>Status</th></tr></thead><tbody>{records.map((booking) => <tr key={booking.id}><td>{formatDate(booking.date).replace(" 2026", "")}</td><td><button className={styles.tableSelect} onClick={() => onSelect(booking.id)}><strong>{booking.customer}</strong><small>{booking.packageName}</small></button></td><td>{booking.start}–{booking.end}</td><td><Status status={booking.status} /></td></tr>)}</tbody></table></div><p className={styles.tableInfo}>Klik customer untuk membuka detail booking dan paket.</p></> : <div className={styles.empty}>Tidak ada booking yang sesuai dengan filter.</div>}</>; }

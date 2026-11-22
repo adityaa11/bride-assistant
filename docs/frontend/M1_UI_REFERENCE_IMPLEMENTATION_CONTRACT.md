@@ -35,6 +35,23 @@ unchanged.
 
 ## Refactor rules
 
+### Shared layout ownership for remaining admin tickets
+
+M1-T13–T16 must render their route-specific content inside
+`AdminWorkspaceFrame` from `shared/admin-workspace-frame.tsx`. The existing
+Bookings and Availability routes are the baseline for its full-width desktop
+shell, collapsible sidebar, right-side mobile menu, breadcrumb/top bar, title
+region, and responsive breakpoints. Supply `active`, scenario identity,
+heading copy, primary action, and children through the frame API. Do not
+duplicate the shell in a ticket component or add route-specific selectors,
+inline styles, or global CSS that replace or override those shared regions.
+Keep catalogue, customer, publication, and promotion layouts scoped inside
+the frame's `main` content. If a new ticket reveals a genuine shell need,
+change the shared frame once and verify Bookings, Availability, and the new
+route at desktop, 930px, 720px, and 485px before handoff. This later user
+direction supersedes conflicting reference shell-width and mobile-navigation
+rules; preserve the mapped reference's content-specific composition.
+
 1. Extract the mapped HTML's structural regions into JSX/TSX first. Preserve
    element order, semantic roles, meaningful classes, copy, and visual
    hierarchy. Extract repeated **reference-derived** regions into reusable
@@ -101,7 +118,7 @@ shrunk or clipped desktop UI.
 For the shared admin reference, preserve its documented transformations:
 
 - at 1250px: narrower sidebar/content and two-column package grid;
-- at 930px: stacked app shell and horizontally scrollable admin navigation;
+- at 930px: stacked app shell with the shared right-side menu drawer;
 - at 485px: single-column content grids, compact calendar/table/control rules.
 
 For public and customer pages, preserve each page's own reference media

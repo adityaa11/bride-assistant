@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomerFrame } from "@/shared/customer-home";
+import { BookingCalendar, calendarDate, parseCalendarDate } from "@/shared/booking-calendar";
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
 import {
   bookingFixtureId,
@@ -8,10 +9,25 @@ import {
   saveCreatedBookingFixture,
 } from "@/shared/scenarios/customer-booking-store";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import styles from "./customer-booking.module.css";
 
-const weekdays = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
+function subscribeToCalendarDay(onChange: () => void) {
+  let timer: ReturnType<typeof setTimeout>;
+  const schedule = () => {
+    const now = new Date();
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    timer = setTimeout(() => {
+      onChange();
+      schedule();
+    }, tomorrow.getTime() - now.getTime());
+  };
+  schedule();
+  return () => clearTimeout(timer);
+}
+
+const currentCalendarDay = () => calendarDate(new Date());
+const serverCalendarDay = () => undefined;
 
 export function CustomerBooking({
   scenarioId,
@@ -30,6 +46,7 @@ export function CustomerBooking({
   );
   const [selectedPackageId, setSelectedPackageId] = useState("");
   const [formError, setFormError] = useState("");
+  const today = useSyncExternalStore(subscribeToCalendarDay, currentCalendarDay, serverCalendarDay);
   if (scenario.readModel.surface !== "customer") return null;
   const packages = request?.packages ?? [];
   const unavailable = new Set(
@@ -43,17 +60,11 @@ export function CustomerBooking({
   const noPackage = scenarioId === "customer.booking-request-no-package";
   const unavailableState =
     scenarioId === "customer.booking-request-unavailable";
-  const dateLabel =
-    selectedDate === "2026-12-12"
-      ? "12 Desember 2026"
-      : selectedDate === "2026-12-13"
-        ? "13 Desember 2026"
-        : "Belum ada tanggal dipilih";
+  const dateLabel = selectedDate
+    ? new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long", year: "numeric" }).format(parseCalendarDate(selectedDate))
+    : "Belum ada tanggal dipilih";
   const showingDecember = visibleMonth === "december";
   const calendarMonth = showingDecember ? "Desember 2026" : "November 2026";
-  const calendarPrefix = showingDecember ? "2026-12" : "2026-11";
-  const calendarDays = showingDecember ? 31 : 30;
-  const leadingBlanks = showingDecember ? 1 : 6;
   return (
     <CustomerFrame active="Booking Baru" scenarioId={scenarioId}>
       <section className={styles.hero}>
@@ -120,49 +131,20 @@ export function CustomerBooking({
                   </button>
                 </div>
               </header>
-              <div aria-hidden="true" className={styles.weekdays}>
-                {weekdays.map((day) => (
-                  <span key={day}>{day}</span>
-                ))}
-              </div>
-              <div
-                aria-label="Pilih tanggal pernikahan"
-                className={styles.calendar}
-                role="group"
-              >
-                {Array.from({ length: leadingBlanks }, (_, index) => (
-                  <span
-                    aria-hidden="true"
-                    className={styles.blank}
-                    key={`blank-${index}`}
-                  />
-                ))}
-                {Array.from(
-                  { length: calendarDays },
-                  (_, index) => index + 1,
-                ).map((day) => {
-                  const date = `${calendarPrefix}-${String(day).padStart(2, "0")}`;
-                  const blocked = unavailable.has(date);
-                  const selected = selectedDate === date;
-                  const past = !showingDecember && day < 21;
-                  return (
-                    <button
-                      aria-label={`${day} Desember 2026${blocked ? ", tidak tersedia" : ""}`}
-                      aria-pressed={selected || undefined}
-                      className={`${styles.day} ${selected ? styles.selected : ""} ${blocked ? styles.unavailable : ""}`}
-                      disabled={blocked || past}
-                      key={date}
-                      onClick={() => setSelectedDate(date)}
-                      type="button"
-                    >
-                      <span>{day}</span>
-                      <small>
-                        {blocked ? "Penuh" : selected ? "Dipilih" : ""}
-                      </small>
-                    </button>
-                  );
-                })}
-              </div>
+              <BookingCalendar
+                ariaLabel="Pilih tanggal pernikahan"
+                classes={{ root: styles.calendar, grid: styles.calendarGrid, weekday: styles.calendarWeekday, day: styles.day, selected: styles.selected, disabled: styles.disabledDay, unavailable: styles.unavailable }}
+                disabled={[(date) => !today || calendarDate(date) < today, (date) => unavailable.has(calendarDate(date))]}
+                labelDay={(date) => `${date.getDate()} ${date.getMonth() === 10 ? "November" : "Desember"} 2026${unavailable.has(calendarDate(date)) ? ", tidak tersedia" : ""}`}
+                month={new Date(2026, showingDecember ? 11 : 10, 1)}
+                onSelect={setSelectedDate}
+                renderDay={(date, selected) => {
+                  const blocked = unavailable.has(calendarDate(date));
+                  return <><span>{date.getDate()}</span><small>{blocked ? "Penuh" : selected ? "Dipilih" : ""}</small></>;
+                }}
+                selected={selectedDate}
+                unavailable={(date) => unavailable.has(calendarDate(date))}
+              />
               <div className={styles.legend}>
                 <span>
                   <i />
@@ -201,6 +183,10 @@ export function CustomerBooking({
                     setFormError(
                       "Pilih paket dan tanggal wedding sebelum mengajukan booking.",
                     );
+                    return;
+                  }
+                  if (selectedDate < currentCalendarDay() || unavailable.has(selectedDate)) {
+                    setFormError("Tanggal yang dipilih sudah berlalu atau tidak tersedia. Pilih tanggal lain.");
                     return;
                   }
                   const form = new FormData(event.currentTarget);
@@ -283,7 +269,7 @@ export function CustomerBooking({
                 />
                 <div className={styles.two}>
                   <label>
-                    Tanggal Wedding *<input readOnly value={dateLabel} />
+                    Tanggal Wedding *<input placeholder="Pilih Tanggal" readOnly value={selectedDate ? dateLabel : ""} />
                     <input name="date" required type="hidden" value={selectedDate ?? ""} />
                   </label>
                   <Field invalid={invalid} label="Waktu Mulai *" name="startTime" required type="time" />

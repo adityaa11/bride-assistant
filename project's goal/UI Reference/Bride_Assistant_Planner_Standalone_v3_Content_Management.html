@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>bride. | Admin Workspace & Website Content — Soft Rose Atelier</title>
+  <style>
+    :root {
+      --bg:#fffbf9; --surface:#fff; --sidebar:#f8eae8; --sidebar-deep:#f2deda;
+      --rose:#a65450; --rose-hover:#8a4442; --blush:#e5babd; --rose-light:#faeeeb;
+      --terracotta:#c8756b; --ink:#422f35; --body:#644f54; --muted:#806b70;
+      --subtle:#a18b90; --border:#efe2df; --border-dark:#e4d1cc;
+      --success:#477c61; --success-bg:#e8f3ec; --warn:#966c30; --warn-bg:#fdf0dc;
+      --hold:#9a5878; --hold-bg:#f6e8f0; --danger:#a45154;
+      --radius:14px; --shadow:0 9px 34px rgba(87,53,51,.045);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#f2e9e7;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);font-size:14px;line-height:1.5}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    button:disabled{opacity:.45;cursor:not-allowed}
+    button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #d99e9688;outline-offset:2px}
+    .icon{width:17px;height:17px;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none;flex:none}
+    .icon.sm{width:14px;height:14px}.icon.lg{width:21px;height:21px}
+    .app{min-height:100vh;display:grid;grid-template-columns:238px minmax(0,1fr);max-width:1700px;margin:auto;background:var(--bg);box-shadow:0 0 90px #583d3b0b}
+    .sidebar{min-width:0;background:var(--sidebar);border-right:1px solid #eedbd7;padding:31px 17px 20px;display:flex;flex-direction:column;gap:0}
+    .brand{display:flex;align-items:center;gap:11px;padding:3px 10px 35px}
+    .brand-mark{width:41px;height:41px;border-radius:13px;background:var(--rose);color:#fff;display:grid;place-items:center;font:27px Georgia,serif;box-shadow:0 4px 14px #a6545030}
+    .brand-name{font:italic 31px Georgia,"Times New Roman",serif;line-height:1;letter-spacing:-1px}
+    .brand-caption{color:#9a797a;letter-spacing:1.6px;font-size:8px;margin-top:5px;font-weight:750}
+    .sidebar-label{text-transform:uppercase;color:#ad8d8d;font-size:10px;letter-spacing:1.8px;font-weight:700;padding:0 14px;margin:12px 0 10px}
+    .navigation{display:flex;flex-direction:column;gap:4px}
+    .nav{display:flex;align-items:center;gap:12px;width:100%;border:1px solid transparent;border-radius:11px;padding:12px 13px;background:transparent;color:#886d70;font-size:13px;font-weight:550;text-align:left;transition:background .12s,color .12s}
+    .nav:hover{background:#fff8f5}.nav.active{background:#fffaf8;color:#954c49;border-color:#f4e7e3;box-shadow:0 3px 12px #99615c0b;font-weight:750}
+    .nav .icon{width:18px;height:18px}
+    .sidebar-separator{height:1px;background:#ead4d0;margin:22px 10px 9px}
+    .sidebar-bottom{margin-top:auto;padding-top:20px}
+    .studio{background:#f2deda;border:1px solid #edd3cf;border-radius:13px;padding:13px;display:flex;gap:10px;align-items:center}
+    .avatar{width:34px;height:34px;border-radius:50%;background:#e0a7a4;display:grid;place-items:center;color:#784548;font:700 19px Georgia,serif;flex:none}
+    .studio strong{font-size:12px;display:block}.studio small{display:block;font-size:10px;color:#957779;margin-top:2px}
+    .offline{font-size:10px;color:#a28384;padding:13px 3px 0;line-height:1.5}
+    .content{padding:31px clamp(20px,3.3vw,55px) 36px;min-width:0}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:34px}
+    .breadcrumbs{color:#a68585;font-size:11px;letter-spacing:.2px}.breadcrumbs strong{color:#815e60;font-weight:700}
+    .top-actions{display:flex;align-items:center;gap:11px}
+    .today-label{border:1px solid #ead8d3;border-radius:20px;padding:7px 12px;display:flex;align-items:center;gap:7px;font-size:11px;color:#9b7879;background:#fff}
+    .profile-dot{width:30px;height:30px;border-radius:50%;background:#f0d4d0;color:#a05450;display:grid;place-items:center;font:700 14px Georgia,serif}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:25px}
+    .eyebrow{letter-spacing:2px;color:#b07b78;text-transform:uppercase;font-size:10px;font-weight:800}
+    h1,h2,h3,h4,p{margin:0}h1,h2,.serif{font-family:Georgia,"Times New Roman",serif;font-weight:400}
+    h1{font-size:clamp(30px,3.2vw,43px);letter-spacing:-.9px;line-height:1.15;margin:9px 0 7px}h1 .period{color:#cb827b}
+    .subtitle{color:var(--muted);font-size:12px;max-width:680px;line-height:1.7}
+    .btn{border:1px solid var(--border-dark);border-radius:10px;background:#fff;color:var(--ink);padding:10px 13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:700;line-height:1.3;white-space:nowrap}
+    .btn:hover{background:#fcf3f0;border-color:#d6aba5}.btn.primary{background:var(--rose);color:#fff;border-color:var(--rose);box-shadow:0 4px 13px #a6545023}.btn.primary:hover{background:var(--rose-hover)}
+    .btn.subtle{background:#f9efed;color:#98534e;border-color:#f3e1dd}.btn.small{padding:7px 10px;font-size:11px}.btn.icon-only{width:34px;height:34px;padding:8px}.btn.ghost{border-color:transparent;background:transparent;color:#986b68}.btn.ghost:hover{background:var(--rose-light)}
+    .filters{background:#fff;border:1px solid var(--border);border-radius:14px;padding:13px;display:flex;align-items:center;gap:11px;margin-bottom:18px;flex-wrap:wrap;box-shadow:var(--shadow)}
+    .field-search{position:relative;flex:1 1 210px;min-width:180px}.field-search .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#b29798}
+    .input,.select{min-height:38px;background:#fff;border:1px solid #eadedb;border-radius:9px;color:#5a4548;padding:9px 11px;font-size:12px;width:100%;outline:none}
+    .input::placeholder{color:#b4a0a1}.field-search .input{padding-left:36px}.input:focus,.select:focus{border-color:#bd7e76;box-shadow:0 0 0 3px #e7b7b027}
+    .date-lookup{width:160px;display:flex;align-items:center;gap:6px;padding:0 9px;border:1px solid #eadedb;border-radius:9px;background:white;min-height:38px;color:#b49090}
+    .date-lookup input{border:0;background:none;outline:none;font-size:11px;color:#664e53;min-width:0;width:100%;height:32px}
+    .filters>.select{width:150px}.filter-clear{border:0;background:transparent;color:#a05e59;font-size:11px;font-weight:700;padding:7px}
+    .viewtoggle{display:flex;gap:3px;padding:4px;border-radius:10px;background:#f9eeee;border:1px solid #f4e6e3;margin-left:auto}
+    .viewtoggle button{display:flex;align-items:center;gap:7px;border:0;border-radius:7px;color:#9b7b80;background:transparent;padding:8px 12px;font-size:12px;font-weight:650}
+    .viewtoggle button.active{background:#fff;color:#9a504b;box-shadow:0 2px 7px #845b5b15}
+    .main-grid{display:grid;grid-template-columns:minmax(0,1.68fr) minmax(300px,.9fr);gap:18px;align-items:start}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:15px;box-shadow:var(--shadow);min-width:0;overflow:hidden}
+    .card-pad{padding:22px}.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}
+    h2{font-size:25px;letter-spacing:-.35px}h3{font-size:17px;font-weight:700}.tiny{font-size:11px;color:var(--muted)}
+    .month-nav{display:flex;gap:6px}.month-nav .btn{width:31px;height:31px;padding:6px}
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+    .calendar-weekday{text-align:center;color:#a68d90;font-weight:750;font-size:10px;padding:5px 0 11px}
+    .calendar-day{min-height:89px;text-align:left;display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:10px 9px;border:1px solid #f0e7e4;background:#fffbfa;color:#694f54;border-radius:10px;transition:background .12s,border-color .12s;min-width:0}
+    .calendar-day:not(:disabled):hover{background:#fcf0ed;border-color:#ddb7ae}.calendar-day.selected{background:#f9e8e4;border:1.5px solid var(--rose)}
+    .calendar-day .n{font-size:13px;font-weight:650}.calendar-day.selected .n{color:#924544;font-weight:800}
+    .calendar-day.empty{background:transparent;border-color:transparent;cursor:default}
+    .dots{display:flex;gap:3px;flex-wrap:wrap;margin-top:auto}.dot{width:7px;height:7px;display:inline-block;border-radius:50%;background:#6c9c7f}.dot.requested{background:#d5a259}.dot.hold{background:#b97e9b}.dot.completed{background:#a9b2b2}.dot.cancelled{background:#d0cbca}.dot.dim{opacity:.22}
+    .day-count{font-size:9px;color:#a58689;margin-left:auto}.day-block{font-size:9px;color:#a25957;background:#f6e4df;padding:2px 5px;border-radius:4px}
+    .legend{border-top:1px solid #f1e9e6;margin-top:18px;padding-top:15px;display:flex;align-items:center;flex-wrap:wrap;gap:15px;color:#988588;font-size:11px}.legend-item{display:inline-flex;align-items:center;gap:6px}.legend-item .dot{width:8px;height:8px}
+    .calendar-foot{font-size:11px;color:#a18d8e;line-height:1.5;margin-top:14px}
+    .side-head{background:linear-gradient(110deg,#faebe7,#fff9f6);border-bottom:1px solid #f0e2dd;padding:19px 20px}
+    .side-head .eyebrow{font-size:9px;margin-bottom:7px}.side-head h2{font-size:24px;margin-bottom:5px}
+    .side-inner{padding:14px;display:flex;flex-direction:column;gap:10px;max-height:615px;overflow:auto}
+    .booking-item{display:block;width:100%;background:#fff;border:1px solid #eee1de;border-radius:12px;padding:13px;text-align:left;color:inherit;transition:.12s}
+    .booking-item:hover{background:#fff8f6;border-color:#dbb3aa}
+    .item-row{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.item-name{font-weight:750;font-size:13px;color:#5a4248}
+    .item-meta{font-size:11px;color:#9b8386;line-height:1.9;margin-top:7px}.item-footer{color:#a55e55;font-size:11px;font-weight:750;margin-top:9px;text-align:right}
+    .status{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:750;border-radius:6px;padding:4px 7px;white-space:nowrap}
+    .status.confirmed{color:#437858;background:#e7f3eb}.status.requested{color:#936a31;background:#fdf0d9}.status.hold{color:#97597a;background:#f6e7ee}.status.completed{color:#5e6f72;background:#e9eff0}.status.cancelled{color:#a26465;background:#f5e8e7}
+    .empty{padding:36px 15px;text-align:center;color:#9b898a;font-size:12px;line-height:1.8}.empty .icon{width:30px;height:30px;color:#d5aeaa;margin-bottom:10px}
+    .detail-back{border:0;background:transparent;color:#a05550;font-weight:700;font-size:11px;display:flex;gap:6px;align-items:center;padding:0;margin-bottom:13px}
+    .detail-header{display:flex;align-items:center;justify-content:space-between;gap:7px;flex-wrap:wrap}
+    .detail-section{border-bottom:1px solid #f0e6e4;padding:15px 0}.detail-section:last-child{border-bottom:0}
+    .detail-label{color:#a98788;text-transform:uppercase;letter-spacing:1.3px;font-size:10px;font-weight:800;margin-bottom:10px}
+    .detail-row{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:5px 0}.detail-row span:first-child{color:#917c80}.detail-row strong{text-align:right;font-weight:700}
+    .action-check{display:flex;align-items:flex-start;gap:9px;padding:4px 0;color:#655055;font-size:11px}.action-check .icon{color:#b26d68;width:14px;height:14px;margin-top:2px}
+    .detail-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+    .listtable{width:100%;border-collapse:collapse;text-align:left}.listtable th{background:#fcf3f1;color:#a0878b;font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:13px 12px}.listtable td{font-size:12px;color:#645055;padding:14px 12px;border-bottom:1px solid #f1e7e4}.listtable tr.clickable{cursor:pointer}.listtable tr.clickable:hover{background:#fff7f4}.listtable .name{font-weight:750;color:#574044}.table-wrap{overflow-x:auto}.table-info{padding:12px 22px 0;color:#a08a8a;font-size:11px}
+    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.stat-card{padding:19px;position:relative}.stat-label{font-size:11px;font-weight:700;color:#957e82}.stat-number{font:33px Georgia,serif;margin-top:12px}.stat-hint{font-size:11px;color:#a18d8f;margin-top:7px}.stat-icon{position:absolute;right:17px;top:16px;background:#f9ece8;color:#ac6963;border-radius:10px;width:34px;height:34px;display:grid;place-items:center}
+    .section-row{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:25px 0 12px}.section-row h2{font-size:24px}
+    .package-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.package-card{padding:20px;display:flex;flex-direction:column;gap:13px;position:relative}
+    .package-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.package-number{font:italic 29px Georgia,serif;color:#d8aba7}
+    .package-title{font:23px Georgia,serif;line-height:1.15}.price{color:#9b4e4c;font-weight:800;font-size:19px}.package-desc{color:#947f83;font-size:11px;line-height:1.6;min-height:36px}.package-inclusions{border-top:1px solid #f2e7e4;padding-top:13px;display:flex;flex-direction:column;gap:8px;flex:1}.package-inclusions span{font-size:11px;color:#6e5b5d;display:flex;align-items:flex-start;gap:7px}.package-inclusions .icon{color:#b96f6a;width:13px;height:13px;margin-top:2px}
+    .package-card .btn{margin-top:5px}.hintbox{background:#fcf3f0;border:1px solid #f0dfd9;color:#8a6d70;border-radius:12px;padding:15px;font-size:12px;line-height:1.7;margin-top:20px}
+    .customer-card{padding:16px;display:flex;gap:13px;align-items:center;text-align:left;width:100%;background:#fff;border:1px solid var(--border);border-radius:12px;color:inherit}.customer-card:hover{background:#fff7f5}.customer-initial{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#f4dcd9;color:#a55f5a;font:20px Georgia,serif}.customer-card strong{font-size:13px}.customer-card small{font-size:11px;color:#968287;display:block;margin-top:5px}.customer-card .icon{margin-left:auto;color:#b88985}
+    .customer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .availability-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-field{display:flex;flex-direction:column;gap:6px}.form-field label{font-size:11px;font-weight:750;color:#7c6467}.form-field small{font-size:10px;color:#a18b8d}.field-help{font-size:11px;color:#a18c8f;line-height:1.6}
+    .blocked-list{display:flex;flex-wrap:wrap;gap:8px;padding-top:12px}.blocked-chip{background:#f6e6e1;border:1px solid #edcfca;border-radius:8px;padding:7px 9px;font-size:11px;color:#935853;display:flex;align-items:center;gap:6px}.blocked-chip button{border:0;background:none;color:#a65751;font-weight:800;padding:0 2px}
+    .public-wrap{max-width:970px;margin:0 auto}.public-hero{text-align:center;padding:35px 20px 23px;background:linear-gradient(135deg,#f9e9e6,#fffaf7);border-radius:17px;border:1px solid #efd9d2;margin-bottom:18px}.public-hero h1{font:italic 43px Georgia,serif;margin:10px 0}.public-hero p{color:#9a7d80;font-size:12px}
+    .public-layout{display:grid;grid-template-columns:1fr 1.05fr;gap:17px}.public-packages{display:grid;gap:9px}.public-package{width:100%;background:white;border:1px solid #ecdfdc;border-radius:11px;padding:14px;text-align:left;color:#655155}.public-package.chosen{border:2px solid var(--rose);background:#fdf1ee}.public-package strong{font:19px Georgia,serif}.public-package span{color:#a05754;font-size:12px;font-weight:800}
+    .slot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}.slot{padding:9px 5px;border:1px solid #eaddda;border-radius:8px;background:#fff;color:#745e62;font-size:11px}.slot.active{background:#a65450;color:#fff;border-color:#a65450}.slot:hover:not(:disabled){border-color:#a65450}.slot:disabled{background:#f5eeee;color:#baa8a7}
+    .modal-bg{position:fixed;inset:0;background:#35262ab3;z-index:50;display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(2px)}
+    .modal{width:min(100%,700px);max-height:min(92vh,900px);overflow:auto;background:#fffbf9;border-radius:18px;box-shadow:0 30px 100px #25171b4a;border:1px solid #e9d4d0}
+    .modal-head{padding:20px 23px 17px;border-bottom:1px solid #efdfdb;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;background:linear-gradient(115deg,#faeae6,#fff9f7)}
+    .modal-head h2{font-size:26px;margin-top:4px}.modal-body{padding:21px 23px;display:grid;gap:15px}.modal-footer{border-top:1px solid #f0e4e1;padding:16px 23px;display:flex;justify-content:flex-end;gap:9px}
+    .checkbox-grid{display:grid;gap:10px}.checklabel{display:flex;align-items:flex-start;gap:9px;color:#695458;font-size:12px;line-height:1.5}.checklabel input{accent-color:#a65450;margin-top:2px}.toast{position:fixed;right:23px;bottom:23px;z-index:100;background:#62464d;color:#fff;box-shadow:0 10px 30px #3c1a1a30;border-radius:11px;padding:13px 18px;max-width:min(430px,calc(100vw - 30px));font-size:12px;line-height:1.5;display:flex;align-items:center;gap:10px}
+    .catalog-toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:0 0 16px}
+    .catalog-toolbar .field-search{min-width:190px}.catalog-toolbar .select{width:155px}
+    .subtabs{display:inline-flex;border:1px solid #ecd8d4;border-radius:10px;background:#f8eae7;padding:4px;gap:4px}
+    .subtabs button{background:transparent;border:0;border-radius:7px;color:#906f74;font-size:12px;font-weight:700;padding:9px 13px}
+    .subtabs button.active{color:#99524f;background:#fff;box-shadow:0 2px 8px #99524f14}
+    .catalog-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .catalog-card{padding:18px;display:flex;flex-direction:column;gap:11px}
+    .catalog-card h3{font:21px Georgia,serif;font-weight:400}
+    .catalog-meta{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+    .pill{display:inline-flex;align-items:center;gap:5px;border-radius:7px;font-size:10px;padding:4px 8px;font-weight:700;background:#f7eae6;color:#985e59}
+    .pill.service{background:#f4e4ed;color:#925778}.pill.action{background:#f0ece7;color:#876c5e}.pill.bundle{background:#fbe9e5;color:#b25c54}
+    .catalog-card p{font-size:11px;color:#907a7f;line-height:1.65;flex:1}
+    .card-tools{display:flex;gap:7px;margin-top:4px;flex-wrap:wrap}.card-tools .btn{flex:1}
+    .selection-list{border:1px solid #efdfdc;border-radius:11px;overflow:hidden;background:#fff;max-height:205px;overflow-y:auto}
+    .selection-row{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border-bottom:1px solid #f5ece9;font-size:12px;cursor:pointer}
+    .selection-row:last-child{border-bottom:0}.selection-row:hover{background:#fff8f6}.selection-row input{accent-color:#a65450;margin-top:4px}
+    .selection-row strong{display:block;color:#654950}.selection-row small{display:block;color:#9a8387;font-size:10px;margin-top:3px;line-height:1.5}
+    .selection-row[data-hidden="true"]{display:none}
+    .selection-summary{border:1px dashed #dcb7b0;background:#fff8f5;border-radius:11px;padding:13px;font-size:11px;color:#74585e;line-height:1.7}
+    .selection-summary strong{color:#9e5550}
+    .mini-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+    .preview-header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}
+    .split-note{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px}
+    .split-note .card{padding:14px;background:linear-gradient(135deg,#fff,#fff7f5)}
+    .split-note b{display:block;font:26px Georgia,serif;font-weight:400;margin-top:5px}
+    @media(max-width:720px){.catalog-grid{grid-template-columns:1fr}.split-note{grid-template-columns:1fr 1fr}}
+    @media(max-width:420px){.split-note{grid-template-columns:1fr}.subtabs{width:100%}.subtabs button{flex:1}}
+    .muted{color:var(--muted)}.nowrap{white-space:nowrap}.spacer{flex:1}.divider{border:0;border-top:1px solid var(--border);margin:14px 0}.visually-hidden{position:absolute;height:1px;width:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+    @media(max-width:1250px){.app{grid-template-columns:207px 1fr}.content{padding:26px 23px}.main-grid{grid-template-columns:minmax(0,1.4fr) minmax(260px,.9fr)}.calendar-day{min-height:76px;padding:8px 6px}.sidebar{padding-left:11px;padding-right:11px}.package-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:930px){.app{grid-template-columns:1fr}.sidebar{padding:13px 16px;position:relative;display:block}.sidebar .brand{padding:0 0 12px}.sidebar .brand-mark{width:30px;height:30px;font-size:21px}.brand-name{font-size:24px}.brand-caption{font-size:7px}.sidebar-label,.sidebar-separator,.sidebar-bottom{display:none}.navigation{flex-direction:row;overflow-x:auto;gap:5px}.nav{width:auto;padding:9px 12px;flex:none}.nav .icon{width:16px;height:16px}.content{padding:22px 17px}.topbar{margin-bottom:22px}}
+    @media(max-width:720px){.main-grid,.public-layout,.availability-grid{grid-template-columns:1fr}.filters{gap:8px}.viewtoggle{margin-left:0}.card-pad{padding:16px}.side-inner{max-height:none}.calendar-day{min-height:65px;padding:6px}.calendar-grid{gap:4px}.day-count{font-size:8px}.cards{grid-template-columns:1fr 1fr}.package-grid,.customer-grid{grid-template-columns:1fr 1fr}.section-title{align-items:flex-start}.top-actions .today-label{display:none}}
+    @media(max-width:485px){.content{padding:17px 12px}.sidebar{padding:11px}.brand-mark{display:none}.nav{font-size:11px;gap:5px;padding:8px}.nav .icon{width:14px;height:14px}.section-title{gap:8px}.section-title .btn{font-size:10px;padding:8px}.filters>.select{flex:1 1 110px;width:auto}.date-lookup{flex:1 1 135px;width:auto}.viewtoggle{width:100%;justify-content:center}.viewtoggle button{flex:1;justify-content:center}.field-search{flex-basis:100%}h1{font-size:29px}.calendar-day{min-height:53px;padding:5px 4px;gap:3px}.calendar-day .n{font-size:11px}.dots{gap:2px}.dot{width:5px;height:5px}.calendar-weekday{font-size:9px}.day-block{font-size:7px;padding:1px 2px}.cards,.package-grid,.customer-grid,.form-row{grid-template-columns:1fr}.modal-body{padding:17px}.public-hero h1{font-size:34px}.listtable th,.listtable td{padding:10px 7px;font-size:10px}}
+    /* Content management — shares the Soft Rose Atelier design system */
+    .web-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:0 0 20px}
+    .web-stat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:17px 19px;min-width:0;box-shadow:var(--shadow)}
+    .web-stat span{display:block;font-size:11px;font-weight:700;color:#927b80}
+    .web-stat strong{display:block;font:32px Georgia,serif;font-weight:400;color:#68464b;margin-top:5px}
+    .web-stat small{font-size:10px;color:#ad9294}
+    .web-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 19px}
+    .web-intro{color:#937e81;font-size:12px;line-height:1.7;margin-top:0}
+    .web-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+    .web-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);border-radius:15px;min-width:0;overflow:hidden;box-shadow:var(--shadow)}
+    .web-media{aspect-ratio:1.65;background:linear-gradient(135deg,#f8e7e3,#ead0ce);display:grid;place-items:center;overflow:hidden;color:#b78782}
+    .web-media img{width:100%;height:100%;object-fit:cover;display:block}.web-media .icon{width:34px;height:34px;opacity:.65}
+    .web-card-body{padding:18px 18px 15px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .web-card h3{font:22px/1.2 Georgia,serif;font-weight:400;overflow-wrap:anywhere;color:#5b4046}
+    .web-card p{font-size:12px;line-height:1.7;color:#8d797e;overflow-wrap:anywhere}
+    .web-quote{font:italic 18px/1.6 Georgia,serif!important;color:#654b53!important}
+    .web-card-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-height:23px}
+    .web-card-actions{border-top:1px solid #f0e7e4;margin-top:auto;padding-top:13px;display:flex;flex-wrap:wrap;gap:7px}
+    .web-card-actions .btn{flex:1 1 auto}
+    .web-state{display:inline-flex;align-items:center;border-radius:20px;background:#f7eeeb;color:#95625c;padding:5px 9px;font-size:10px;font-weight:750;letter-spacing:.15px}
+    .web-state.is-live{background:#e8f3ec;color:#477c61}.web-state.is-future{background:#fdf0dc;color:#966c30}.web-state.is-ended{background:#f1eceb;color:#8b777c}
+    .web-empty{padding:55px 22px;border:1px dashed #e7cbc5;background:#fffaf8;border-radius:16px;text-align:center;max-width:100%}
+    .web-empty .icon{height:29px;width:29px;color:#bc8e87;margin-bottom:9px}
+    .web-empty h2{font-size:25px;margin-bottom:9px}.web-empty p{font-size:12px;line-height:1.7;color:#9e8388;max-width:500px;margin:0 auto 17px}
+    .web-tabs{display:inline-flex;flex-wrap:wrap;padding:4px;border-radius:10px;background:#f8eae7;border:1px solid #ecd8d4;gap:4px}
+    .web-tabs button{border:0;background:transparent;color:#906f74;padding:9px 12px;font-size:12px;font-weight:700;border-radius:7px}
+    .web-tabs button.active{background:#fff;color:#99524f;box-shadow:0 2px 8px #99524f14}
+    .web-img-preview{border:1px dashed #e3c5bf;border-radius:11px;min-height:126px;background:#fbf3f0;overflow:hidden;display:grid;place-items:center;color:#a98c90;font-size:11px;text-align:center}
+    .web-img-preview img{width:100%;height:180px;object-fit:cover;display:block}
+    .web-highlight{font:32px Georgia,serif;color:#9e5753}
+    .web-package-pick{display:grid;gap:7px;max-height:180px;overflow:auto;padding:12px;border:1px solid #eadedb;background:#fff;border-radius:10px}
+    .web-package-pick .checklabel{padding:2px 0}
+    .web-inline{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+    .web-inline >*{flex:1 1 170px}
+    .web-caption{color:#aa8f92;font-size:11px;line-height:1.6}
+    @media(max-width:1150px){.web-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:720px){.web-grid,.web-stats{grid-template-columns:1fr 1fr}.web-toolbar{align-items:stretch}}
+    @media(max-width:485px){.web-grid,.web-stats{grid-template-columns:1fr}.web-toolbar .btn{flex:1}.web-tabs{width:100%}.web-tabs button{flex:1}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <svg class="visually-hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2l1.8 7.2L21 11l-7.2 1.8L12 20l-1.8-7.2L3 11l7.2-1.8L12 2z"/><path d="M19 18v4M17 20h4"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z"/><path d="M9 21v-8h6v8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M8 14h2M14 14h2M8 18h2"/></symbol>
+    <symbol id="i-package" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5zM3 7v10l9 5 9-5V7M12 12v10"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21v-2a7 7 0 0 1 14 0v2H2zM17 4a4 4 0 0 1 0 8M17 15a5 5 0 0 1 5 5v1"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-6 5-6 13 0 18M12 3c6 5 6 13 0 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.7" cy="10.7" r="7"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M5 12h14"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M4 16.8 16.8 4a2 2 0 0 1 2.8 2.8L6.8 19.6 3 21l1-4.2z"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 3 7M3 3v8h8"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="2"/><path d="m4 18 6-6 4 4 3-3 4 4"/></symbol>
+    <symbol id="i-quote" viewBox="0 0 24 24"><path d="M10 11H4v8h7v-8H6c0-4 2-6 5-7M21 11h-6v8h7v-8h-5c0-4 2-6 5-7"/></symbol>
+    <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 11v3c0 2 2 3 4 3h2l2 5 3-1-2-5L21 20V5l-9 4H7c-2 0-4 1-4 2z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.3a5.5 5.5 0 0 0-7.8 0L12 6.4l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-8.9a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+  </svg>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">✳</div><div><div class="brand-name">bride.</div><div class="brand-caption">ASSISTANT PLANNER</div></div></div>
+      <div class="sidebar-label">Workspace</div>
+      <nav class="navigation" aria-label="Navigasi utama">
+        <button class="nav" data-page="overview"><svg class="icon"><use href="#i-home"/></svg> Overview</button>
+        <button class="nav active" data-page="bookings"><svg class="icon"><use href="#i-calendar"/></svg> Bookings</button>
+        <button class="nav" data-page="catalog"><svg class="icon"><use href="#i-heart"/></svg> Services &amp; Actions</button>
+        <button class="nav" data-page="packages"><svg class="icon"><use href="#i-package"/></svg> Master Packages</button>
+        <button class="nav" data-page="customers"><svg class="icon"><use href="#i-users"/></svg> Customers</button>
+        <button class="nav" data-page="availability"><svg class="icon"><use href="#i-clock"/></svg> Availability</button>
+      </nav>
+        <div class="sidebar-separator"></div>
+        <div class="sidebar-label">Website Content</div>
+        <nav class="navigation" aria-label="Kelola konten website">
+          <button class="nav" data-page="stories"><svg class="icon"><use href="#i-image"/></svg> Portfolio &amp; Testimonials</button>
+          <button class="nav" data-page="events"><svg class="icon"><use href="#i-calendar"/></svg> Events</button>
+          <button class="nav" data-page="promotions"><svg class="icon"><use href="#i-megaphone"/></svg> Promotions</button>
+        </nav>
+        <div class="sidebar-separator"></div>
+        <div class="sidebar-label">Customer experience</div>
+      <nav class="navigation"><button class="nav" data-page="public"><svg class="icon"><use href="#i-globe"/></svg> Public Booking Page</button></nav>
+      <div class="sidebar-bottom">
+        <div class="studio"><div class="avatar">B</div><div><strong>My Bridal Studio</strong><small>Independent Bride Assistant</small></div></div>
+        <div class="offline">✳ Standalone interactive prototype<br>Data demo tersimpan di browser ini saja.</div>
+      </div>
+    </aside>
+    <div class="content">
+      <header class="topbar"><div class="breadcrumbs">Bride Assistant Planner <span aria-hidden="true">/</span> <strong id="breadcrumb">Bookings</strong></div><div class="top-actions"><span class="today-label"><svg class="icon sm"><use href="#i-sparkle"/></svg> Made for your bridal moments</span><div class="profile-dot">B</div></div></header>
+      <main id="main"></main>
+    </div>
+  </div>
+  <div id="modal-root"></div><div id="toast-root" role="status" aria-live="polite"></div>
+  <script>
+  (() => {
+    'use strict';
+    const ICON = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
+    const esc = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const money = v => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(v)||0);
+    const pad = x => String(x).padStart(2,'0');
+    const dateLocal = (y,m,d) => `${y}-${pad(m+1)}-${pad(d)}`;
+    const formatDate = date => { if(!date)return '—'; const [y,m,d]=date.split('-').map(Number);return new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(y,m-1,d))); };
+    const timeToMinutes = s => { const [h,m]=String(s).split(':').map(Number); return h*60+m; };
+    const minutesToTime = t => `${pad(Math.floor(t/60))}:${pad(t%60)}`;
+    const monthText = (y,m)=> new Intl.DateTimeFormat('id-ID',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(y,m,1)));
+    const actionSeed = [
+      {id:'attire',type:'Action',name:'Bridal Attire Assistance',description:'Merapikan gaun, veil, dan aksesori pengantin'},
+      {id:'makeup',type:'Action',name:'Makeup Touch-up Reminder',description:'Mengingatkan pengantin untuk touch-up makeup'},
+      {id:'mobility',type:'Action',name:'Bride Mobility Assistance',description:'Mendampingi mobilitas pengantin sepanjang acara'},
+      {id:'personal',type:'Action',name:'Personal Care Assistance',description:'Membantu kebutuhan personal pengantin'},
+      {id:'belongings',type:'Action',name:'Personal Belongings Check',description:'Mengecek dan menyerahkan kembali barang pribadi'},
+      {id:'outfit',type:'Action',name:'Outfit Change Assistance',description:'Mendampingi pergantian busana pengantin'},
+      {id:'service-companion',type:'Service',name:'Personal Bridal Companion',description:'Layanan pendampingan personal pengantin selama acara'},
+      {id:'service-transition',type:'Service',name:'Ceremony Transition Support',description:'Mendampingi pengantin saat transisi antarprosesi'}
+    ];
+    const bundleSeed = [
+      {id:'bundle-essentials',name:'Essential Bridal Care',description:'Kebutuhan utama pendampingan pengantin.',items:['service-companion','attire','makeup','mobility','personal']},
+      {id:'bundle-extended',name:'Extended Day Support',description:'Dukungan tambahan untuk rangkaian acara yang lebih panjang.',items:['service-transition','belongings','outfit']}
+    ];
+    const packageSeed = [
+      {id:'p1',name:'The Intimate Care',hours:3,price:200000,description:'Pendampingan singkat untuk momen yang intim dan berkesan.',selections:[{kind:'bundle',id:'bundle-essentials'}],active:true},
+      {id:'p2',name:'The Gentle Companion',hours:5,price:300000,description:'Dukungan personal dari persiapan hingga prosesi utama.',selections:[{kind:'bundle',id:'bundle-essentials'},{kind:'item',id:'belongings'}],active:true},
+      {id:'p3',name:'The Full Day Care',hours:8,price:400000,description:'Pendampingan lebih lengkap sepanjang rangkaian acara.',selections:[{kind:'bundle',id:'bundle-essentials'},{kind:'bundle',id:'bundle-extended'}],active:true}
+    ];
+    const bookingsSeed = [
+      {id:'b1',date:'2026-11-05',start:'09:00',end:'14:00',customer:'Putri Amelia',phone:'0812-0000-1105',location:'Serpong, Tangerang Selatan',status:'Completed',packageId:'p2',snapshot:null,source:'BA',notes:'Perhatikan aksesori saat prosesi.'},
+      {id:'b2',date:'2026-11-12',start:'08:00',end:'11:00',customer:'Dinda Prameswari',phone:'0812-0000-1112',location:'Tangerang',status:'Confirmed',packageId:'p1',snapshot:null,source:'BA',notes:'Tiba lebih awal untuk persiapan veil.'},
+      {id:'b3',date:'2026-11-12',start:'14:00',end:'19:00',customer:'Nabila Putri',phone:'0812-0000-1212',location:'BSD City',status:'Requested',packageId:'p2',snapshot:null,source:'Customer',notes:''},
+      {id:'b4',date:'2026-11-14',start:'08:00',end:'16:00',customer:'Salsa Dewi',phone:'0812-0000-1114',location:'Jakarta Selatan',status:'On Hold',packageId:'p3',snapshot:null,source:'BA',notes:'Menunggu konfirmasi DP.'},
+      {id:'b5',date:'2026-11-20',start:'07:00',end:'12:00',customer:'Aulia Rahma',phone:'0812-0000-1120',location:'Jakarta Barat',status:'Requested',packageId:'p2',snapshot:null,source:'Customer',notes:''},
+      {id:'b6',date:'2026-11-24',start:'08:00',end:'11:00',customer:'Rania Kamil',phone:'0812-0000-1124',location:'Ciputat',status:'Confirmed',packageId:'p1',snapshot:null,source:'BA',notes:''}
+    ];
+    const STORAGE_KEY='bride-planner-soft-rose-v2';
+    const LEGACY_KEY='bride-planner-soft-rose-v1';
+    function selectionsFor(p){return Array.isArray(p.selections)?p.selections:Array.isArray(p.actions)?p.actions.map(id=>({kind:'item',id})):[]}
+    function expandSelections(selections,sourceDb){
+      const unique=new Set(),result=[];
+      for(const select of selections){
+        const ids=select.kind==='bundle'?(sourceDb.bundles.find(b=>b.id===select.id)?.items||[]):[select.id];
+        for(const id of ids){const item=sourceDb.actions.find(a=>a.id===id);if(item&&!unique.has(id)){unique.add(id);result.push({id:item.id,type:item.type||'Action',name:item.name,description:item.description})}}
+      }
+      return result;
+    }
+    function snapshotPackage(pkg,sourceDb){const selections=selectionsFor(pkg);return {...structuredClone(pkg),selections:structuredClone(selections),resolvedItems:expandSelections(selections,sourceDb),selectedBundles:selections.filter(s=>s.kind==='bundle').map(s=>sourceDb.bundles.find(b=>b.id===s.id)?.name||s.id)} }
+    function freshData(){
+      const obj={actions:structuredClone(actionSeed),bundles:structuredClone(bundleSeed),packages:structuredClone(packageSeed),bookings:[],blockedDates:['2026-11-18','2026-11-26'],portfolio:[],testimonials:[],events:[],promotions:[],startHour:'06:00',endHour:'22:00',buffer:60};
+      obj.bookings=bookingsSeed.map(b=>({...b,snapshot:snapshotPackage(obj.packages.find(p=>p.id===b.packageId),obj)}));return obj;
+    }
+    let db;
+    try{
+      const stored=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
+      const legacy=!stored?JSON.parse(localStorage.getItem(LEGACY_KEY)||'null'):null;
+      db=(stored||legacy)&&Array.isArray((stored||legacy).bookings)&&Array.isArray((stored||legacy).packages)?(stored||legacy):freshData();
+      db.actions=(db.actions||structuredClone(actionSeed)).map(a=>({...a,type:a.type||'Action'}));
+      if(!Array.isArray(db.bundles))db.bundles=structuredClone(bundleSeed);
+      for(const collection of ['portfolio','testimonials','events','promotions'])if(!Array.isArray(db[collection]))db[collection]=[];
+      for(const pkg of db.packages){pkg.selections=selectionsFor(pkg)}
+      for(const b of db.bookings){
+        if(b.snapshot&&!Array.isArray(b.snapshot.resolvedItems))b.snapshot=snapshotPackage(b.snapshot,db);
+      }
+    }catch{db=freshData()}
+    function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(db));return true}catch(e){console.warn('Local storage unavailable',e);toast('Penyimpanan browser penuh / tidak tersedia. Gunakan gambar lebih kecil atau pindahkan data ke server.');return false}}
+    let ui={catalogTab:'items',catalogQuery:'',catalogType:'all',page:'bookings',view:'calendar',year:2026,month:10,day:12,query:'',status:'all',lookupDate:'',detailId:null,customerDetail:null,publicPackage:'p1',publicDate:'2026-11-13',publicTime:'',publicDone:false,websiteTab:'portfolio',websiteQuery:''};
+    const main=document.getElementById('main');const modalRoot=document.getElementById('modal-root');
+    const statusMap={'Confirmed':'confirmed','Requested':'requested','On Hold':'hold','Completed':'completed','Cancelled':'cancelled'};
+    const tag = s => `<span class="status ${statusMap[s]||'requested'}">${esc(s)}</span>`;
+    const names = ids => ids.map(id=>db.actions.find(a=>a.id===id)?.description||id);
+    const packageItems=p=>p?.resolvedItems||expandSelections(selectionsFor(p||{}),db);
+    const packageItemNames=p=>packageItems(p).map(a=>a.description?`${a.name} — ${a.description}`:a.name);
+    const packageSelectedBundles=p=>p?.selectedBundles||selectionsFor(p||{}).filter(s=>s.kind==='bundle').map(s=>db.bundles.find(b=>b.id===s.id)?.name||s.id);
+    const usageOf=id=>({bundles:db.bundles.filter(b=>b.items.includes(id)).length,packages:db.packages.filter(p=>selectionsFor(p).some(s=>s.kind==='item'&&s.id===id)).length});
+    const packageById = id => db.packages.find(p=>p.id===id);
+    const bookPackage = b => b.snapshot||packageById(b.packageId)||{name:'Paket tidak tersedia',hours:0,price:0,actions:[]};
+    const sortedBookings = arr => arr.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.start.localeCompare(b.start));
+    const matches = b => b.customer.toLocaleLowerCase('id-ID').includes(ui.query.toLocaleLowerCase('id-ID'))&&(ui.status==='all'||b.status===ui.status);
+    const filtered = () => sortedBookings(db.bookings.filter(matches));
+    const listFiltered = () => filtered().filter(b=>!ui.lookupDate||b.date===ui.lookupDate);
+    const relevantStatus = s => ['Confirmed','On Hold'].includes(s);
+    function conflict(date,start,end,ignoreId=null){const a=timeToMinutes(start),z=timeToMinutes(end),gap=Number(db.buffer)||0;return db.bookings.find(b=>b.id!==ignoreId&&b.date===date&&relevantStatus(b.status)&&a<timeToMinutes(b.end)+gap&&z>timeToMinutes(b.start)-gap)}
+    function available(date,start,hours,ignoreId=null){const begin=timeToMinutes(start),end=begin+Number(hours)*60;return Boolean(date)&&!db.blockedDates.includes(date)&&begin>=timeToMinutes(db.startHour)&&end<=timeToMinutes(db.endHour)&&!conflict(date,start,minutesToTime(end),ignoreId)}
+    function toast(message){const box=document.getElementById('toast-root');box.innerHTML=`<div class="toast">${ICON('check')}<span>${esc(message)}</span></div>`;clearTimeout(toast.timer);toast.timer=setTimeout(()=>box.innerHTML='',4500)}
+    function title(kicker,heading,description,button=''){return `<div class="section-title"><div><div class="eyebrow">${kicker}</div><h1>${heading}<span class="period">.</span></h1><p class="subtitle">${description}</p></div>${button}</div>`}
+    function nav(page){ui.page=page;ui.detailId=null;ui.customerDetail=null;document.querySelectorAll('.nav').forEach(el=>el.classList.toggle('active',el.dataset.page===page));document.getElementById('breadcrumb').textContent=({overview:'Overview',bookings:'Bookings',catalog:'Services & Actions',packages:'Master Packages',customers:'Customers',availability:'Availability',public:'Public Booking Page',stories:'Portfolio & Testimonials',events:'Events',promotions:'Promotions'})[page];render()}
+    function render(){if(ui.page==='bookings')renderBookings();if(ui.page==='overview')renderOverview();if(ui.page==='packages')renderPackages();if(ui.page==='catalog')renderCatalog();if(ui.page==='customers')renderCustomers();if(ui.page==='availability')renderAvailability();if(ui.page==='public')renderPublic();if(ui.page==='stories')renderStories();if(ui.page==='events')renderWebsiteEvents();if(ui.page==='promotions')renderPromotions()}
+    function renderBookings(){
+      const controls=`<div class="filters"><label class="field-search">${ICON('search')}<span class="visually-hidden">Cari customer</span><input id="booking-search" class="input" type="search" placeholder="Search customer name..." value="${esc(ui.query)}" autocomplete="off"></label><label class="date-lookup">${ICON('calendar')}<span class="visually-hidden">Tanggal booking</span><input id="booking-date" title="Pilih tanggal; pada List View memfilter booking" type="date" value="${esc(ui.lookupDate)}"></label><select class="select" id="booking-status" aria-label="Filter status"><option value="all">All statuses</option>${['Requested','On Hold','Confirmed','Completed','Cancelled'].map(s=>`<option value="${s}" ${ui.status===s?'selected':''}>${s}</option>`).join('')}</select><button class="filter-clear" data-action="clear-filters">Reset filters</button><div class="viewtoggle" role="group" aria-label="Booking view"><button class="${ui.view==='calendar'?'active':''}" data-action="view-calendar">${ICON('calendar')} Calendar</button><button class="${ui.view==='list'?'active':''}" data-action="view-list">${ICON('list')} List</button></div></div>`;
+      main.innerHTML=title('Your bridal workspace / Bookings','Booking Calendar','Keep every bridal booking beautifully organized, from first request to the big day.',`<button class="btn primary" data-action="new-booking">${ICON('plus')} New Booking</button>`)+controls+`<div class="main-grid"><section class="card" id="main-bookings"></section><aside class="card" id="side-bookings"></aside></div><div class="hintbox">${ICON('sparkle')} <strong>Prototype note:</strong> Semua customer dan transaksi merupakan data contoh. Ketersediaan customer dihitung dari booking berstatus Confirmed / On Hold, tanggal diblokir, durasi paket, dan buffer. Data prototype dapat di-reset melalui tombol di Overview.</div>`;
+      renderBookingPanels();
+    }
+    function renderBookingPanels(){const left=document.getElementById('main-bookings');const right=document.getElementById('side-bookings');if(!left||!right)return;
+      if(ui.view==='calendar'){
+        const offset=(new Date(Date.UTC(ui.year,ui.month,1)).getUTCDay()+6)%7;
+        const last=new Date(Date.UTC(ui.year,ui.month+1,0)).getUTCDate();
+        const weeks=Math.ceil((offset+last)/7)*7;
+        let cells=['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d=>`<div class="calendar-weekday">${d}</div>`).join('');
+        for(let i=0;i<weeks;i++){
+          const d=i-offset+1;if(d<1||d>last){cells+='<div class="calendar-day empty" aria-hidden="true"></div>';continue}
+          const date=dateLocal(ui.year,ui.month,d);const all=db.bookings.filter(b=>b.date===date);const visible=all.filter(matches);
+          const block=db.blockedDates.includes(date);
+          const dots=all.slice(0,5).map(b=>`<span title="${esc(b.customer)}: ${esc(b.status)}" class="dot ${statusMap[b.status]||'requested'} ${matches(b)?'':'dim'}"></span>`).join('');
+          cells+=`<button class="calendar-day ${ui.day===d?'selected':''}" data-day="${d}" aria-label="${formatDate(date)}, ${all.length} booking${block?', blocked':''}"><span class="n">${d}</span>${block?'<span class="day-block">Blocked</span>':''}<div class="dots">${dots}</div>${visible.length?`<span class="day-count">${visible.length} booking</span>`:''}</button>`;
+        }
+        left.innerHTML=`<div class="card-pad"><div class="card-head"><div><h2>${monthText(ui.year,ui.month)}</h2><div class="tiny">Pilih tanggal untuk melihat daftar booking customer.</div></div><div class="month-nav"><button class="btn icon-only" data-action="month-prev" aria-label="Bulan sebelumnya">${ICON('chevron-left')}</button><button class="btn icon-only" data-action="month-next" aria-label="Bulan selanjutnya">${ICON('chevron-right')}</button></div></div><div class="calendar-grid">${cells}</div><div class="legend"><span class="legend-item"><i class="dot"></i> Confirmed</span><span class="legend-item"><i class="dot requested"></i> Requested</span><span class="legend-item"><i class="dot hold"></i> On Hold</span><span class="legend-item"><i class="dot completed"></i> Completed</span></div><div class="calendar-foot">Booking yang tidak cocok dengan filter ditampilkan sebagai titik samar. Ketersediaan tidak bergantung pada filter.</div></div>`;
+      }else{
+        const rows=listFiltered();left.innerHTML=`<div class="card-pad" style="padding-bottom:8px"><div class="card-head"><div><h2>All Bookings</h2><div class="tiny">${rows.length} reservasi sesuai filter${ui.lookupDate?' pada '+formatDate(ui.lookupDate):''}.</div></div></div></div>${rows.length?`<div class="table-wrap"><table class="listtable"><thead><tr><th>Tanggal</th><th>Customer / Paket</th><th>Jam</th><th>Status</th></tr></thead><tbody>${rows.map(b=>`<tr class="clickable" tabindex="0" role="button" data-booking="${esc(b.id)}"><td class="nowrap">${formatDate(b.date).replace(' 2026','')}</td><td><span class="name">${esc(b.customer)}</span><br><span class="tiny">${esc(bookPackage(b).name)}</span></td><td class="nowrap">${esc(b.start)}–${esc(b.end)}</td><td>${tag(b.status)}</td></tr>`).join('')}</tbody></table></div><p class="table-info">Klik customer untuk membuka detail booking dan paket.</p>`:'<div class="empty">Tidak ada booking yang sesuai dengan filter.</div>'}`;
+      }
+      if(ui.detailId){const b=db.bookings.find(x=>x.id===ui.detailId);if(b){renderBookingDetail(right,b);return}ui.detailId=null}
+      const date=dateLocal(ui.year,ui.month,ui.day);
+      const visible=ui.view==='calendar'?filtered().filter(b=>b.date===date):listFiltered();
+      right.innerHTML=`<div class="side-head"><div class="eyebrow">${ui.view==='calendar'?'Selected date':'Booking lookup'}</div><h2>${ui.view==='calendar'?formatDate(date):'Booking details'}</h2><div class="tiny">${visible.length} customer booking${visible.length===1?'':'s'}</div></div><div class="side-inner">${visible.length?visible.map(b=>`<button class="booking-item" data-booking="${esc(b.id)}"><div class="item-row"><span class="item-name">${esc(b.customer)}</span>${tag(b.status)}</div><div class="item-meta">${ui.view==='list'?formatDate(b.date)+' · ':''}${esc(b.start)}–${esc(b.end)}<br>${esc(bookPackage(b).name)} · ${bookPackage(b).hours} jam</div><div class="item-footer">View booking details →</div></button>`).join(''):`<div class="empty">${ICON('calendar')}<br>Belum ada booking sesuai filter pada pilihan ini.<br><span class="tiny">Kalender kosong belum tentu berarti slot tersedia.</span></div>`}</div>`;
+    }
+    function renderBookingDetail(right,b){const pkg=bookPackage(b),actions=packageItemNames(pkg);
+      right.innerHTML=`<div class="side-head"><button class="detail-back" data-action="detail-back">${ICON('arrow-left')} Back to bookings</button><div class="eyebrow">Customer / Booking detail</div><div class="detail-header"><h2>${esc(b.customer)}</h2>${tag(b.status)}</div></div><div class="side-inner" style="padding:0 20px 19px;gap:0;max-height:680px"><div class="detail-section"><div class="detail-label">Informasi customer</div><div class="detail-row"><span>Nama</span><strong>${esc(b.customer)}</strong></div><div class="detail-row"><span>Kontak</span><strong>${esc(b.phone||'—')}</strong></div><div class="detail-row"><span>Sumber booking</span><strong>${b.source==='Customer'?'Customer page':'Input BA'}</strong></div></div><div class="detail-section"><div class="detail-label">Jadwal & lokasi</div><div class="detail-row"><span>Tanggal</span><strong>${formatDate(b.date)}</strong></div><div class="detail-row"><span>Waktu</span><strong>${esc(b.start)}–${esc(b.end)}</strong></div><div class="detail-row"><span>Lokasi</span><strong>${esc(b.location)}</strong></div></div><div class="detail-section"><div class="detail-label">Paket yang dipesan</div><h3 class="serif" style="font-size:21px;font-weight:400;margin:0 0 8px">${esc(pkg.name)}</h3><div class="detail-row"><span>Durasi</span><strong>${pkg.hours} jam</strong></div><div class="detail-row"><span>Harga booking</span><strong>${money(pkg.price)}</strong></div></div><div class="detail-section"><div class="detail-label">Included services &amp; actions (snapshot)</div>${packageSelectedBundles(pkg).length?`<div class="mini-chips">${packageSelectedBundles(pkg).map(n=>`<span class="pill bundle">${esc(n)}</span>`).join('')}</div>`:''}${actions.map(a=>`<div class="action-check">${ICON('check')} <span>${esc(a)}</span></div>`).join('')}</div>${b.notes?`<div class="detail-section"><div class="detail-label">Catatan BA</div><p class="tiny">${esc(b.notes)}</p></div>`:''}<div class="detail-section"><div class="detail-label">Booking status</div><div class="detail-actions">${b.status==='Requested'?`<button class="btn small" data-status="On Hold">On Hold</button><button class="btn small primary" data-status="Confirmed">Confirm</button><button class="btn small" data-status="Cancelled">Reject</button>`:b.status==='On Hold'?`<button class="btn small primary" data-status="Confirmed">Confirm</button><button class="btn small" data-status="Cancelled">Cancel</button>`:b.status==='Confirmed'?`<button class="btn small primary" data-status="Completed">Complete</button><button class="btn small" data-status="Cancelled">Cancel</button>`:''}</div></div></div>`;
+    }
+    function renderOverview(){const active=db.bookings.filter(b=>b.status==='Confirmed').length,requests=db.bookings.filter(b=>b.status==='Requested').length,holds=db.bookings.filter(b=>b.status==='On Hold').length;
+      const stats=[['Confirmed bookings',active,'calendar','Jadwal yang sudah dikonfirmasi'],['New requests',requests,'users','Menunggu peninjauan BA'],['On hold',holds,'clock','Slot sementara ditahan']];
+      main.innerHTML=title('Welcome home / Overview','A beautiful day to plan','Your little overview of everything happening in your bridal studio.',`<button class="btn primary" data-action="new-booking">${ICON('plus')} New Booking</button>`)+`<div class="cards">${stats.map(([label,count,ico,desc])=>`<div class="card stat-card"><div class="stat-icon">${ICON(ico)}</div><div class="stat-label">${label}</div><div class="stat-number">${count}</div><div class="stat-hint">${desc}</div></div>`).join('')}</div><div class="section-row"><h2>Upcoming moments</h2><button class="btn small" data-go="bookings">Open calendar ${ICON('chevron-right')}</button></div><div class="card"><div class="table-wrap"><table class="listtable"><thead><tr><th>Date</th><th>Customer</th><th>Package</th><th>Status</th></tr></thead><tbody>${sortedBookings(db.bookings).filter(b=>b.date>='2026-11-11'&&b.status!=='Cancelled').slice(0,7).map(b=>`<tr class="clickable" data-go-booking="${esc(b.id)}"><td>${formatDate(b.date)}</td><td class="name">${esc(b.customer)}</td><td>${esc(bookPackage(b).name)}</td><td>${tag(b.status)}</td></tr>`).join('')}</tbody></table></div></div><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:20px;flex-wrap:wrap"><p class="tiny">Data untuk simulasi. Mengubah status booking tersimpan secara lokal di browser ini.</p><button class="btn small" data-action="reset-demo">${ICON('reset')} Reset demo data</button></div>`;
+    }
+    function renderCatalog(){
+      const inItems=ui.catalogTab==='items';
+      const all=inItems?db.actions:db.bundles;
+      const shown=all.filter(a=>(!inItems||ui.catalogType==='all'||a.type===ui.catalogType)&&(`${a.name} ${a.description||''}`).toLocaleLowerCase('id-ID').includes(ui.catalogQuery.toLocaleLowerCase('id-ID')));
+      main.innerHTML=title('Services / Master catalog','Services & Actions','Create individual services or actions, then group them into reusable bundles.',`<button class="btn primary" data-action="${inItems?'new-catalog':'new-bundle'}">${ICON('plus')} ${inItems?'New Service / Action':'New Bundle'}</button>`)+
+        `<div class="split-note"><div class="card"><div class="tiny">Individual services &amp; actions</div><b>${db.actions.length}</b></div><div class="card"><div class="tiny">Reusable bundles</div><b>${db.bundles.length}</b></div><div class="card"><div class="tiny">Master packages</div><b>${db.packages.length}</b></div></div>`+
+        `<div class="catalog-toolbar"><div class="subtabs" role="tablist"><button role="tab" aria-selected="${inItems}" data-action="catalog-items" class="${inItems?'active':''}">Individual items</button><button role="tab" aria-selected="${!inItems}" data-action="catalog-bundles" class="${!inItems?'active':''}">Bundles</button></div><label class="field-search">${ICON('search')}<input class="input" id="catalog-search" type="search" autocomplete="off" placeholder="Search name / description" value="${esc(ui.catalogQuery)}"></label>${inItems?`<select class="select" id="catalog-type" aria-label="Filter type"><option value="all">Service &amp; Action</option><option value="Service" ${ui.catalogType==='Service'?'selected':''}>Services only</option><option value="Action" ${ui.catalogType==='Action'?'selected':''}>Actions only</option></select>`:''}</div>`+
+        `<div id="catalog-results"><div class="catalog-grid">${shown.map(a=>{const use=inItems?usageOf(a.id):{packages:db.packages.filter(p=>selectionsFor(p).some(s=>s.kind==='bundle'&&s.id===a.id)).length};return `<article class="card catalog-card"><div class="catalog-meta"><span class="pill ${inItems?a.type.toLowerCase():'bundle'}">${inItems?esc(a.type):'Bundle'}</span><span class="tiny">${inItems?`${use.bundles} bundles · ${use.packages} direct package(s)`:`${a.items.length} item(s) · ${use.packages} package(s)`}</span></div><h3>${esc(a.name)}</h3><p>${esc(a.description||'Belum ada deskripsi.')}</p>${!inItems?`<div class="mini-chips">${a.items.map(id=>db.actions.find(item=>item.id===id)).filter(Boolean).map(item=>`<span class="pill ${item.type.toLowerCase()}">${esc(item.name)}</span>`).join('')}</div>`:''}<div class="card-tools"><button class="btn small" data-${inItems?'edit-catalog':'edit-bundle'}="${esc(a.id)}">${ICON('edit')} Edit</button><button class="btn small" data-${inItems?'delete-catalog':'delete-bundle'}="${esc(a.id)}">Delete</button></div></article>`}).join('')}</div>${!shown.length?'<div class="card empty">No matching items. Create one using the button above.</div>':''}</div>`+
+        `<div class="hintbox">${ICON('sparkle')} <strong>Reuse by reference:</strong> Paket dapat memilih Service, Action, atau Bundle. Isi bundle mengikuti katalog saat paket ditampilkan; booking yang telah dibuat tetap menyimpan snapshot lama. Item/bundle yang masih direferensikan tidak bisa dihapus.</div>`;
+    }
+    function renderCatalogResults(){if(ui.page==='catalog')renderCatalog()}
+    function renderPackages(){
+      main.innerHTML=title('Services / Master packages','Your lovely packages','Combine individual services, actions and reusable bundles into each booking package.',`<button class="btn primary" data-action="new-package">${ICON('plus')} New Package</button>`)+
+        `<div class="package-grid">${db.packages.map((p,i)=>{const selected=selectionsFor(p),items=packageItems(p);return `<article class="card package-card"><div class="package-top"><span class="package-number">${String(i+1).padStart(2,'0')}.</span><span class="status ${p.active?'confirmed':'cancelled'}">${p.active?'Active':'Inactive'}</span></div><h2 class="package-title">${esc(p.name)}</h2><p class="package-desc">${esc(p.description||'Personal bridal care service package.')}</p><div><div class="price">${money(p.price)}</div><div class="tiny">${p.hours} jam pendampingan</div></div><div class="package-inclusions"><div class="detail-label">Package composition</div><div class="mini-chips">${selected.map(s=>{const entry=s.kind==='bundle'?db.bundles.find(b=>b.id===s.id):db.actions.find(a=>a.id===s.id);return entry?`<span class="pill ${s.kind==='bundle'?'bundle':entry.type.toLowerCase()}">${s.kind==='bundle'?'Bundle: ':''}${esc(entry.name)}</span>`:''}).join('')}</div><div class="tiny">${items.length} unique included services / actions (expanded, duplicates removed)</div>${items.map(item=>`<span>${ICON('check')}${esc(item.name)}</span>`).join('')}</div><button class="btn" data-edit-package="${esc(p.id)}">${ICON('edit')} Edit package</button><button class="btn small" data-delete-package="${esc(p.id)}">${ICON('x')} ${db.bookings.some(b=>b.packageId===p.id)?'Archive':'Delete'} package</button></article>`}).join('')}</div><div class="hintbox">${ICON('sparkle')} <strong>Catalog → Bundle → Package → Booking:</strong> Bundle edits update master package composition. The booking keeps its own package snapshot (price, duration, service descriptions) from the date it was booked.</div>`;
+    }
+    function renderCustomers(){const namesDistinct=[...new Set(db.bookings.map(b=>b.customer))].sort((a,b)=>a.localeCompare(b));
+      const active=ui.customerDetail;if(active){const bs=sortedBookings(db.bookings.filter(b=>b.customer===active));main.innerHTML=title('Customers / Customer details',esc(active),'Customer information and their booking history.',`<button class="btn" data-action="customer-back">${ICON('arrow-left')} Back to Customers</button>`)+`<div class="card card-pad"><div class="section-row" style="margin:0 0 14px"><h2>Booking history</h2><span class="tiny">${bs.length} booking</span></div>${bs.map(b=>`<button class="booking-item" data-go-booking="${esc(b.id)}"><div class="item-row"><strong>${formatDate(b.date)} · ${esc(bookPackage(b).name)}</strong>${tag(b.status)}</div><div class="item-meta">${esc(b.start)}–${esc(b.end)} · ${esc(b.location)}</div></button>`).join('')}</div>`;return}
+      main.innerHTML=title('People / Customers','Your brides','A simple directory of customers who have made a booking.',`<button class="btn primary" data-action="new-booking">${ICON('plus')} Add via Booking</button>`)+`<div class="customer-grid">${namesDistinct.map(name=>{const bs=db.bookings.filter(b=>b.customer===name);return `<button class="customer-card" data-customer="${esc(name)}"><span class="customer-initial">${esc(name[0])}</span><span><strong>${esc(name)}</strong><small>${bs.length} booking${bs.length===1?'':'s'} · ${esc(bs[0].phone)}</small></span>${ICON('chevron-right')}</button>`}).join('')}</div><div class="hintbox">Untuk MVP, customer dapat dibuat langsung ketika BA menambahkan booking. Daftar customer ini dibentuk dari data booking.</div>`}
+    function renderAvailability(){const chips=db.blockedDates.slice().sort().map(d=>`<span class="blocked-chip">${formatDate(d)} <button aria-label="Unblock ${formatDate(d)}" data-unblock="${d}">×</button></span>`).join('');
+      main.innerHTML=title('Schedule / Availability','Your availability','Decide when customers can request your bridal care service.',`<button class="btn" data-go="public">${ICON('globe')} Preview customer page</button>`)+`<div class="availability-grid"><section class="card card-pad"><h2>Working hours</h2><p class="subtitle" style="margin-top:5px;margin-bottom:19px">Jam operasional booking untuk semua hari yang tidak diblokir.</p><div class="form-row"><div class="form-field"><label for="work-start">Start time</label><input class="input" type="time" id="work-start" value="${esc(db.startHour)}"></div><div class="form-field"><label for="work-end">End time</label><input class="input" type="time" id="work-end" value="${esc(db.endHour)}"></div></div><div class="form-field" style="margin-top:15px"><label for="work-buffer">Buffer antar booking (menit)</label><select class="select" id="work-buffer">${[0,30,60,90,120,180].map(v=>`<option ${Number(db.buffer)===v?'selected':''} value="${v}">${v} menit</option>`).join('')}</select><small>Waktu cadangan untuk persiapan / perjalanan. Berlaku untuk booking Confirmed dan On Hold.</small></div><button class="btn primary" style="margin-top:18px" data-action="save-hours">${ICON('check')} Save availability</button></section><section class="card card-pad"><h2>Blocked dates</h2><p class="subtitle" style="margin-top:5px;margin-bottom:19px">Tanggal istirahat atau tanggal yang tidak dapat dipesan.</p><div class="form-field"><label for="new-block">Block a date</label><input class="input" type="date" id="new-block"></div><button class="btn subtle" data-action="add-block" style="margin-top:12px">${ICON('plus')} Block date</button><div class="blocked-list">${chips||'<span class="tiny">Belum ada tanggal yang diblokir.</span>'}</div></section></div><div class="hintbox">Pada versi produksi, availability harus dicek secara transaksional di server sebelum booking dikonfirmasi. Prototype ini hanya simulasi satu browser, bukan sistem reservasi multiuser siap pakai.</div>`;
+    }
+    function renderPublic(){const valid=db.packages.filter(p=>p.active);if(!valid.some(p=>p.id===ui.publicPackage)){ui.publicPackage=valid[0]?.id||''}const pkg=packageById(ui.publicPackage);
+      const slots=pkg?Array.from({length:18},(_,i)=>`${pad(5+i)}:00`).filter(time=>timeToMinutes(time)>=timeToMinutes(db.startHour)&&timeToMinutes(time)+pkg.hours*60<=timeToMinutes(db.endHour)):[];
+      const selectedAvailable=slots.filter(time=>available(ui.publicDate,time,pkg.hours));if(!selectedAvailable.includes(ui.publicTime))ui.publicTime='';
+      main.innerHTML=`<div class="public-wrap"><div class="public-hero"><div class="eyebrow">Your day, thoughtfully cared for</div><h1>bride<span style="color:#c77c75">.</span></h1><p>Personal bridal care, designed for your most special moments.</p></div>${ui.publicDone?`<div class="card card-pad" style="text-align:center;padding:34px"><div style="font:35px Georgia,serif;color:#a65b55">♡</div><h2 style="margin:9px 0">Your request is received.</h2><p class="subtitle" style="margin:auto">Terima kasih! Reservasi berstatus <strong>Requested</strong> dan belum dikonfirmasi oleh Bride Assistant.</p><button class="btn primary" style="margin-top:19px" data-action="public-another">Send another request</button><button class="btn" style="margin-top:19px;margin-left:8px" data-go="bookings">BA calendar</button></div>`:`<div class="public-layout"><div class="card card-pad"><div class="eyebrow">01 / Choose your care</div><h2 style="margin:8px 0 14px">Find your perfect fit</h2><div class="public-packages">${valid.map(p=>`<button class="public-package ${p.id===ui.publicPackage?'chosen':''}" data-public-package="${esc(p.id)}"><div style="display:flex;justify-content:space-between;align-items:start;gap:10px"><strong>${esc(p.name)}</strong><span>${money(p.price)}</span></div><div class="tiny" style="margin-top:7px">${p.hours} jam · ${packageItems(p).length} service / action</div></button>`).join('')}</div><div style="margin-top:22px"><div class="eyebrow">02 / Pick your date</div><label class="form-field" style="margin-top:9px"><span class="visually-hidden">Tanggal acara</span><input class="input" type="date" id="public-date" value="${esc(ui.publicDate)}"></label><div class="tiny" style="margin-top:12px">Jam tersedia pada tanggal ini</div><div class="slot-grid">${slots.length?slots.map(time=>`<button class="slot ${ui.publicTime===time?'active':''}" data-public-time="${time}" ${!available(ui.publicDate,time,pkg.hours)?'disabled':''}>${time}</button>`).join(''):'<p class="tiny">Tidak ada slot sesuai jam kerja.</p>'}</div><p class="tiny">${selectedAvailable.length} slot tersedia · Sudah memperhitungkan durasi paket dan buffer.</p></div></div><div class="card card-pad"><div class="eyebrow">03 / Your details</div><h2 style="margin:8px 0 17px">A few little details</h2><form id="public-form" style="display:grid;gap:14px"><div class="form-field"><label for="public-name">Nama pengantin</label><input id="public-name" name="name" class="input" required placeholder="Nama lengkap"></div><div class="form-field"><label for="public-phone">Nomor WhatsApp</label><input id="public-phone" name="phone" class="input" required placeholder="08xxxxxxxxxx"></div><div class="form-field"><label for="public-location">Lokasi acara</label><input id="public-location" name="location" class="input" required placeholder="Nama venue / kota"></div><div class="form-field"><label for="public-notes">Catatan (opsional)</label><textarea id="public-notes" name="notes" class="input" rows="3" style="resize:vertical" placeholder="Hal penting yang perlu BA ketahui"></textarea></div><div class="hintbox" style="margin:0">${ICON('heart')} Permintaan ini belum menjadi booking terkonfirmasi. BA akan meninjau lokasi, waktu, dan kebutuhan terlebih dahulu.</div><button type="submit" class="btn primary" ${!ui.publicTime?'disabled':''}>${ICON('check')} Request a booking ${ui.publicTime?'· '+ui.publicTime:''}</button></form></div></div>`}<p class="tiny" style="text-align:center;margin-top:18px">Customer-facing preview · Data demo hanya disimpan pada browser ini · Tidak ada pembayaran atau pesan WhatsApp yang dikirim</p></div>`;
+    }
+
+    /* Website content: public-facing collection structure matches index.html v12. */
+    const websiteId=kind=>`${kind}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    const websiteList=kind=>db[kind]||[];
+    const websiteStats=items=>`<div class="web-stats"><div class="web-stat"><span>Total konten</span><strong>${items.length}</strong><small>Semua status</small></div><div class="web-stat"><span>Published</span><strong>${items.filter(x=>x.published).length}</strong><small>Ditandai untuk tampil</small></div><div class="web-stat"><span>Draft</span><strong>${items.filter(x=>!x.published).length}</strong><small>Belum diterbitkan</small></div></div>`;
+    const websiteEmpty=(title,description,kind,action)=>`<div class="web-empty">${ICON('sparkle')}<h2>${esc(title)}</h2><p>${esc(description)}</p><button class="btn primary" data-action="${action}">${ICON('plus')} ${kind}</button></div>`;
+    const websiteBadge=rec=>`<span class="web-state ${rec.published?'is-live':''}">${rec.published?'Published':'Draft'}</span>`;
+    const websiteControls=(kind,id,rec)=>`<div class="web-card-actions"><button class="btn small" data-web-edit="${kind}" data-id="${esc(id)}">${ICON('edit')} Edit</button><button class="btn small subtle" data-web-toggle="${kind}" data-id="${esc(id)}">${rec.published?'Unpublish':'Publish'}</button><button class="btn small" data-web-delete="${kind}" data-id="${esc(id)}" aria-label="Hapus konten">${ICON('x')} Hapus</button></div>`;
+    const webHeaderButton=(kind,label)=>`<button class="btn primary" data-action="website-new-${kind}">${ICON('plus')} ${label}</button>`;
+    const webExportButton=()=>`<button class="btn" data-action="export-website">${ICON('download')} Export JSON website</button>`;
+    const imageSrc=u=>typeof u==='string'&&(/^https:\/\//i.test(u)||/^data:image\/(png|jpeg|webp);base64,/i.test(u))?u:'';
+    let websiteImageDraft='';
+    function renderStories(){
+      const portfolio=ui.websiteTab==='portfolio';const list=websiteList(portfolio?'portfolio':'testimonials');
+      main.innerHTML=title('Website Content / Our brides','Portfolio & Testimonials','Kelola cerita, foto, dan testimoni customer yang mendapat izin untuk dipublikasikan.',webHeaderButton(portfolio?'portfolio':'testimonials',portfolio?'Tambah Portfolio':'Tambah Testimoni'))+
+        `<div class="web-toolbar"><div class="web-tabs" role="tablist" aria-label="Jenis konten"><button role="tab" aria-selected="${portfolio}" class="${portfolio?'active':''}" data-action="web-tab-portfolio">Portfolio (${db.portfolio.length})</button><button role="tab" aria-selected="${!portfolio}" class="${!portfolio?'active':''}" data-action="web-tab-testimonials">Testimonials (${db.testimonials.length})</button></div>${webExportButton()}</div>`+
+        websiteStats(list)+
+        (list.length?`<div class="web-grid">${list.slice().reverse().map(x=>{
+          if(portfolio)return `<article class="web-card"><div class="web-media">${imageSrc(x.image)?`<img src="${esc(imageSrc(x.image))}" loading="lazy" alt="${esc(x.caption||x.title)}">`:ICON('image')}</div><div class="web-card-body"><div class="web-card-meta">${websiteBadge(x)}<span class="pill">${esc(x.category||'Our Moments')}</span></div><h3>${esc(x.title)}</h3><p>${esc(x.description||'Belum ada deskripsi.')}</p>${websiteControls('portfolio',x.id,x)}</div></article>`;
+          return `<article class="web-card"><div class="web-card-body"><div class="web-card-meta">${websiteBadge(x)}${ICON('quote')}</div><p class="web-quote">“${esc(x.quote)}”</p><strong style="font-size:12px;color:#815a60">${esc(x.attribution)}</strong>${websiteControls('testimonials',x.id,x)}</div></article>`;
+        }).join('')}</div>`:websiteEmpty(portfolio?'Belum ada portfolio':'Belum ada testimoni',portfolio?'Tambahkan foto dan cerita momen pengantin yang telah memberikan persetujuan.':'Tambahkan ulasan yang benar-benar diberikan oleh customer dan telah disetujui untuk dipublikasikan.',portfolio?'Tambah Portfolio':'Tambah Testimoni',`website-new-${portfolio?'portfolio':'testimonials'}`))+
+        `<div class="hintbox">${ICON('heart')} Konten berstatus <strong>Draft</strong> tidak masuk ke hasil export untuk website. Foto portfolio diperlukan sebelum dapat diterbitkan. Pastikan izin penggunaan foto dan kutipan customer sudah diperoleh.</div>`;
+    }
+    function renderWebsiteEvents(){
+      const list=websiteList('events').slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      main.innerHTML=title('Website Content / Our events','Events','Publikasikan agenda kegiatan Ranur agar customer bisa melihat acara mendatang dan kegiatan sebelumnya.',webHeaderButton('events','Tambah Event'))+
+        `<div class="web-toolbar"><p class="web-intro">Tanggal kegiatan menentukan kategori Upcoming atau Past event di landing page.</p>${webExportButton()}</div>`+websiteStats(list)+
+        (list.length?`<div class="web-grid">${list.map(x=>`<article class="web-card"><div class="web-media"><span style="font:64px Georgia,serif" aria-hidden="true">${esc(x.theme||'✦')}</span></div><div class="web-card-body"><div class="web-card-meta">${websiteBadge(x)}<span class="pill">${esc(formatDate(x.date))}</span></div><h3>${esc(x.title)}</h3><p>${esc(x.location||'Lokasi belum ditentukan')}</p><p>${esc(x.description||'Belum ada deskripsi.')}</p>${websiteControls('events',x.id,x)}</div></article>`).join('')}</div>`:websiteEmpty('Belum ada event','Tambahkan agenda bridal fair, open house, atau kegiatan lain yang akan dipublikasikan di landing page.','Tambah Event','website-new-events'))+
+        `<div class="hintbox">${ICON('calendar')} Event yang diterbitkan akan tampil di bagian <strong>Events</strong> setelah konten diintegrasikan ke website customer.</div>`;
+    }
+    function promoLifecycle(p){
+      if(!p.published)return ['Draft',''];
+      const now=dateLocal(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+      if(p.startDate>now)return ['Scheduled','is-future'];
+      if(p.endDate<now)return ['Ended','is-ended'];
+      return ['Active','is-live'];
+    }
+    function renderPromotions(){
+      const list=websiteList('promotions').slice().sort((a,b)=>(b.startDate||'').localeCompare(a.startDate||''));
+      const active=list.filter(p=>promoLifecycle(p)[0]==='Active').length;
+      main.innerHTML=title('Website Content / Special offers','Promotions','Buat promo layanan dengan masa berlaku, nominal atau persentase, dan paket yang berlaku.',webHeaderButton('promotions','Tambah Promo'))+
+        `<div class="web-toolbar"><p class="web-intro">Promo disimpan sebagai informasi penawaran; tidak otomatis mengubah harga booking.</p>${webExportButton()}</div>`+
+        `<div class="web-stats"><div class="web-stat"><span>Total promo</span><strong>${list.length}</strong><small>Semua periode</small></div><div class="web-stat"><span>Promo aktif</span><strong>${active}</strong><small>Published dalam periode</small></div><div class="web-stat"><span>Draft</span><strong>${list.filter(p=>!p.published).length}</strong><small>Belum diterbitkan</small></div></div>`+
+        (list.length?`<div class="web-grid">${list.map(x=>{const [state,cls]=promoLifecycle(x);const labels=(x.productIds||[]).map(id=>db.packages.find(p=>siteProductId(p)===id)?.name||id);return `<article class="web-card"><div class="web-card-body"><div class="web-card-meta"><span class="web-state ${cls}">${state}</span><span class="pill">${x.type==='percent'?'Persentase':'Nominal'}</span></div><div class="web-highlight">${x.type==='percent'?esc(x.value)+'%':money(x.value)}</div><h3>${esc(x.title)}</h3><p>${esc(x.description||'Belum ada deskripsi.')}</p><p><strong>Berlaku:</strong> ${esc(formatDate(x.startDate))} – ${esc(formatDate(x.endDate))}</p><p><strong>Paket:</strong> ${esc(labels.join(', ')||'Belum dipilih')}</p>${websiteControls('promotions',x.id,x)}</div></article>`}).join('')}</div>`:websiteEmpty('Belum ada promotion','Buat penawaran khusus dengan periode aktif dan pilih paket yang mendapatkan promo.','Tambah Promo','website-new-promotions'))+
+        `<div class="hintbox">${ICON('sparkle')} <strong>Aturan website:</strong> promo hanya ditampilkan saat berstatus Published dan tanggal hari ini berada di antara awal dan akhir periode. Nilai promo belum mengurangi harga pada checkout/booking.</div>`;
+    }
+    function websiteCheckbox(published){return `<label class="checklabel"><input type="checkbox" name="published" ${published?'checked':''}><span><strong>Published</strong> — konten siap ditampilkan pada website customer setelah sinkronisasi.</span></label>`}
+    function websitePhotoPreview(){const src=imageSrc(websiteImageDraft);const target=document.getElementById('website-photo-preview');if(target)target.innerHTML=src?`<img src="${esc(src)}" alt="Pratinjau foto portfolio">`:'<span>Belum ada foto dipilih</span>'}
+    function openWebsiteEditor(kind,id=null){
+      if(!['portfolio','testimonials','events','promotions'].includes(kind))return;
+      const record=id?websiteList(kind).find(x=>x.id===id):null;
+      let body='';websiteImageDraft=kind==='portfolio'?(record?.image||''):'';
+      if(kind==='portfolio')body=`<div class="form-field"><label for="web-title">Judul portfolio *</label><input class="input" id="web-title" name="title" maxlength="120" required value="${esc(record?.title||'')}" placeholder="Contoh: A beautiful intimate wedding"></div><div class="form-field"><label for="web-category">Kategori / label</label><input class="input" id="web-category" name="category" maxlength="60" value="${esc(record?.category||'')}" placeholder="Wedding moments"></div><div class="form-field"><label for="web-desc">Cerita singkat</label><textarea class="input" id="web-desc" name="description" maxlength="500" rows="3" placeholder="Cerita momen pengantin...">${esc(record?.description||'')}</textarea></div><div class="form-field"><label for="web-caption">Teks alternatif foto (aksesibilitas)</label><input class="input" id="web-caption" name="caption" maxlength="150" value="${esc(record?.caption||'')}" placeholder="Deskripsi singkat isi foto"></div><div class="form-field"><label for="portfolio-image-file">Foto portfolio (JPG / PNG / WebP)</label><input class="input" type="file" id="portfolio-image-file" accept="image/png,image/jpeg,image/webp"><small>Foto akan dioptimalkan dan disimpan di browser. Untuk produksi, gunakan media storage.</small></div><div class="form-field"><label for="portfolio-image-url">Atau URL gambar HTTPS</label><input class="input" type="url" id="portfolio-image-url" placeholder="https://..." value="${esc(websiteImageDraft.startsWith('http')?websiteImageDraft:'')}"><div class="web-img-preview" id="website-photo-preview" aria-live="polite"></div><button class="btn small" type="button" data-action="website-remove-photo">Hapus foto</button></div>${websiteCheckbox(record?.published||false)}`;
+      if(kind==='testimonials')body=`<div class="form-field"><label for="testimonial-attribution">Nama / atribusi customer *</label><input class="input" id="testimonial-attribution" name="attribution" maxlength="120" required value="${esc(record?.attribution||'')}" placeholder="Nama customer, sesuai persetujuan"></div><div class="form-field"><label for="testimonial-quote">Kutipan testimoni *</label><textarea class="input" id="testimonial-quote" name="quote" maxlength="800" rows="5" required placeholder="Tuliskan pengalaman customer...">${esc(record?.quote||'')}</textarea></div>${websiteCheckbox(record?.published||false)}<div class="field-help">Publikasikan hanya kutipan asli yang telah disetujui customer.</div>`;
+      if(kind==='events')body=`<div class="form-field"><label for="event-title">Nama event *</label><input class="input" id="event-title" name="title" maxlength="120" required value="${esc(record?.title||'')}" placeholder="Contoh: Ranur Bridal Open House"></div><div class="form-row"><div class="form-field"><label for="event-date">Tanggal event *</label><input class="input" id="event-date" name="date" type="date" required value="${esc(record?.date||'')}"></div><div class="form-field"><label for="event-theme">Simbol event</label><input class="input" id="event-theme" name="theme" maxlength="4" value="${esc(record?.theme||'✦')}" placeholder="✦"></div></div><div class="form-field"><label for="event-location">Lokasi</label><input class="input" id="event-location" name="location" maxlength="150" value="${esc(record?.location||'')}" placeholder="Venue / kota / online"></div><div class="form-field"><label for="event-description">Deskripsi</label><textarea class="input" id="event-description" name="description" maxlength="600" rows="3">${esc(record?.description||'')}</textarea></div>${websiteCheckbox(record?.published||false)}`;
+      if(kind==='promotions')body=`<div class="form-field"><label for="promo-title">Judul promo *</label><input class="input" id="promo-title" name="title" maxlength="120" required value="${esc(record?.title||'')}" placeholder="Contoh: Special Wedding Month"></div><div class="form-field"><label for="promo-description">Detail penawaran</label><textarea class="input" name="description" id="promo-description" maxlength="600" rows="3">${esc(record?.description||'')}</textarea></div><div class="form-row"><div class="form-field"><label for="promo-type">Jenis promo *</label><select class="select" name="type" id="promo-type"><option value="percent" ${!record||record.type==='percent'?'selected':''}>Diskon persentase (%)</option><option value="amount" ${record?.type==='amount'?'selected':''}>Diskon nominal (Rp)</option></select></div><div class="form-field"><label for="promo-value">Nilai diskon *</label><input class="input" type="number" min="1" step="1" id="promo-value" name="value" required value="${esc(record?.value||'')}" placeholder="Contoh: 10"></div></div><div class="form-row"><div class="form-field"><label for="promo-start">Mulai berlaku *</label><input class="input" type="date" name="startDate" id="promo-start" required value="${esc(record?.startDate||'')}"></div><div class="form-field"><label for="promo-end">Berakhir *</label><input class="input" type="date" name="endDate" id="promo-end" required value="${esc(record?.endDate||'')}"></div></div><div class="form-field"><label>Paket yang mendapat promo *</label><div class="web-package-pick">${db.packages.filter(p=>p.active||(record?.productIds||[]).includes(siteProductId(p))).map(p=>`<label class="checklabel"><input name="productIds" type="checkbox" value="${esc(siteProductId(p))}" ${(record?.productIds||[]).includes(siteProductId(p))?'checked':''}><span>${esc(p.name)} <small>· ${money(p.price)}</small></span></label>`).join('')||'<p class="tiny">Belum ada Master Package aktif. Buat paket terlebih dahulu.</p>'}</div></div>${websiteCheckbox(record?.published||false)}<div class="field-help">Promo ini bersifat informasi pada website; nominal harga booking tidak otomatis berubah.</div>`;
+      openModal(modalFrame('Website Content / '+kind,record?'Edit '+kind:'Tambah '+kind,'website-form',id,`<input type="hidden" name="kind" value="${kind}">`+body,'Simpan konten'));
+      if(kind==='portfolio')websitePhotoPreview();
+    }
+    function siteProductId(pkg){if(!pkg)return '';return ({p1:'intimate',p2:'gentle',p3:'full-day'})[pkg.id]||pkg.id;}
+    function websitePayload(){
+      const port=db.portfolio.filter(p=>p.published&&imageSrc(p.image)).map(({title,category,description,caption,image})=>({title,category,description,caption,image}));
+      const testimonials=db.testimonials.filter(t=>t.published).map(({attribution,quote})=>({attribution,quote}));
+      const events=db.events.filter(e=>e.published).map(({title,date,location,description,theme})=>({title,date,location,description,theme,published:true}));
+      const products=db.packages.filter(p=>p.active).map((p,i)=>({id:siteProductId(p),name:p.name,category:'Personal Bridal Care',duration:`${p.hours} jam pendampingan`,description:p.description||'',inclusions:packageItems(p).map(x=>x.name),featured:p.id==='p2'||(i===0&&db.packages.filter(v=>v.active).length===1)}));
+      const promotions=db.promotions.filter(p=>p.published).map(p=>({title:p.title,description:p.description||'',startDate:p.startDate,endDate:p.endDate,type:p.type,value:p.type==='percent'?String(p.value):money(p.value).replace(/\s/g,' '),productIds:p.productIds||[],published:true}));
+      return {schemaVersion:1,portfolio:port,testimonials,events,products,promotions};
+    }
+    function exportWebsite(){
+      const json=JSON.stringify(websitePayload(),null,2).replace(/</g,'\\u003c');
+      const blob=new Blob([json],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download='ranur-website-content.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+      toast('Konten website berhasil diexport. Integrasi ke index.html membutuhkan langkah terpisah.');
+    }
+    function storeWebsiteForm(form){
+      const f=new FormData(form),kind=String(f.get('kind')||''),id=form.dataset.id;
+      if(!['portfolio','testimonials','events','promotions'].includes(kind))return;
+      const existing=id?websiteList(kind).find(x=>x.id===id):null;
+      const published=f.has('published');let record={id:id||websiteId(kind),published};
+      if(kind==='portfolio'){
+        record={...record,title:String(f.get('title')||'').trim(),category:String(f.get('category')||'').trim(),description:String(f.get('description')||'').trim(),caption:String(f.get('caption')||'').trim(),image:websiteImageDraft};
+        if(!record.title){toast('Judul portfolio wajib diisi.');return}
+        if(record.image&&!imageSrc(record.image)){toast('Gunakan foto upload atau URL HTTPS yang valid.');return}
+        if(published&&!record.image){toast('Portfolio memerlukan foto sebelum diterbitkan.');return}
+      }else if(kind==='testimonials'){
+        record={...record,attribution:String(f.get('attribution')||'').trim(),quote:String(f.get('quote')||'').trim()};
+        if(!record.attribution||!record.quote){toast('Nama customer dan kutipan wajib diisi.');return}
+      }else if(kind==='events'){
+        record={...record,title:String(f.get('title')||'').trim(),date:String(f.get('date')||''),theme:String(f.get('theme')||'✦').trim()||'✦',location:String(f.get('location')||'').trim(),description:String(f.get('description')||'').trim()};
+        if(!record.title||!/^\d{4}-\d{2}-\d{2}$/.test(record.date)){toast('Nama dan tanggal event wajib diisi.');return}
+      }else if(kind==='promotions'){
+        record={...record,title:String(f.get('title')||'').trim(),description:String(f.get('description')||'').trim(),type:String(f.get('type')||''),value:Number(f.get('value')),startDate:String(f.get('startDate')||''),endDate:String(f.get('endDate')||''),productIds:f.getAll('productIds').map(String)};
+        if(!record.title||!['percent','amount'].includes(record.type)||!Number.isInteger(record.value)||record.value<=0||(record.type==='percent'&&record.value>100)){toast('Periksa judul, jenis, dan nilai diskon (persentase maksimal 100%).');return}
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(record.startDate)||!/^\d{4}-\d{2}-\d{2}$/.test(record.endDate)||record.startDate>record.endDate){toast('Periode promo tidak valid.');return}
+        if(!record.productIds.length){toast('Pilih minimal satu paket untuk promosi.');return}
+      }
+      if(existing)db[kind]=db[kind].map(x=>x.id===id?record:x);else db[kind].push(record);
+      if(!save()){if(existing)db[kind]=db[kind].map(x=>x.id===id?existing:x);else db[kind]=db[kind].filter(x=>x.id!==record.id);return}
+      closeModal();render();toast(`${kind==='portfolio'?'Portfolio':kind==='testimonials'?'Testimoni':kind==='events'?'Event':'Promo'} berhasil disimpan.`);
+    }
+    function websiteChangePublished(kind,id){
+      const r=websiteList(kind).find(x=>x.id===id);if(!r)return;
+      if(kind==='portfolio'&&!r.published&&!imageSrc(r.image)){toast('Tambahkan foto portfolio sebelum publish.');return}
+      r.published=!r.published;if(!save()){r.published=!r.published;return}render();toast(r.published?'Konten ditandai Published.':'Konten dikembalikan menjadi Draft.');
+    }
+    function websiteDelete(kind,id){
+      const r=websiteList(kind).find(x=>x.id===id);if(!r)return;
+      if(!confirm('Hapus konten ini secara permanen dari admin browser?'))return;
+      db[kind]=db[kind].filter(x=>x.id!==id);if(!save()){db[kind].push(r);return}render();toast('Konten berhasil dihapus.');
+    }
+    function compressPortfolioImage(file){
+      return new Promise((resolve,reject)=>{
+        if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>12*1024*1024){reject(new Error('Gunakan gambar JPG/PNG/WebP maksimal 12 MB.'));return}
+        const reader=new FileReader();reader.onerror=()=>reject(new Error('Gagal membaca gambar.'));
+        reader.onload=()=>{const img=new Image();img.onerror=()=>reject(new Error('Gambar tidak dapat dibuka.'));
+          img.onload=()=>{const ratio=Math.min(1,1200/img.width,1200/img.height),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*ratio));canvas.height=Math.max(1,Math.round(img.height*ratio));const ctx=canvas.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas.toDataURL('image/jpeg',0.76));};img.src=String(reader.result)
+        };reader.readAsDataURL(file)
+      });
+    }
+
+    function setMonth(offset){const date=new Date(Date.UTC(ui.year,ui.month+offset,1));ui.year=date.getUTCFullYear();ui.month=date.getUTCMonth();ui.day=1;ui.lookupDate='';ui.detailId=null;renderBookings()}
+    function statusUpdate(target){const b=db.bookings.find(b=>b.id===ui.detailId);if(!b)return;if(['Confirmed','On Hold'].includes(target)&&!available(b.date,b.start,bookPackage(b).hours,b.id)){toast('Tidak bisa mengubah status: jadwal bentrok atau diblokir.');return}b.status=target;save();renderBookingPanels();toast(`Status ${b.customer} diubah menjadi ${target}.`)}
+    function openModal(content){modalRoot.innerHTML=`<div class="modal-bg" data-close-overlay="1"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">${content}</div></div>`;document.body.style.overflow='hidden';modalRoot.querySelector('input,select,button')?.focus()}
+    function closeModal(){modalRoot.innerHTML='';document.body.style.overflow=''}
+    function openNewBooking(){const options=db.packages.filter(p=>p.active);const content=`<div class="modal-head"><div><div class="eyebrow">New reservation / BA facing</div><h2 id="modal-title">Add a booking</h2><p class="subtitle">Buat reservasi manual untuk customer.</p></div><button class="btn icon-only" data-action="close-modal" aria-label="Close">${ICON('x')}</button></div><form id="new-booking-form"><div class="modal-body"><div class="form-row"><div class="form-field"><label for="new-name">Customer name *</label><input class="input" required id="new-name" name="name" placeholder="Nama customer"></div><div class="form-field"><label for="new-phone">WhatsApp</label><input class="input" id="new-phone" name="phone" placeholder="08xxxxxxxx"></div></div><div class="form-field"><label for="new-package">Selected package *</label><select class="select" id="new-package" name="packageId" required>${options.map(p=>`<option value="${esc(p.id)}">${esc(p.name)} · ${p.hours} jam · ${money(p.price)}</option>`).join('')}</select></div><div class="form-row"><div class="form-field"><label for="new-date">Wedding date *</label><input class="input" id="new-date" name="date" type="date" value="${dateLocal(ui.year,ui.month,ui.day)}" required></div><div class="form-field"><label for="new-start">Start time *</label><input class="input" id="new-start" name="start" type="time" value="08:00" required></div></div><div class="form-field"><label for="new-location">Wedding location *</label><input class="input" id="new-location" name="location" placeholder="Venue, area, atau kota" required></div><div class="form-field"><label for="new-status">Initial status</label><select class="select" id="new-status" name="status"><option>Requested</option><option>On Hold</option><option>Confirmed</option></select></div><div class="form-field"><label for="new-notes">Internal notes</label><textarea class="input" id="new-notes" name="notes" rows="2" style="resize:vertical" placeholder="Catatan khusus..."></textarea></div><div class="field-help">Jam selesai dihitung otomatis dari durasi paket. Konfirmasi dan hold wajib lolos aturan ketersediaan.</div></div><div class="modal-footer"><button class="btn" type="button" data-action="close-modal">Cancel</button><button class="btn primary" type="submit">${ICON('check')} Save booking</button></div></form>`;openModal(content)}
+    function modalFrame(kicker,heading,formId,id,body,button='Save'){
+      return `<div class="modal-head"><div><div class="eyebrow">${esc(kicker)}</div><h2 id="modal-title">${esc(heading)}</h2></div><button class="btn icon-only" data-action="close-modal" aria-label="Close">${ICON('x')}</button></div><form id="${formId}" data-id="${esc(id||'')}"><div class="modal-body">${body}</div><div class="modal-footer"><button class="btn" data-action="close-modal" type="button">Cancel</button><button class="btn primary" type="submit">${ICON('check')} ${esc(button)}</button></div></form>`;
+    }
+    function catalogRows(items,group,selected=[]){return `<div class="selection-list">${items.map(item=>`<label class="selection-row" data-catalog-option="1" data-label="${esc(`${item.name} ${item.description||''}`.toLowerCase())}"><input type="checkbox" name="${group}" value="${esc(item.id)}" ${selected.includes(item.id)?'checked':''}><span><strong>${esc(item.name)} <span class="pill ${item.type.toLowerCase()}">${esc(item.type)}</span></strong><small>${esc(item.description||'')}</small></span></label>`).join('')}</div>`}
+    function openCatalogEditor(id=null){
+      const item=id?db.actions.find(x=>x.id===id):null;
+      const body=`<div class="form-field"><label for="catalog-name">Nama service / action *</label><input class="input" id="catalog-name" name="name" maxlength="120" required value="${esc(item?.name||'')}" placeholder="Contoh: Bridal Veil Arrangement"></div><div class="form-field"><label for="catalog-kind">Jenis *</label><select class="select" id="catalog-kind" name="type"><option value="Service" ${item?.type==='Service'?'selected':''}>Service</option><option value="Action" ${!item||item.type==='Action'?'selected':''}>Action</option></select><small>Service adalah bentuk layanan; Action adalah tindakan spesifik yang dilakukan BA.</small></div><div class="form-field"><label for="catalog-description">Deskripsi *</label><textarea class="input" id="catalog-description" name="description" maxlength="350" rows="3" required placeholder="Apa yang termasuk dalam layanan / tindakan ini?">${esc(item?.description||'')}</textarea></div><div class="field-help">Item dapat dipilih langsung dalam Master Package, atau digabungkan ke satu maupun lebih Bundle.</div>`;
+      openModal(modalFrame('Catalog / Individual item',item?'Edit service / action':'Create service / action','catalog-form',id,body,'Save item'));
+    }
+    function openBundleEditor(id=null){
+      const bundle=id?db.bundles.find(b=>b.id===id):null;
+      const body=`<div class="form-field"><label for="bundle-name">Nama bundle *</label><input class="input" id="bundle-name" maxlength="120" name="name" required value="${esc(bundle?.name||'')}" placeholder="Contoh: Essential Bridal Care"></div><div class="form-field"><label for="bundle-description">Deskripsi</label><textarea class="input" id="bundle-description" name="description" maxlength="350" rows="2">${esc(bundle?.description||'')}</textarea></div><div class="form-field"><label for="bundle-search">Lookup individual service &amp; action</label><input class="input" type="search" id="bundle-search" autocomplete="off" placeholder="Search service atau action...">${catalogRows(db.actions,'members',bundle?.items||[])}</div><div id="bundle-preview" class="selection-summary" aria-live="polite"></div><div class="field-help">Bundle terdiri dari minimal satu item. Bundle tidak boleh memuat bundle lain agar struktur tidak berulang.</div>`;
+      openModal(modalFrame('Master bundle',bundle?'Edit bundle':'Create bundle','bundle-form',id,body,'Save bundle'));refreshSelectionPreview();
+    }
+    function openPackageEditor(id=null){
+      const p=id?packageById(id):null;
+      const s=selectionsFor(p||{}),direct=s.filter(x=>x.kind==='item').map(x=>x.id),bundles=s.filter(x=>x.kind==='bundle').map(x=>x.id);
+      const body=`<div class="form-field"><label for="pkg-name">Nama paket *</label><input class="input" id="pkg-name" name="name" required maxlength="120" value="${esc(p?.name||'')}" placeholder="The ... Care"></div><div class="form-row"><div class="form-field"><label for="pkg-hours">Durasi (jam) *</label><input class="input" id="pkg-hours" type="number" name="hours" min="1" max="24" value="${p?.hours||3}" required></div><div class="form-field"><label for="pkg-price">Harga (Rp) *</label><input class="input" id="pkg-price" type="number" name="price" min="0" step="1000" value="${p?.price||0}" required></div></div><div class="form-field"><label for="pkg-desc">Deskripsi paket</label><textarea class="input" name="description" id="pkg-desc" maxlength="500" rows="2">${esc(p?.description||'')}</textarea></div><div class="form-field"><label>Lookup bundles</label><input class="input" id="pkg-search-bundles" type="search" autocomplete="off" placeholder="Cari bundle..."><div class="selection-list">${db.bundles.map(b=>`<label class="selection-row" data-bundle-option="1" data-label="${esc(`${b.name} ${b.description}`.toLowerCase())}"><input type="checkbox" name="selection-bundle" value="${esc(b.id)}" ${bundles.includes(b.id)?'checked':''}><span><strong>${esc(b.name)} <span class="pill bundle">Bundle</span></strong><small>${b.items.length} service / action: ${esc(b.items.map(id=>db.actions.find(a=>a.id===id)?.name||'').filter(Boolean).join(', '))}</small></span></label>`).join('')}</div></div><div class="form-field"><label>Lookup individual services &amp; actions</label><input class="input" id="pkg-search-items" type="search" autocomplete="off" placeholder="Cari individual item...">${catalogRows(db.actions,'selection-item',direct)}</div><div id="pkg-preview" class="selection-summary" aria-live="polite"></div><label class="checklabel"><input name="active" type="checkbox" ${!p||p.active?'checked':''}><span>Paket aktif dan bisa dipilih oleh customer</span></label>`;
+      openModal(modalFrame('Master packages',p?'Edit package':'Create master package','package-form',id,body,'Save package'));refreshSelectionPreview();
+    }
+    function checkedValues(name){return [...modalRoot.querySelectorAll(`input[name="${name}"]:checked`)].map(el=>el.value)}
+    function refreshSelectionPreview(){
+      const bundlePreview=document.getElementById('bundle-preview');
+      if(bundlePreview){const ids=checkedValues('members');bundlePreview.innerHTML=`<strong>${ids.length} item(s) selected</strong><div class="mini-chips">${ids.map(id=>db.actions.find(a=>a.id===id)).filter(Boolean).map(a=>`<span class="pill ${a.type.toLowerCase()}">${esc(a.name)}</span>`).join('')}</div>`}
+      const pkgPreview=document.getElementById('pkg-preview');
+      if(pkgPreview){const selections=[...checkedValues('selection-bundle').map(id=>({kind:'bundle',id})),...checkedValues('selection-item').map(id=>({kind:'item',id}))];const items=expandSelections(selections,db);const rawCount=selections.reduce((n,s)=>n+(s.kind==='bundle'?(db.bundles.find(b=>b.id===s.id)?.items.length||0):1),0);
+        pkgPreview.innerHTML=`<div class="preview-header"><strong>Package composition preview</strong><span class="tiny">${selections.length} lookup(s)</span></div><div>${items.length} unique service(s) / action(s)${rawCount>items.length?` · ${rawCount-items.length} duplicate(s) combined`:''}</div><div class="mini-chips">${items.map(a=>`<span class="pill ${a.type.toLowerCase()}">${esc(a.name)}</span>`).join('')}</div>`;
+      }
+    }
+    function makeBooking({name,phone,packageId,date,start,location,status='Requested',notes='',source='BA'}){const pkg=packageById(packageId);if(!pkg||!pkg.active){toast('Paket tidak tersedia.');return false}const endMinute=timeToMinutes(start)+pkg.hours*60;if(endMinute>=24*60){toast('Jam selesai melewati hari yang sama.');return false}const end=minutesToTime(endMinute);if(['Confirmed','On Hold'].includes(status)&&!available(date,start,pkg.hours)){toast('Tidak dapat menahan slot: tanggal/jam sudah tidak tersedia.');return false}
+      if(source==='Customer'&&!available(date,start,pkg.hours)){toast('Slot tidak tersedia. Silakan pilih slot lain.');return false}
+      const b={id:`b${Date.now()}${Math.floor(Math.random()*1000)}`,date,start,end,customer:name.trim(),phone:phone.trim(),location:location.trim(),status,packageId,snapshot:snapshotPackage(pkg,db),source,notes:notes.trim()};db.bookings.push(b);save();return b}
+    document.addEventListener('click',e=>{
+      const page=e.target.closest('[data-page]');if(page){nav(page.dataset.page);return}
+      const go=e.target.closest('[data-go]');if(go){nav(go.dataset.go);return}
+      const gb=e.target.closest('[data-go-booking]');if(gb){const b=db.bookings.find(x=>x.id===gb.dataset.goBooking);if(!b)return;ui.detailId=b.id;ui.year=Number(b.date.slice(0,4));ui.month=Number(b.date.slice(5,7))-1;ui.day=Number(b.date.slice(8));nav('bookings');ui.detailId=b.id;renderBookingPanels();return}
+      const b=e.target.closest('[data-booking]');if(b){ui.detailId=b.dataset.booking;renderBookingPanels();return}
+      const day=e.target.closest('[data-day]');if(day){ui.day=Number(day.dataset.day);ui.lookupDate='';const input=document.getElementById('booking-date');if(input)input.value='';ui.detailId=null;renderBookingPanels();return}
+      const cust=e.target.closest('[data-customer]');if(cust){ui.customerDetail=cust.dataset.customer;renderCustomers();return}
+      const ps=e.target.closest('[data-public-package]');if(ps){ui.publicPackage=ps.dataset.publicPackage;ui.publicTime='';renderPublic();return}
+      const pt=e.target.closest('[data-public-time]');if(pt){ui.publicTime=pt.dataset.publicTime;renderPublic();return}
+      const pe=e.target.closest('[data-edit-package]');if(pe){openPackageEditor(pe.dataset.editPackage);return}
+      const ci=e.target.closest('[data-edit-catalog]');if(ci){openCatalogEditor(ci.dataset.editCatalog);return}
+      const bi=e.target.closest('[data-edit-bundle]');if(bi){openBundleEditor(bi.dataset.editBundle);return}
+      const cd=e.target.closest('[data-delete-catalog]');if(cd){
+        const id=cd.dataset.deleteCatalog,record=db.actions.find(a=>a.id===id),u=usageOf(id);
+        if(!record)return;
+        if(u.bundles||u.packages){toast(`Cannot delete: used by ${u.bundles} bundle(s) and ${u.packages} direct package(s).`);return}
+        if(!confirm(`Delete individual item "${record.name}"?`))return;
+        db.actions=db.actions.filter(a=>a.id!==id);save();renderCatalog();toast('Service / action deleted.');return;
+      }
+      const bd=e.target.closest('[data-delete-bundle]');if(bd){
+        const id=bd.dataset.deleteBundle,record=db.bundles.find(b=>b.id===id),used=db.packages.filter(p=>selectionsFor(p).some(s=>s.kind==='bundle'&&s.id===id));
+        if(!record)return;if(used.length){toast(`Cannot delete: bundle referenced by ${used.length} package(s).`);return}
+        if(!confirm(`Delete bundle "${record.name}"?`))return;
+        db.bundles=db.bundles.filter(b=>b.id!==id);save();renderCatalog();toast('Bundle deleted.');return;
+      }
+      const pd=e.target.closest('[data-delete-package]');if(pd){
+        const id=pd.dataset.deletePackage,p=packageById(id);if(!p)return;
+        if(db.bookings.some(b=>b.packageId===id)){
+          if(!confirm(`Package "${p.name}" has booking history. Archive it (set inactive)?`))return;
+          p.active=false;save();renderPackages();toast('Package archived; booking history preserved.');return;
+        }
+        if(!confirm(`Delete package "${p.name}"?`))return;
+        db.packages=db.packages.filter(p=>p.id!==id);save();renderPackages();toast('Package deleted.');return;
+      }
+      const st=e.target.closest('[data-status]');if(st){statusUpdate(st.dataset.status);return}
+      const un=e.target.closest('[data-unblock]');if(un){db.blockedDates=db.blockedDates.filter(d=>d!==un.dataset.unblock);save();renderAvailability();toast('Tanggal blokir dihapus.');return}
+      const webedit=e.target.closest('[data-web-edit]');if(webedit){openWebsiteEditor(webedit.dataset.webEdit,webedit.dataset.id);return}
+      const webtoggle=e.target.closest('[data-web-toggle]');if(webtoggle){websiteChangePublished(webtoggle.dataset.webToggle,webtoggle.dataset.id);return}
+      const webdelete=e.target.closest('[data-web-delete]');if(webdelete){websiteDelete(webdelete.dataset.webDelete,webdelete.dataset.id);return}
+      const ac=e.target.closest('[data-action]');if(!ac){if(e.target.hasAttribute('data-close-overlay'))closeModal();return}
+      switch(ac.dataset.action){
+        case 'website-new-portfolio':openWebsiteEditor('portfolio');break;
+        case 'website-new-testimonials':openWebsiteEditor('testimonials');break;
+        case 'website-new-events':openWebsiteEditor('events');break;
+        case 'website-new-promotions':openWebsiteEditor('promotions');break;
+        case 'web-tab-portfolio':ui.websiteTab='portfolio';renderStories();break;
+        case 'web-tab-testimonials':ui.websiteTab='testimonials';renderStories();break;
+        case 'website-remove-photo':websiteImageDraft='';const urlInput=document.getElementById('portfolio-image-url');if(urlInput)urlInput.value='';websitePhotoPreview();break;
+        case 'export-website':exportWebsite();break;
+        case 'view-calendar':ui.view='calendar';ui.detailId=null;renderBookings();break;
+        case 'view-list':ui.view='list';ui.detailId=null;renderBookings();break;
+        case 'clear-filters':ui.query='';ui.status='all';ui.lookupDate='';ui.detailId=null;renderBookings();break;
+        case 'month-prev':setMonth(-1);break;
+        case 'month-next':setMonth(1);break;
+        case 'detail-back':ui.detailId=null;renderBookingPanels();break;
+        case 'new-booking':openNewBooking();break;
+        case 'new-package':openPackageEditor();break;
+        case 'catalog-items':ui.catalogTab='items';ui.catalogQuery='';renderCatalog();break;
+        case 'catalog-bundles':ui.catalogTab='bundles';ui.catalogQuery='';renderCatalog();break;
+        case 'new-catalog':openCatalogEditor();break;
+        case 'new-bundle':openBundleEditor();break;
+        case 'close-modal':closeModal();break;
+        case 'customer-back':ui.customerDetail=null;renderCustomers();break;
+        case 'public-another':ui.publicDone=false;renderPublic();break;
+        case 'save-hours':{
+          const start=document.getElementById('work-start').value,end=document.getElementById('work-end').value,buffer=Number(document.getElementById('work-buffer').value);
+          if(!start||!end||timeToMinutes(start)>=timeToMinutes(end)){toast('Jam selesai harus setelah jam mulai.');break}db.startHour=start;db.endHour=end;db.buffer=buffer;save();toast('Aturan availability berhasil disimpan.');break}
+        case 'add-block':{const input=document.getElementById('new-block'),d=input.value;if(!d){toast('Pilih tanggal yang ingin diblokir.');break}if(db.bookings.some(b=>b.date===d&&relevantStatus(b.status))){toast('Tanggal memiliki booking Confirmed / On Hold. Ubah status booking terlebih dahulu.');break}if(!db.blockedDates.includes(d))db.blockedDates.push(d);save();renderAvailability();toast('Tanggal berhasil diblokir.');break}
+        case 'reset-demo':if(confirm('Reset SEMUA data admin, termasuk booking, paket, portfolio, testimonials, events, dan promotions? Export konten website dulu jika ingin menyimpannya.')){db=freshData();save();ui={catalogTab:'items',catalogQuery:'',catalogType:'all',page:'overview',view:'calendar',year:2026,month:10,day:12,query:'',status:'all',lookupDate:'',detailId:null,customerDetail:null,publicPackage:'p1',publicDate:'2026-11-13',publicTime:'',publicDone:false,websiteTab:'portfolio',websiteQuery:''};nav('overview');toast('Data prototype dikembalikan ke kondisi awal.')}break;
+      }
+    });
+    document.addEventListener('input',e=>{
+      if(e.target.id==='portfolio-image-url'){
+        websiteImageDraft=e.target.value.trim();websitePhotoPreview();
+      }
+      if(e.target.id==='booking-search'){ui.query=e.target.value.trim();ui.detailId=null;renderBookingPanels()}
+      if(e.target.id==='catalog-search'){
+        ui.catalogQuery=e.target.value;
+        document.querySelectorAll('#catalog-results .catalog-card').forEach(card=>{
+          const text=card.textContent.toLocaleLowerCase('id-ID');card.style.display=text.includes(ui.catalogQuery.toLocaleLowerCase('id-ID'))?'':'none';
+        });
+      }
+      if(['bundle-search','pkg-search-items','pkg-search-bundles'].includes(e.target.id)){
+        const selector=e.target.id==='pkg-search-bundles'?'[data-bundle-option]':'[data-catalog-option]';
+        const query=e.target.value.toLocaleLowerCase('id-ID');
+        e.target.nextElementSibling?.querySelectorAll(selector).forEach(row=>{row.dataset.hidden=String(!row.dataset.label.includes(query))});
+      }
+    });
+    document.addEventListener('change',async e=>{
+      if(e.target.id==='portfolio-image-file'&&e.target.files?.[0]){
+        const input=e.target;const saveButton=modalRoot.querySelector('button[type=submit]');if(saveButton)saveButton.disabled=true;
+        try{const compressed=await compressPortfolioImage(input.files[0]);if(!input.isConnected)return;websiteImageDraft=compressed;document.getElementById('portfolio-image-url').value='';websitePhotoPreview();toast('Foto portfolio siap digunakan.');}
+        catch(err){toast(err.message||'Gagal memuat foto.')}
+        finally{if(saveButton)saveButton.disabled=false}
+      }
+      if(e.target.matches('#bundle-form input[type=checkbox],#package-form input[type=checkbox]'))refreshSelectionPreview();
+      if(e.target.id==='catalog-type'){ui.catalogType=e.target.value;renderCatalog()}
+      if(e.target.id==='booking-status'){ui.status=e.target.value;ui.detailId=null;renderBookingPanels()}
+      if(e.target.id==='booking-date'){ui.lookupDate=e.target.value;ui.detailId=null;if(ui.lookupDate){const [year,month,day]=ui.lookupDate.split('-').map(Number);ui.year=year;ui.month=month-1;ui.day=day}renderBookingPanels()}
+      if(e.target.id==='public-date'){ui.publicDate=e.target.value;ui.publicTime='';renderPublic()}
+    });
+    document.addEventListener('submit',e=>{
+      if(e.target.id==='website-form'){e.preventDefault();storeWebsiteForm(e.target);return}
+      if(e.target.id==='new-booking-form'){
+        e.preventDefault();const f=new FormData(e.target);const created=makeBooking({name:String(f.get('name')||''),phone:String(f.get('phone')||''),packageId:String(f.get('packageId')||''),date:String(f.get('date')||''),start:String(f.get('start')||''),location:String(f.get('location')||''),status:String(f.get('status')||'Requested'),notes:String(f.get('notes')||'')});
+        if(!created)return;const [y,m,d]=created.date.split('-').map(Number);ui.year=y;ui.month=m-1;ui.day=d;ui.detailId=created.id;ui.lookupDate='';ui.query='';ui.status='all';closeModal();nav('bookings');ui.detailId=created.id;renderBookingPanels();toast('Booking berhasil ditambahkan.');return}
+      if(e.target.id==='catalog-form'){
+        e.preventDefault();const f=new FormData(e.target),id=e.target.dataset.id;
+        const name=String(f.get('name')||'').trim(),type=String(f.get('type')||'Action'),description=String(f.get('description')||'').trim();
+        if(!name||!description||!['Service','Action'].includes(type)){toast('Complete item name, type, and description.');return}
+        const duplicate=db.actions.some(a=>a.id!==id&&a.name.toLocaleLowerCase('id-ID')===name.toLocaleLowerCase('id-ID'));
+        if(duplicate){toast('An individual item with this name already exists.');return}
+        const record={id:id||`item-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,name,type,description};
+        if(id)db.actions=db.actions.map(a=>a.id===id?record:a);else db.actions.push(record);
+        save();closeModal();ui.catalogTab='items';nav('catalog');toast('Individual service / action saved.');return;
+      }
+      if(e.target.id==='bundle-form'){
+        e.preventDefault();const f=new FormData(e.target),id=e.target.dataset.id;
+        const name=String(f.get('name')||'').trim(),description=String(f.get('description')||'').trim(),items=f.getAll('members').map(String);
+        if(!name||!items.length||items.some(id=>!db.actions.some(a=>a.id===id))){toast('Bundle needs a name and at least one valid item.');return}
+        if(db.bundles.some(b=>b.id!==id&&b.name.toLocaleLowerCase('id-ID')===name.toLocaleLowerCase('id-ID'))){toast('Bundle name already exists.');return}
+        const record={id:id||`bundle-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,name,description,items};
+        if(id)db.bundles=db.bundles.map(b=>b.id===id?record:b);else db.bundles.push(record);
+        save();closeModal();ui.catalogTab='bundles';nav('catalog');toast('Bundle saved. Packages using it are updated; existing booking snapshots remain unchanged.');return;
+      }
+      if(e.target.id==='package-form'){
+        e.preventDefault();const f=new FormData(e.target),id=e.target.dataset.id;
+        const selections=[...f.getAll('selection-bundle').map(id=>({kind:'bundle',id:String(id)})),...f.getAll('selection-item').map(id=>({kind:'item',id:String(id)}))];
+        const record={id:id||`p${Date.now()}-${Math.random().toString(36).slice(2,7)}`,name:String(f.get('name')||'').trim(),hours:Number(f.get('hours')),price:Number(f.get('price')),description:String(f.get('description')||'').trim(),selections,active:f.has('active')};
+        const eligible=expandSelections(selections,db);
+        if(!record.name||!eligible.length||!Number.isInteger(record.hours)||record.hours<1||record.hours>24||!Number.isFinite(record.price)||record.price<0){toast('Lengkapi nama, durasi, harga, dan minimal satu item/bundle yang valid.');return}
+        if(db.packages.some(p=>p.id!==id&&p.name.toLocaleLowerCase('id-ID')===record.name.toLocaleLowerCase('id-ID'))){toast('Package name already exists.');return}
+        if(id)db.packages=db.packages.map(p=>p.id===id?record:p);else db.packages.push(record);
+        save();closeModal();renderPackages();toast('Master package saved with individual / bundle references.');return;
+      }
+      if(e.target.id==='public-form'){
+        e.preventDefault();if(!ui.publicTime){toast('Pilih jam tersedia terlebih dahulu.');return}const f=new FormData(e.target);const b=makeBooking({name:String(f.get('name')||''),phone:String(f.get('phone')||''),packageId:ui.publicPackage,date:ui.publicDate,start:ui.publicTime,location:String(f.get('location')||''),notes:String(f.get('notes')||''),status:'Requested',source:'Customer'});
+        if(!b)return;ui.publicDone=true;renderPublic();toast('Permintaan booking tercatat sebagai Requested.');return}
+    });
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modalRoot.firstElementChild)closeModal();if(e.key==='Enter'&&e.target.matches('tr[data-booking]')){e.preventDefault();ui.detailId=e.target.dataset.booking;renderBookingPanels()}});
+    render();
+  })();
+  </script>
+</body>
+</html>

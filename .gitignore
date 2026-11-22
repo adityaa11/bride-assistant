@@ -12,3 +12,4 @@ atlas-workflow.local.yaml
 .next/
 node_modules/
 tsconfig.tsbuildinfo
+/test-results/

@@ -1,0 +1,6 @@
+.root { width: 100%; }
+.root :global(.rdp-months), .root :global(.rdp-month) { width: 100%; }
+.root :global(.rdp-month_caption) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.grid { width: 100%; table-layout: fixed; border-collapse: separate; }
+.grid td, .grid th { padding: 0; vertical-align: top; }
+.grid td > button { width: 100%; }

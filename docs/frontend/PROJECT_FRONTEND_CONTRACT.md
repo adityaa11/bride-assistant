@@ -16,7 +16,11 @@ For M1-T08–T16, the mapped reference HTML, CSS, and JavaScript are the inputs 
 
 ## Density, navigation, and layout
 
-Use medium density. Desktop public/customer navigation is a compact top bar; admin navigation is a compact rail. On narrow widths, all navigation becomes a wrapped, readable list and content becomes one column. The shell uses a centered content measure (`72rem`) and content panels never stretch indefinitely: repeated items use a minimum inline size of `16rem` and a maximum comfortable size of `34rem`.
+Use medium density. Desktop public/customer navigation is a compact top bar; admin navigation is a compact rail that can collapse to a 72px icon rail with labeled hover and focus hints. On narrow widths, public/customer navigation becomes a wrapped, readable list. At 930px and below, the admin rail becomes a 44px menu button opening a right-side drawer of up to 360px, with 24px of the underlying screen left visible; admin content panels become one column at 720px and below. Public and customer shells use a centered content measure (`72rem`); repeated items use a minimum inline size of `16rem` and a maximum comfortable size of `34rem`.
+
+The admin workspace shell fills the viewport at desktop widths, with the sidebar anchored to the left edge and its header, filters, calendar, detail panel, and availability cards using the remaining width. Calendar days grow in height on very wide screens so the grid keeps useful proportions. Filters wrap before controls become cramped, booking tables retain horizontal scrolling, and long navigation labels remain available through the expanded rail or collapsed rail hints.
+
+Admin routes render through `shared/admin-workspace-frame.tsx`. That frame owns the sidebar, desktop collapse, mobile menu, top bar, page heading, and outer responsive width. Ticket-specific admin components supply the active section, heading, action, and content inside the frame. They must not copy the shell markup or override its page, sidebar, navigation, top bar, or breakpoint rules. A necessary shell change is made in the shared frame and checked on Bookings, Availability, and the affected route. Customer routes continue to use `CustomerFrame` from `shared/customer-home.tsx` for their shared chrome.
 
 ## Tokens and components
 

@@ -8,6 +8,15 @@ publication, identity, and non-authority rules. M1-T04's completed public
 contract is the precedent for the evidence standard, not a visual template for
 customer or admin pages.
 
+For M1-T13–T16, the shared admin layout in `AdminWorkspaceFrame` is the
+shell authority, including its full-width desktop geometry and mobile drawer.
+Reference fidelity applies to the ticket-specific content within that shell.
+Do not accept a route that copies or overrides the shared sidebar, navigation,
+top bar, title region, or outer responsive rules. Any justified shell change
+must be made centrally and regression-checked on Bookings and Availability as
+well as the new route. This is the user-authorized exception to conflicting
+admin reference shell rules.
+
 Before implementation of each ticket, record a short reference ledger in its
 checkpoint or an attached evidence file. The ledger names every mapped page or
 admin panel, its desktop viewport, ordered visible regions, source text and
