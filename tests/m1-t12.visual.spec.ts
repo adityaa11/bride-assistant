@@ -79,7 +79,7 @@ test("admin controls show fixture states without mutating them", async ({ page, 
   await page.getByRole("button", { name: "Bulan selanjutnya" }).click();
   await expect(page.getByRole("heading", { name: "Desember 2026", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "New Booking" }).click();
-  await expect(page.getByRole("status")).toBeVisible();
+  await expect(page.getByRole("status").filter({ hasText: "New Booking tidak diterapkan" })).toBeVisible();
   await capture(page, "implementation-non-authoritative-result.png");
   await page.goto(`${baseURL}/admin/bookings/empty`);
   await expect(page.getByText("Belum ada booking sesuai filter pada pilihan ini.")).toBeVisible();
@@ -87,6 +87,6 @@ test("admin controls show fixture states without mutating them", async ({ page, 
   await page.goto(`${baseURL}/admin/availability`);
   await expect(page.locator("main#admin-workspace footer")).toHaveCount(0);
   await page.getByRole("button", { name: "Save availability" }).click();
-  await expect(page.getByRole("status")).toBeVisible();
+  await expect(page.getByRole("status").filter({ hasText: "Save availability tidak diterapkan" })).toBeVisible();
   await capture(page, "implementation-availability-result.png");
 });

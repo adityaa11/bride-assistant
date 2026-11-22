@@ -89,11 +89,18 @@ test.describe("M1-T10 booking-request reference and fixture evidence", () => {
     await expect(page.getByText("Langsung ke konten")).toBeFocused();
     await page.getByRole("button", { name: "Bulan berikutnya" }).click();
     await page.getByRole("button", { name: "12 Desember 2026" }).click();
-    await expect(
-      page.getByRole("button", { name: "12 Desember 2026" }),
-    ).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByRole("button", { name: "12 Desember 2026" })).toContainText("Dipilih");
+    await expect(page.getByLabel("Tanggal Wedding *")).toHaveValue("12 Desember 2026");
+    await page.getByLabel("Nama Lengkap *").fill("Mawar Uji T21");
+    await page.getByLabel("WhatsApp *").fill("081200000021");
+    await page.getByLabel("Email *").fill("mawar.t21@example.test");
+    await page.getByLabel("Waktu Mulai *").fill("09:00");
+    await page.getByLabel("Lokasi Wedding *").fill("Aula Uji");
     await page.getByRole("button", { name: /Ajukan Booking/ }).click();
-    await expect(page.getByText("Booking berhasil diajukan ♡")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Hasil pengajuan booking ♡" })).toBeVisible();
+    await expect(page.locator("section[aria-live='polite']")).toContainText("tidak dikirim atau disimpan");
+    await expect(page.getByText("Mawar Uji T21")).toHaveCount(0);
+    await expect(page.getByText("BR-2026-003")).toHaveCount(0);
     expect(
       await page.evaluate(() => ({
         local: localStorage.length,
