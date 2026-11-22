@@ -63,7 +63,7 @@ test.describe("M1-T10 booking-request reference and fixture evidence", () => {
     ["/booking/invalid", "Pilih paket dan lengkapi detail"],
     ["/booking/unavailable", "Tanggal yang dipilih tidak dapat diajukan"],
     ["/booking/no-package", "Belum ada paket pendampingan"],
-    ["/booking/result", "Booking berhasil diajukan"],
+    ["/booking/result", "Hasil pengajuan booking"],
   ] as const) {
     test(`renders the named fixture state ${route}`, async ({
       page,

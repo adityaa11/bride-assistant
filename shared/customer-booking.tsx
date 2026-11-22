@@ -3,11 +3,6 @@
 import { CustomerFrame } from "@/shared/customer-home";
 import { BookingCalendar, calendarDate, parseCalendarDate } from "@/shared/booking-calendar";
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
-import {
-  bookingFixtureId,
-  readCreatedBookingFixtures,
-  saveCreatedBookingFixture,
-} from "@/shared/scenarios/customer-booking-store";
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import styles from "./customer-booking.module.css";
@@ -82,8 +77,8 @@ export function CustomerBooking({
           </h1>
           <p>
             Pilih paket dan tanggal yang kamu inginkan, lalu lengkapi detail
-            acara. Tim Ranur akan meninjau pengajuanmu dan mengonfirmasi
-            ketersediaan pendamping.
+            acara untuk meninjau simulasi pengajuan. Tidak ada permintaan yang
+            dikirim ke tim Ranur.
           </p>
           <div className={styles.steps}>
             {[
@@ -161,8 +156,7 @@ export function CustomerBooking({
               </div>
               <p className={styles.note}>
                 Tanggal yang dapat dipilih belum merupakan jaminan ketersediaan.
-                Konfirmasi final dilakukan oleh tim Ranur setelah permintaan
-                masuk.
+                Pada simulasi ini tidak ada permintaan yang dikirim ke tim Ranur.
               </p>
             </section>
             <section
@@ -172,7 +166,7 @@ export function CustomerBooking({
               <header className={styles.formHead}>
                 <div className={styles.eyebrow}>NEW BOOKING REQUEST</div>
                 <h2 id="formTitle">Detail pendampingan</h2>
-                <p>Lengkapi informasi berikut untuk mengajukan booking.</p>
+                <p>Lengkapi informasi berikut untuk meninjau hasil simulasi booking.</p>
               </header>
               <form
                 className={styles.form}
@@ -189,29 +183,6 @@ export function CustomerBooking({
                     setFormError("Tanggal yang dipilih sudah berlalu atau tidak tersedia. Pilih tanggal lain.");
                     return;
                   }
-                  const form = new FormData(event.currentTarget);
-                  const created = readCreatedBookingFixtures();
-                  saveCreatedBookingFixture({
-                    id: bookingFixtureId(created.length),
-                    status: "Menunggu Konfirmasi",
-                    packageName: selectedPackage.name,
-                    duration: selectedPackage.duration,
-                    packageDescription: selectedPackage.description,
-                    inclusions: [],
-                    date: selectedDate,
-                    startTime: String(form.get("startTime")),
-                    endTime: "",
-                    location: String(form.get("location")),
-                    submittedAt: new Intl.DateTimeFormat("id-ID", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    }).format(new Date()),
-                    customerName: String(form.get("customerName")),
-                    customerWhatsapp: String(form.get("whatsapp")),
-                    customerEmail: String(form.get("email")),
-                    notes: String(form.get("notes")),
-                  });
                   setFormError("");
                   setSubmitted(true);
                 }}
@@ -307,9 +278,8 @@ export function CustomerBooking({
                   Ajukan Booking <span aria-hidden="true">→</span>
                 </button>
                 <p className={styles.tip}>
-                  Booking yang diajukan akan memiliki status{" "}
-                  <b>Menunggu Konfirmasi</b>. Tim Ranur akan memeriksa jadwal
-                  dan mengonfirmasi detailnya.
+                  Hasil simulasi menampilkan status <b>Menunggu Konfirmasi</b>.
+                  Tidak ada booking yang dikirim atau disimpan.
                 </p>
               </form>
             </section>
@@ -317,12 +287,12 @@ export function CustomerBooking({
         ) : (
           <section aria-live="polite" className={styles.success}>
             <span className={styles.successIcon}>✓</span>
-            <p className={styles.eyebrow}>REQUEST RECEIVED</p>
-            <h2>Booking berhasil diajukan ♡</h2>
+            <p className={styles.eyebrow}>SIMULATION RESULT</p>
+            <h2>Hasil pengajuan booking ♡</h2>
             <b>Menunggu Konfirmasi</b>
             <p>
-              Booking fixture dibuat dari detail form ini dan tersedia di
-              Beranda serta Booking Saya pada browser ini.
+              Ini hanya hasil simulasi. Detail form tidak dikirim atau disimpan;
+              Beranda dan Booking Saya tetap menampilkan data fixture yang sudah ada.
             </p>
             <Link className={styles.submit} href="/booking-saya">
               Lihat Booking Saya

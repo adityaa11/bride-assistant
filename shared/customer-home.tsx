@@ -2,7 +2,6 @@
 
 import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
 import type { CustomerBookingRecord } from "@/shared/scenarios/contracts";
-import { useCustomerBookingRecords } from "@/shared/scenarios/customer-booking-store";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -20,11 +19,9 @@ export function CustomerHome({
   scenarioId,
 }: Readonly<{ scenarioId: ScenarioId }>) {
   const scenario = getScenario(scenarioId);
-  const records = useCustomerBookingRecords(
-    scenario.readModel.surface === "customer"
-      ? (scenario.readModel.bookingHistory?.records ?? [])
-      : [],
-  );
+  const records = scenario.readModel.surface === "customer"
+    ? (scenario.readModel.bookingHistory?.records ?? [])
+    : [];
   if (scenario.readModel.surface !== "customer") return null;
   const activeBookings = records.filter((record) => record.status !== "Dibatalkan");
   const waitingBookings = records.filter(
