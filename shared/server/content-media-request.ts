@@ -1,8 +1,16 @@
 import "server-only";
 import type { ContentImageMetadata } from "@/shared/content-image-store";
+import type { DocumentCollection } from "@/shared/document-store";
 
 const maxBytes = 5 * 1024 * 1024;
-const allowedRecords = new Set(["portfolio-draft", "portfolio-published", "portfolio-new"]);
+export const contentCollections = ["portfolio", "testimonials", "events"] as const;
+const recordCollections: Record<string, DocumentCollection> = {
+  "portfolio-draft": "portfolio", "portfolio-published": "portfolio", "portfolio-new": "portfolio",
+  "testimonial-draft": "testimonials", "testimonial-published": "testimonials", "testimonial-new": "testimonials",
+  "event-draft": "events", "event-published": "events", "event-new": "events",
+};
+export const collectionForRecord = (recordId: string): DocumentCollection | null => recordCollections[recordId] ?? null;
+export const validRecordId = (recordId: unknown): recordId is string => typeof recordId === "string" && collectionForRecord(recordId) !== null;
 
 export class ContentMediaInputError extends Error {
   constructor(readonly code: string, readonly status = 400) { super(code); }
@@ -15,7 +23,7 @@ export async function parseContentMediaRequest(request: Request): Promise<{ byte
   const file = form.get("image");
   const recordId = form.get("recordId");
   const altText = form.get("altText");
-  if (!(file instanceof File) || form.getAll("image").length !== 1 || typeof recordId !== "string" || !allowedRecords.has(recordId)) throw new ContentMediaInputError("INVALID_SCOPE");
+  if (!(file instanceof File) || form.getAll("image").length !== 1 || !validRecordId(recordId) || form.getAll("recordId").length !== 1) throw new ContentMediaInputError("INVALID_SCOPE");
   if (typeof altText !== "string" || !altText.trim() || altText.trim().length > 180) throw new ContentMediaInputError("INVALID_ALT_TEXT");
   if (!file.size || file.size > maxBytes) throw new ContentMediaInputError("INVALID_SIZE", 413);
   const mediaType = file.type;

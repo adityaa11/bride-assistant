@@ -10,6 +10,7 @@ atlas-workflow.local.yaml
 
 # Next.js build output
 .next/
+.next-t18/
 node_modules/
 tsconfig.tsbuildinfo
 /test-results/

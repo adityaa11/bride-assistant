@@ -16,7 +16,7 @@ export interface ContentImageStore {
   put(input: { bytes: Uint8Array; mediaType: ContentImageMetadata["mediaType"]; altText: string; recordId: string }): Promise<ContentImageMetadata>;
   read(storageKey: string): Promise<StoredContentImage | null>;
   replace(storageKey: string, input: { bytes: Uint8Array; mediaType: ContentImageMetadata["mediaType"]; altText: string; recordId: string }): Promise<ContentImageMetadata | null>;
-  remove(storageKey: string): Promise<boolean>;
+  remove(storageKey: string, recordId: string): Promise<boolean>;
   cleanupOrphans(): Promise<number>;
   list(): Promise<Record<string, ContentImageMetadata>>;
 }

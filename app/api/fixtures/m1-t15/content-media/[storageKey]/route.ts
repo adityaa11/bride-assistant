@@ -1,5 +1,6 @@
-import { contentMediaError, ContentMediaInputError, parseContentMediaRequest } from "@/shared/server/content-media-request";
-import { localContentImageStore, validStorageKey } from "@/shared/server/local-content-image-store";
+import { contentMediaError, ContentMediaInputError, parseContentMediaRequest, validRecordId } from "@/shared/server/content-media-request";
+import { localContentImageStore } from "@/shared/server/local-content-image-store";
+import { validStorageKey } from "@/shared/server/local-document-store";
 
 export const runtime = "nodejs";
 type Context = { params: Promise<{ storageKey: string }> };
@@ -28,9 +29,11 @@ export async function PUT(request: Request, context: Context) {
   } catch (error) { return contentMediaError(error); }
 }
 
-export async function DELETE(_request: Request, context: Context) {
+export async function DELETE(request: Request, context: Context) {
   try {
-    if (!(await localContentImageStore().remove(await keyFrom(context)))) return Response.json({ error: "NOT_FOUND" }, { status: 404 });
+    const recordId = new URL(request.url).searchParams.get("recordId");
+    if (!validRecordId(recordId)) throw new ContentMediaInputError("INVALID_SCOPE");
+    if (!(await localContentImageStore().remove(await keyFrom(context), recordId))) return Response.json({ error: "NOT_FOUND" }, { status: 404 });
     return new Response(null, { status: 204 });
   } catch (error) { return contentMediaError(error); }
 }
