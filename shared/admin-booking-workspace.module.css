@@ -26,7 +26,9 @@
 @media(max-width:720px){.calendarTable{border-spacing:4px}}
 
 @media(max-width:485px){.dayCount{font-size:7px;white-space:nowrap;margin-left:0}}
-.sidebar{position:relative}
+.sidebar{position:sticky;top:0;align-self:start;height:100vh;height:100dvh}
+.sidebarScroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+@media(min-width:931px) and (min-height:700px){.sidebarCollapsed .sidebarScroll{overflow:visible}}
 .sidebarToggle{position:absolute;z-index:2;top:34px;right:-17px;width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--border-dark);border-radius:50%;background:var(--surface);color:var(--rose);box-shadow:0 3px 12px #57353316}
 .sidebarToggle:hover{background:#fcf3f0;border-color:#d6aba5}
 .sidebarToggle .icon{width:15px;height:15px}

@@ -26,12 +26,14 @@ function Brand() {
 
 function NavigationContent({ active, collapsed = false, onNavigate }: { active: AdminSection; collapsed?: boolean; onNavigate?: () => void }) {
   return <>
+    <div className={styles.sidebarScroll}>
     <div className={styles.sidebarLabel}>Workspace</div>
     <nav className={styles.navigation} aria-label="Navigasi utama">
       {([["Overview", "home", "#admin-workspace"], ["Bookings", "calendar", "/admin"], ["Services & Actions", "heart", "/admin/catalogue"], ["Master Packages", "package", "/admin/packages"], ["Customers", "users", "/admin/customers"], ["Availability", "clock", "/admin/availability"]] as const).map(([label, icon, href]) => <a key={label} aria-label={collapsed ? label : undefined} className={`${styles.nav} ${active === label ? styles.navActive : ""}`} data-label={collapsed ? label : undefined} href={href} onClick={onNavigate} title={collapsed ? label : undefined}><AdminIcon name={icon} /><span className={styles.navText}>{label}</span></a>)}
     </nav>
     <div className={styles.sidebarSeparator} /><div className={styles.sidebarLabel}>Website Content</div>
     <nav className={styles.navigation} aria-label="Kelola konten website">{([["Portfolio & Testimonials", "image", "/admin/content"], ["Events", "calendar", "/admin/events"], ["Promotions", "megaphone", "#admin-workspace"]] as const).map(([label, icon, href]) => <a aria-label={collapsed ? label : undefined} className={`${styles.nav} ${active === label ? styles.navActive : ""}`} data-label={collapsed ? label : undefined} href={href} key={label} onClick={onNavigate} title={collapsed ? label : undefined}><AdminIcon name={icon} /><span className={styles.navText}>{label}</span></a>)}</nav>
+    </div>
     <div className={styles.sidebarBottom}><div className={styles.studio}><span className={styles.avatar}>B</span><span className={styles.studioText}><strong>My Bridal Studio</strong><small>Independent Bride Assistant</small></span></div></div>
   </>;
 }
