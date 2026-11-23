@@ -1,0 +1,21 @@
+name: bride-m2-local
+
+services:
+  postgres:
+    image: postgres:18.7
+    environment:
+      POSTGRES_DB: bride_local
+      POSTGRES_USER: bride_local
+      POSTGRES_PASSWORD: ${M2_LOCAL_DB_PASSWORD:?Set M2_LOCAL_DB_PASSWORD for the disposable local profile}
+    ports:
+      - "127.0.0.1:${M2_LOCAL_PG_PORT:-55432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bride_local -d bride_local"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  postgres_data:
