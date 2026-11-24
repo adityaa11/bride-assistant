@@ -3,12 +3,18 @@ import { createHash, randomBytes } from "node:crypto";
 import { mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import type { ContentImageMetadata } from "@/shared/content-image-store";
-import type { DocumentCollection, FixtureDocumentStore, StoredDocument } from "@/shared/document-store";
+import { documentCollections, type DocumentCollection, type DocumentMediaType, type FixtureDocumentStore, type StoredDocument } from "@/shared/document-store";
 
-const collections = ["portfolio", "testimonials", "events"] as const;
 export const validStorageKey = (key: string) => /^[a-f0-9]{32}$/.test(key);
 const portfolioRoot = () => resolve(/* turbopackIgnore: true */ process.env.M1_T18_TEST_STORAGE_ROOT ?? ".local-storage/m1-t15/content/portfolio");
 export const collectionRoot = (collection: DocumentCollection) => collection === "portfolio" ? portfolioRoot() : join(dirname(portfolioRoot()), collection);
+const validCollection = (value: string): value is DocumentCollection => documentCollections.some((collection) => collection === value);
+const validMediaType = (value: string): value is DocumentMediaType => ["image/jpeg", "image/png", "image/webp", "application/pdf"].includes(value);
+const detectedMediaType = (bytes: Uint8Array): DocumentMediaType | null =>
+  bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff ? "image/jpeg"
+    : bytes.length >= 8 && [137, 80, 78, 71, 13, 10, 26, 10].every((v, i) => bytes[i] === v) ? "image/png"
+      : bytes.length >= 12 && String.fromCharCode(...bytes.subarray(0, 4)) === "RIFF" && String.fromCharCode(...bytes.subarray(8, 12)) === "WEBP" ? "image/webp"
+        : bytes.length >= 5 && String.fromCharCode(...bytes.subarray(0, 5)) === "%PDF-" ? "application/pdf" : null;
 
 export function localDocumentStore(): FixtureDocumentStore<ContentImageMetadata> {
   const manifest = (collection: DocumentCollection) => join(collectionRoot(collection), "records.json");
@@ -16,6 +22,8 @@ export function localDocumentStore(): FixtureDocumentStore<ContentImageMetadata>
   const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
   return {
     async put(input) {
+      if (!validCollection(input.collection) || !validMediaType(input.mediaType) || detectedMediaType(input.bytes) !== input.mediaType)
+        throw new Error("UNSUPPORTED_DOCUMENT");
       const storageKey = randomBytes(16).toString("hex");
       const root = collectionRoot(input.collection);
       const temporary = join(root, `${storageKey}.${randomBytes(8).toString("hex")}.tmp`);
@@ -32,10 +40,11 @@ export function localDocumentStore(): FixtureDocumentStore<ContentImageMetadata>
     },
     async read(storageKey): Promise<StoredDocument | null> {
       if (!validStorageKey(storageKey)) return null;
-      for (const collection of collections) {
+      for (const collection of documentCollections) {
         try {
           const bytes = await readFile(/* turbopackIgnore: true */ join(collectionRoot(collection), `${storageKey}.bin`));
-          const mediaType = bytes[0] === 0xff && bytes[1] === 0xd8 ? "image/jpeg" : bytes[0] === 0x89 && bytes[1] === 0x50 ? "image/png" : "image/webp";
+          const mediaType = detectedMediaType(bytes);
+          if (!mediaType) throw new Error("UNSUPPORTED_DOCUMENT");
           return { storageKey, bytes, collection, sha256: createHash("sha256").update(bytes).digest("hex"), size: bytes.length, mediaType };
         } catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
       }
@@ -61,7 +70,7 @@ export function localDocumentStore(): FixtureDocumentStore<ContentImageMetadata>
     },
     async readAssociation(storageKey) {
       if (!validStorageKey(storageKey)) return null;
-      for (const collection of collections) {
+      for (const collection of documentCollections) {
         try {
           const { recordId, metadata } = JSON.parse(await readFile(/* turbopackIgnore: true */ associationPath(collection, storageKey), "utf8")) as { recordId: string; metadata: ContentImageMetadata };
           if (metadata.storageKey === storageKey) return { collection, recordId, metadata };
