@@ -1,5 +1,5 @@
-.atlas/
-.agents/skills/atlas-skills/
+.atlas
+.agents/skills/atlas-skills
 .local-storage/
 .env*
 .next/
