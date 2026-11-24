@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "H-M2-07-TECH/2.0",
+  "development": {
+    "environment": "development", "duration": { "minutes": 5 },
+    "adapter": "local-disposable", "database": "local-disposable", "objectStore": "local-disposable",
+    "credentials": "none", "data": "synthetic", "clock": "controlled"
+  },
+  "test": {
+    "environment": "test", "duration": { "months": 8, "years": 0 },
+    "adapter": "local-disposable", "database": "local-disposable", "objectStore": "local-disposable",
+    "credentials": "none", "data": "synthetic", "clock": "controlled"
+  },
+  "production": {
+    "environment": "production", "duration": { "months": 8, "years": 0 },
+    "adapter": "neon-private", "database": "neon-production", "objectStore": "neon-production",
+    "credentials": "production", "data": "real", "clock": "system"
+  }
+}

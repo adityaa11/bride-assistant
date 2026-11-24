@@ -1,6 +1,0 @@
-{
-  "mode": "disposable-rehearsal",
-  "expiryMinutes": 5,
-  "originWhenReviewed": "final-review",
-  "originWhenUnreviewed": "upload"
-}
