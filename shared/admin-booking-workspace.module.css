@@ -65,3 +65,4 @@
 @media(max-width:930px){.mobileHeader{display:flex}}
 @media(max-width:485px){.drawerHeader .brandMark{display:grid}}
 @media(min-width:931px){.mobileMenu[open]{display:none}}
+.signOut{border:1px solid #ead8d3;border-radius:8px;padding:7px 11px;color:#815e60;background:#fff;cursor:pointer;font:600 11px Arial,sans-serif}.signOut:focus-visible{outline:2px solid #a05450;outline-offset:2px}.signOut:disabled{opacity:.6;cursor:wait}

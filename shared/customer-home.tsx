@@ -4,6 +4,8 @@ import { getScenario, type ScenarioId } from "@/shared/scenarios/adapter";
 import type { CustomerBookingRecord } from "@/shared/scenarios/contracts";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { SignOutButton } from "./sign-out-button";
 import { useEffect, useRef, useState } from "react";
 import styles from "./customer-home.module.css";
 
@@ -321,6 +323,8 @@ export function CustomerFrame({
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const pathname = usePathname();
+  const livePath = ["/beranda", "/booking", "/booking-saya"].includes(pathname);
   const toolsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -444,6 +448,7 @@ export function CustomerFrame({
                   <Link href="/" role="menuitem">
                     Kunjungi Website
                   </Link>
+                  {livePath && <SignOutButton destination="/masuk" role="menuitem" />}
                 </div>
               )}
             </div>

@@ -1,0 +1,121 @@
+import { expect, test } from "@playwright/test";
+import { execFileSync } from "node:child_process";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
+import { withDatabase } from "../shared/server/database.mjs";
+
+const evidence = process.env.M2_T04_CAPTURE_DIR;
+async function capture(page: import("@playwright/test").Page, name: string) {
+  if (!evidence) return;
+  await mkdir(evidence, { recursive: true });
+  // Remove only Next's development indicator from the evidence capture.
+  await page.evaluate(() => document.querySelectorAll("nextjs-portal").forEach((portal) => portal.remove()));
+  await page.screenshot({ path: path.join(evidence, name), fullPage: true });
+}
+
+test("persistent customer and provisioned admin routes", async ({ page, browser }) => {
+  test.setTimeout(60_000);
+  const email = `m2t04-browser-${Date.now()}@example.test`;
+  const password = "Disposable-Password-123";
+  await page.setViewportSize({ width: 1280, height: 960 });
+  await page.goto("/daftar");
+  await expect(page.getByRole("heading", { name: "Daftar Akun" })).toBeVisible();
+  await expect(page.getByLabel("Email", { exact: true })).toHaveAttribute("autocomplete", "email");
+  await expect(page.getByLabel("Kata sandi", { exact: true })).toHaveAttribute("autocomplete", "new-password");
+  await capture(page, "register-desktop.png");
+  await page.keyboard.press("Tab");
+  await expect(page.getByText("Langsung ke formulir")).toBeFocused();
+  await capture(page, "register-keyboard-focus.png");
+  await page.setViewportSize({ width: 380, height: 844 });
+  await capture(page, "register-mobile.png");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByLabel("Nama lengkap").fill("Disposable Customer");
+  await page.getByLabel("Email", { exact: true }).fill(email);
+  await page.getByLabel("Kata sandi", { exact: true }).fill(password);
+  await page.getByLabel("Konfirmasi kata sandi", { exact: true }).fill("mismatch123");
+  await page.getByRole("button", { name: /Daftar Akun/ }).click();
+  await expect(page.locator('form [role="alert"]')).toContainText("Konfirmasi kata sandi belum cocok");
+  await capture(page, "register-error-mobile.png");
+  await page.getByLabel("Konfirmasi kata sandi", { exact: true }).fill(password);
+  await page.getByRole("button", { name: /Daftar Akun/ }).click();
+  await expect(page).toHaveURL(/\/beranda$/);
+  await expect(page.getByRole("heading", { name: "My Bridal Journey" })).toBeVisible();
+  const customerCookies = await page.context().cookies();
+  expect(customerCookies.some((cookie) => cookie.name.includes("session_token") && cookie.httpOnly)).toBe(true);
+  await page.goto("/admin");
+  await expect(page).toHaveURL(/\/admin\/masuk$/);
+  await page.context().addCookies([{ name: "role", value: "admin", url: "http://localhost:3000" }]);
+  await page.goto("/admin");
+  await expect(page).toHaveURL(/\/admin\/masuk$/);
+  await page.goto("/beranda");
+  await page.getByRole("button", { name: "Menu akun" }).click();
+  await page.getByRole("menuitem", { name: "Keluar" }).click();
+  await expect(page).toHaveURL(/\/masuk$/);
+  await page.goto("/beranda");
+  await expect(page).toHaveURL(/\/masuk$/);
+  await page.getByLabel("Alamat email").fill(email);
+  await page.getByLabel("Kata sandi", { exact: true }).fill(password);
+  await page.getByRole("button", { name: /Masuk Akun/ }).click();
+  await expect(page).toHaveURL(/\/beranda$/);
+  await page.getByRole("button", { name: "Menu akun" }).click();
+  await page.getByRole("menuitem", { name: "Keluar" }).click();
+  await expect(page).toHaveURL(/\/masuk$/);
+  await page.goto("/masuk/success");
+  await expect(page.locator("[data-scenario-id]")).toHaveAttribute("data-scenario-id", "customer.signin-success");
+  await expect(page.getByText("Scenario: customer.signin-success")).toBeVisible();
+  await page.goto("/beranda");
+  await expect(page).toHaveURL(/\/masuk$/);
+
+  const fresh = await browser.newContext();
+  const anonymous = await fresh.newPage();
+  await anonymous.goto("/beranda");
+  await expect(anonymous).toHaveURL(/\/masuk$/);
+  await anonymous.goto("/masuk");
+  await anonymous.setViewportSize({ width: 1280, height: 960 });
+  await capture(anonymous, "signin-desktop.png");
+  await expect(anonymous.getByLabel("Kata sandi", { exact: true })).toHaveAttribute("autocomplete", "current-password");
+  await anonymous.getByLabel("Alamat email").fill(email);
+  await anonymous.getByLabel("Kata sandi", { exact: true }).fill("wrong-password");
+  await anonymous.route("**/api/auth/sign-in/email", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 450));
+    await route.continue();
+  });
+  await anonymous.getByRole("button", { name: /Masuk Akun/ }).click();
+  await expect(anonymous.getByRole("button", { name: "Memproses…" })).toBeDisabled();
+  await capture(anonymous, "signin-loading-desktop.png");
+  await expect(anonymous.locator('form [role="alert"]')).toContainText("Email atau kata sandi tidak cocok");
+  await capture(anonymous, "signin-error-desktop.png");
+  await anonymous.unrouteAll();
+  await anonymous.setViewportSize({ width: 380, height: 844 });
+  await capture(anonymous, "signin-error-mobile.png");
+  expect(await anonymous.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+
+  execFileSync(process.execPath, ["scripts/m2-provision-admin.mjs"], {
+    env: { ...process.env, ADMIN_PROVISION_EMAIL: email },
+  });
+  await anonymous.goto("/admin/masuk");
+  await capture(anonymous, "admin-signin-mobile.png");
+  await anonymous.getByLabel("Alamat email").fill(email);
+  await anonymous.getByLabel("Kata sandi", { exact: true }).fill(password);
+  await anonymous.getByRole("button", { name: /Masuk Akun/ }).click();
+  await expect(anonymous).toHaveURL(/\/admin$/);
+  await expect(anonymous.getByRole("main")).toBeVisible();
+  await anonymous.goto("/beranda");
+  await expect(anonymous).toHaveURL(/\/masuk$/);
+  await anonymous.goto("/admin");
+  await anonymous.getByRole("button", { name: "Keluar" }).click();
+  await expect(anonymous).toHaveURL(/\/admin\/masuk$/);
+  await anonymous.goto("/admin");
+  await expect(anonymous).toHaveURL(/\/admin\/masuk$/);
+  await anonymous.getByLabel("Alamat email").fill(email);
+  await anonymous.getByLabel("Kata sandi", { exact: true }).fill(password);
+  await anonymous.getByRole("button", { name: /Masuk Akun/ }).click();
+  await expect(anonymous).toHaveURL(/\/admin$/);
+  await withDatabase(async (db) => {
+    await db.query(`UPDATE auth.session SET "expiresAt" = now() - interval '1 second'
+      WHERE "userId" = (SELECT id FROM auth."user" WHERE email = $1)`, [email]);
+  });
+  await anonymous.goto("/admin");
+  await expect(anonymous).toHaveURL(/\/admin\/masuk$/);
+  await fresh.close();
+});

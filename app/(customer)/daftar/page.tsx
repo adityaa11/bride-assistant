@@ -1,5 +1,5 @@
-import { CustomerAuth } from "@/shared/customer-auth";
+import { LiveAuth } from "@/shared/live-auth";
 
 export default function RegistrationFixturePage() {
-  return <CustomerAuth scenarioId="customer.register-default" />;
+  return <LiveAuth mode="register" />;
 }

@@ -41,6 +41,12 @@ export function databaseClient(env = process.env) {
   return new pg.Client(databaseConfig(env));
 }
 
+// Better Auth uses the same validated connection configuration, with its own
+// schema selected for unqualified adapter queries.
+export function authDatabasePool(env = process.env) {
+  return new pg.Pool({ ...databaseConfig(env), options: "-c search_path=auth,public" });
+}
+
 export async function databaseState(client) {
   const result = await client.query(`SELECT current_database() AS database,
     current_setting('server_version') AS version,

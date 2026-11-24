@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import { SignOutButton } from "./sign-out-button";
 import styles from "./admin-booking-workspace.module.css";
 
 const iconFile = "/reference-assets/ui-reference/bride-assistant-planner-standalone-v3-content-management-inline-svg-01-e88f0a139761.svg";
@@ -50,6 +52,8 @@ export function AdminWorkspaceFrame({ active, scenarioId, scenarioVersion, eyebr
 }>) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const livePath = ["/admin", "/admin/availability", "/admin/catalogue", "/admin/content", "/admin/customers", "/admin/events", "/admin/packages", "/admin/promotions"].includes(pathname);
   const mobileMenu = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -78,7 +82,7 @@ export function AdminWorkspaceFrame({ active, scenarioId, scenarioVersion, eyebr
       <div className={styles.drawerNavigation}><NavigationContent active={active} onNavigate={() => setMenuOpen(false)} /></div>
     </dialog>
     <div className={styles.content}>
-      <header className={styles.topbar}><div className={styles.breadcrumbs}>Bride Assistant Planner <span aria-hidden="true">/</span> <strong>{active}</strong></div><div className={styles.topActions}><span className={styles.todayLabel}><AdminIcon name="sparkle" small /> Made for your bridal moments</span><span className={styles.profileDot}>B</span></div></header>
+      <header className={styles.topbar}><div className={styles.breadcrumbs}>Bride Assistant Planner <span aria-hidden="true">/</span> <strong>{active}</strong></div><div className={styles.topActions}><span className={styles.todayLabel}><AdminIcon name="sparkle" small /> Made for your bridal moments</span>{livePath && <SignOutButton className={styles.signOut} destination="/admin/masuk" />}<span className={styles.profileDot}>B</span></div></header>
       <main id="admin-workspace">
         <div className={styles.sectionTitle}><div><div className={styles.eyebrow}>{eyebrow}</div><h1>{title}<span className={styles.period}>.</span></h1><p className={styles.subtitle}>{subtitle}</p></div>{action}</div>
         {children}

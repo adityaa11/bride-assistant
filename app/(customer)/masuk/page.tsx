@@ -1,5 +1,5 @@
-import { CustomerAuth } from "@/shared/customer-auth";
+import { LiveAuth } from "@/shared/live-auth";
 
 export default function SignInFixturePage() {
-  return <CustomerAuth scenarioId="customer.signin-default" />;
+  return <LiveAuth mode="customer" />;
 }

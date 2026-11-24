@@ -125,21 +125,26 @@ test("admin customer route keeps its fixture projection in the server-only admin
   for (const source of [publicRoute, customerRoute]) assert.doesNotMatch(source, /adminCustomers|admin-customer-workspace/);
 });
 
-test("customer auth fixture routes expose declared register and sign-in states without authority", async () => {
-  const [registerPage, signInPage, registerStates, signInStates, auth, catalogue] = await Promise.all([
+test("live customer auth routes use Better Auth while named fixture states remain non-authoritative", async () => {
+  const [registerPage, signInPage, registerStates, signInStates, auth, liveAuth, catalogue] = await Promise.all([
     readFile(resolve(root, "app/(customer)/daftar/page.tsx"), "utf8"),
     readFile(resolve(root, "app/(customer)/masuk/page.tsx"), "utf8"),
     readFile(resolve(root, "app/(customer)/daftar/[state]/page.tsx"), "utf8"),
     readFile(resolve(root, "app/(customer)/masuk/[state]/page.tsx"), "utf8"),
     readFile(resolve(root, "shared/customer-auth.tsx"), "utf8"),
+    readFile(resolve(root, "shared/live-auth.tsx"), "utf8"),
     readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
   ]);
 
-  for (const source of [registerPage, signInPage, registerStates, signInStates]) assert.match(source, /CustomerAuth/);
+  for (const source of [registerPage, signInPage]) assert.match(source, /LiveAuth/);
+  for (const source of [registerStates, signInStates]) assert.match(source, /CustomerAuth/);
   for (const scenario of ["customer.register-validation", "customer.register-loading", "customer.register-error", "customer.register-success", "customer.signin-validation", "customer.signin-loading", "customer.signin-error", "customer.signin-success"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
   assert.match(auth, /getScenario/);
   assert.match(auth, /provenance/);
   assert.doesNotMatch(auth, /localStorage|sessionStorage|location\.assign|fetch\(/);
+  assert.match(liveAuth, /client\.signUp\.email/);
+  assert.match(liveAuth, /client\.signIn\.email/);
+  assert.doesNotMatch(liveAuth, /localStorage|sessionStorage/);
 });
 
 test("customer home and help routes use declared fixtures and never enable a live WhatsApp URL", async () => {
