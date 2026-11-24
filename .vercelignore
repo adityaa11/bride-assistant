@@ -1,0 +1,8 @@
+.atlas/
+.agents/skills/atlas-skills/
+.local-storage/
+.env*
+.next/
+.next-t18/
+node_modules/
+test-results/
