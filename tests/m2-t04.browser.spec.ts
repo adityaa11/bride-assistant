@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { execFileSync } from "node:child_process";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { withDatabase } from "../shared/server/database.mjs";
+import { bootstrapAdmin } from "../scripts/admin-bootstrap-core.mjs";
 
 const evidence = process.env.M2_T04_CAPTURE_DIR;
 async function capture(page: import("@playwright/test").Page, name: string) {
@@ -90,12 +90,11 @@ test("persistent customer and provisioned admin routes", async ({ page, browser 
   await capture(anonymous, "signin-error-mobile.png");
   expect(await anonymous.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 
-  execFileSync(process.execPath, ["scripts/m2-provision-admin.mjs"], {
-    env: { ...process.env, ADMIN_PROVISION_EMAIL: email },
-  });
+  const adminEmail = `m2t04-admin-${Date.now()}@example.test`;
+  await bootstrapAdmin({ email: adminEmail, name: "Disposable Administrator", password });
   await anonymous.goto("/admin/masuk");
   await capture(anonymous, "admin-signin-mobile.png");
-  await anonymous.getByLabel("Alamat email").fill(email);
+  await anonymous.getByLabel("Alamat email").fill(adminEmail);
   await anonymous.getByLabel("Kata sandi", { exact: true }).fill(password);
   await anonymous.getByRole("button", { name: /Masuk Akun/ }).click();
   await expect(anonymous).toHaveURL(/\/admin$/);
@@ -107,13 +106,13 @@ test("persistent customer and provisioned admin routes", async ({ page, browser 
   await expect(anonymous).toHaveURL(/\/admin\/masuk$/);
   await anonymous.goto("/admin");
   await expect(anonymous).toHaveURL(/\/admin\/masuk$/);
-  await anonymous.getByLabel("Alamat email").fill(email);
+  await anonymous.getByLabel("Alamat email").fill(adminEmail);
   await anonymous.getByLabel("Kata sandi", { exact: true }).fill(password);
   await anonymous.getByRole("button", { name: /Masuk Akun/ }).click();
   await expect(anonymous).toHaveURL(/\/admin$/);
   await withDatabase(async (db) => {
     await db.query(`UPDATE auth.session SET "expiresAt" = now() - interval '1 second'
-      WHERE "userId" = (SELECT id FROM auth."user" WHERE email = $1)`, [email]);
+      WHERE "userId" = (SELECT id FROM auth."user" WHERE email = $1)`, [adminEmail]);
   });
   await anonymous.goto("/admin");
   await expect(anonymous).toHaveURL(/\/admin\/masuk$/);
