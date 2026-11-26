@@ -147,7 +147,7 @@ export async function resolvePackage(client, decision) {
 }
 
 async function resolvePackageData(client, packageId, createdAt) {
-  const packageRows = await query(client, `SELECT id, name, duration_minutes, base_price, published, active
+  const packageRows = await query(client, `SELECT id, name, description, duration_minutes, base_price, published, active
     FROM public.master_package WHERE id = $1`, [packageId]);
   if (!packageRows.ok) return packageRows;
   if (!packageRows.value.length) return { ok: false, code: "NOT_FOUND" };
