@@ -124,7 +124,7 @@ test("prepared admin queue and decisions use the customer booking record", async
     if (integrated.ok) expect(integrated.value.event.actor_id).toBe(adminId);
     const ordered = await withDatabase(async (db) => (await db.query(
       "SELECT from_status, to_status, actor_id, occurred_at FROM public.booking_status_history WHERE booking_id=$1 ORDER BY occurred_at, id", [bookingId])).rows);
-    expect(ordered.map((event) => event.to_status)).toEqual([
+    expect(ordered.map((event: { to_status: string }) => event.to_status)).toEqual([
       "Menunggu Konfirmasi", "Menunggu Pembayaran", "Booking Berhasil"]);
     expect(ordered[1].actor_id).toBe(adminId);
     expect(ordered[2].actor_id).toBe(adminId);
