@@ -12,6 +12,8 @@ type PromotionInput = { title: string; description?: string; discountType: "perc
 export function listCatalogueTypes(client: QueryClient, input: AuthorizedRepositoryInput<undefined>): Promise<RepositoryResult<Record<string, unknown>[]>>;
 export function listCatalogue(client: QueryClient, input: AuthorizedRepositoryInput<{ type?: "service" | "action" }>): Promise<RepositoryResult<Record<string, unknown>[]>>;
 export function listPublishedPackages(client: QueryClient, input: AuthorizedRepositoryInput<undefined>): Promise<RepositoryResult<Record<string, unknown>[]>>;
+export function listBundles(client: QueryClient, input: AuthorizedRepositoryInput<undefined>): Promise<RepositoryResult<Record<string, unknown>[]>>;
+export function listPromotions(client: QueryClient, input: AuthorizedRepositoryInput<undefined>): Promise<RepositoryResult<Record<string, unknown>[]>>;
 export function createCatalogue(client: QueryClient, input: AuthorizedRepositoryInput<ItemInput>): Promise<RepositoryResult<Record<string, unknown>>>;
 export function createBundle(client: QueryClient, input: AuthorizedRepositoryInput<BundleInput>): Promise<RepositoryResult<Record<string, unknown>>>;
 export function createPackage(client: QueryClient, input: AuthorizedRepositoryInput<PackageInput>): Promise<RepositoryResult<Record<string, unknown>>>;

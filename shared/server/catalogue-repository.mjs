@@ -36,6 +36,25 @@ export async function listPublishedPackages(client, decision) {
     FROM public.master_package WHERE published AND active ORDER BY name, id`);
 }
 
+export async function listBundles(client, decision) {
+  if (!authorized(decision)) return invalid;
+  return query(client, `SELECT b.id, b.name, b.description, b.active,
+      coalesce(array_agg(bc.catalogue_id ORDER BY bc.catalogue_id)
+        FILTER (WHERE bc.catalogue_id IS NOT NULL), '{}') AS catalogue_ids
+    FROM public.bundle b LEFT JOIN public.bundle_catalogue bc ON bc.bundle_id = b.id
+    GROUP BY b.id ORDER BY b.name, b.id`);
+}
+
+export async function listPromotions(client, decision) {
+  if (!authorized(decision, true)) return invalid;
+  return query(client, `SELECT p.id, p.title, p.description, p.discount_type, p.discount_value,
+      p.starts_on::text, p.ends_on::text, p.published, p.active,
+      coalesce(array_agg(pp.package_id ORDER BY pp.package_id)
+        FILTER (WHERE pp.package_id IS NOT NULL), '{}') AS package_ids
+    FROM public.promotion p LEFT JOIN public.promotion_package pp ON pp.promotion_id = p.id
+    GROUP BY p.id ORDER BY p.title, p.id`);
+}
+
 export async function createCatalogue(client, decision) {
   if (!authorized(decision, true)) return invalid;
   const { catalogueTypeId, name, description = "", active = true } = decision.parsedData;

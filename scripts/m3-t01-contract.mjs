@@ -57,6 +57,8 @@ try {
     }
     assert.deepEqual(expectOk(await repo.listCatalogue(client, publicRead({}))), []);
     assert.deepEqual(expectOk(await repo.listPublishedPackages(client, publicRead(undefined))), []);
+    assert.deepEqual(expectOk(await repo.listBundles(client, admin(undefined))), []);
+    assert.deepEqual(expectOk(await repo.listPromotions(client, admin(undefined))), []);
     const missing = await repo.resolvePackage(client, publicRead({ packageId: randomBytes(16).toString("hex").replace(/^(.{8})(.{4})(.{4})(.{4})(.*)$/, "$1-$2-$3-$4-$5"), createdAt: "2026-11-26T00:00:00Z" }));
     assert.equal(missing.code, "NOT_FOUND");
     assert.equal((await repo.createCatalogue(client, publicRead({ catalogueTypeId: 1, name: "Denied" }))).ok, false);
@@ -67,6 +69,7 @@ try {
     assert.equal(expectOk(await repo.listCatalogue(client, publicRead({ type: "action" }))).length, 1);
     assert.equal((await repo.createCatalogue(client, admin({ catalogueTypeId: 3, name: "Invalid" }))).code, "CONFLICT");
     const bundle = expectOk(await repo.createBundle(client, admin({ name: "Photo set", catalogueIds: [service.id, action.id] })));
+    assert.deepEqual(expectOk(await repo.listBundles(client, admin(undefined)))[0].catalogue_ids.sort(), [service.id, action.id].sort());
     const pkg = expectOk(await repo.createPackage(client, admin({ name: "Wedding", durationMinutes: 120, basePrice: "1000000.00",
       published: true, catalogueIds: [service.id], bundleIds: [bundle.id] })));
     expectOk(await repo.createPackage(client, admin({ name: "Draft", durationMinutes: 60, basePrice: "500.00" })));
@@ -82,6 +85,7 @@ try {
     const rupiah = expectOk(await repo.createPromotion(client, admin({ title: "Later", discountType: "rupiah",
       discountValue: "50000", startsOn: "2026-12-01", endsOn: "2026-12-02", packageIds: [pkg.id] })));
     assert.ok(percent.id && rupiah.id);
+    assert.equal(expectOk(await repo.listPromotions(client, admin(undefined))).length, 2);
     assert.equal((await repo.createPromotion(client, admin({ title: "Bad", discountType: "percentage", discountValue: "101",
       startsOn: "2026-11-28", endsOn: "2026-11-27", packageIds: [pkg.id] }))).code, "CONFLICT");
     assert.equal((await repo.createPromotion(client, admin({ title: "Bad percent", discountType: "percentage", discountValue: "101",
