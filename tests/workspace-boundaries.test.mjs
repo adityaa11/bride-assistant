@@ -88,14 +88,20 @@ test("admin booking and availability routes use named adapter fixtures without m
   for (const forbidden of ["localStorage", "sessionStorage", "fetch(", "dangerouslySetInnerHTML", "Confirmed", "On Hold"]) assert.doesNotMatch(workspace, new RegExp(forbidden.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 });
 
-test("admin catalogue and package routes use typed fixtures and preserve no-mutation boundary", async () => {
-  const paths = ["app/(admin)/admin/catalogue/page.tsx", "app/(admin)/admin/catalogue/[state]/page.tsx", "app/(admin)/admin/packages/page.tsx", "app/(admin)/admin/packages/[state]/page.tsx"];
-  const [routes, workspace, catalogue] = await Promise.all([
-    Promise.all(paths.map((file) => readFile(resolve(root, file), "utf8"))),
+test("live admin catalogue routes use durable commands while named review routes keep typed fixtures", async () => {
+  const livePaths = ["app/(admin)/admin/catalogue/page.tsx", "app/(admin)/admin/packages/page.tsx", "app/(admin)/admin/promotions/page.tsx"];
+  const reviewPaths = ["app/(admin)/admin/catalogue/[state]/page.tsx", "app/(admin)/admin/packages/[state]/page.tsx", "app/(admin)/admin/promotions/[state]/page.tsx"];
+  const [liveRoutes, reviewRoutes, workspace, catalogue, liveWorkspace] = await Promise.all([
+    Promise.all(livePaths.map((file) => readFile(resolve(root, file), "utf8"))),
+    Promise.all(reviewPaths.map((file) => readFile(resolve(root, file), "utf8"))),
     readFile(resolve(root, "shared/admin-catalogue-workspace.tsx"), "utf8"),
     readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
+    readFile(resolve(root, "shared/admin-catalogue-live.tsx"), "utf8"),
   ]);
-  for (const route of routes) assert.match(route, /AdminCatalogueWorkspace/);
+  for (const route of liveRoutes) { assert.match(route, /loadAdminCatalogue/); assert.match(route, /AdminCatalogueLive/); assert.doesNotMatch(route, /getScenario|AdminCatalogueWorkspace|AdminPromotionWorkspace/); }
+  for (const route of reviewRoutes) assert.match(route, /Workspace/);
+  assert.match(liveWorkspace, /adminCatalogueCommand/);
+  assert.doesNotMatch(liveWorkspace, /getScenario|localStorage|sessionStorage/);
   for (const scenario of ["admin.catalogue-services", "admin.catalogue-packages", "admin.catalogue-empty", "admin.catalogue-error", "admin.catalogue-proposed-result", "admin.catalogue-packages-empty", "admin.catalogue-packages-error", "admin.catalogue-packages-proposed-result", "admin.catalogue-packages-long"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
   assert.match(workspace, /getScenario/);
   assert.match(workspace, /AdminWorkspaceFrame/);
