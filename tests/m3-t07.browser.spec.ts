@@ -137,7 +137,21 @@ test("live closure, booking reservation and date-only calendar share one transac
       (SELECT count(*)::int FROM public.booking_status_history WHERE booking_id=b.id) AS events
       FROM public.booking b WHERE b.id=$1`, [retried])).rows[0]);
     expect(exceptionRows).toEqual({ status: "Menunggu Pembatalan Booking", reservations: 1, events: 4 });
-    observations.pendingException = { date: retryInput.weddingDate, rows: exceptionRows };
+    await withDatabase(async (db) => { // Second M4 exception-state fixture, same retained-date invariant.
+      await db.query("BEGIN");
+      await db.query("UPDATE public.booking SET status='Menunggu Reschedule Booking' WHERE id=$1", [winner]);
+      await db.query(`INSERT INTO public.booking_status_history
+        (booking_id,actor_id,from_status,to_status) VALUES ($1,$2,'Booking Berhasil','Menunggu Reschedule Booking')`, [winner, adminId]);
+      await db.query("COMMIT");
+    });
+    const rescheduleRows = await withDatabase(async (db) => (await db.query(`SELECT b.status,
+      (SELECT count(*)::int FROM public.booking_date_reservation WHERE booking_id=b.id) AS reservations,
+      (SELECT count(*)::int FROM public.booking_status_history WHERE booking_id=b.id) AS events
+      FROM public.booking b WHERE b.id=$1`, [winner])).rows[0]);
+    expect(rescheduleRows).toEqual({ status: "Menunggu Reschedule Booking", reservations: 1, events: 4 });
+    expect(await dateState(date)).toEqual([{ date, state: "unavailable" }]);
+    observations.pendingException = { cancellation: { date: retryInput.weddingDate, rows: exceptionRows },
+      reschedule: { date, rows: rescheduleRows } };
     observations.rollbackRetry = { rolledBack, rows: retryRows };
     await adminPage.goto("/admin/availability");
     await expect(adminPage.getByRole("heading", { name: "Tutup tanggal" })).toBeVisible();
