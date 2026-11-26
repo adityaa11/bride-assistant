@@ -27,9 +27,8 @@ export type BookingServiceResult =
   | { ok: true; value: unknown }
   | { ok: false; code: "AUTHENTICATION_REQUIRED" | "FORBIDDEN" | "INVALID_INPUT" | "NOT_FOUND" | "CONFLICT" | "STORAGE_FAILURE"; fields?: string[] };
 
-// T07 replaces this local-only gate when reservation and closure are in one transaction.
 export function preparedBookingEnabled(env = process.env) {
-  return env.DATABASE_MODE === "local" && env.M3_T05_PREPARED_ROUTES === "1";
+  return env.DATABASE_MODE === "local" ? env.M3_T05_PREPARED_ROUTES === "1" : env.DATABASE_MODE === "production";
 }
 
 export async function submitCustomerBooking(payload: unknown): Promise<BookingServiceResult> {

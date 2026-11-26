@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { AdminIcon, AdminWorkspaceFrame } from "@/shared/admin-workspace-frame";
 import type { CanonicalBookingStatus, ScenarioResult } from "@/shared/scenarios/contracts";
 import styles from "./admin-customer-workspace.module.css";
@@ -35,7 +36,7 @@ export function AdminCustomerWorkspace({ scenario }: { scenario: ScenarioResult 
     subtitle={active ? "Customer information and their booking history." : "A simple directory of customers who have made a booking."}
     action={active
       ? <button className={styles.btn} type="button" onClick={() => setSelected(null)}><AdminIcon name="arrow-left" />Back to Customers</button>
-      : <a className={`${styles.btn} ${styles.primary}`} href="/admin"><AdminIcon name="plus" />Add via Booking</a>}
+      : <Link className={`${styles.btn} ${styles.primary}`} href="/admin/bookings"><AdminIcon name="plus" />Add via Booking</Link>}
   >
     {active ? <section className={`${styles.card} ${styles.cardPad}`} aria-label="Booking history">
       <div className={styles.sectionRow}><h2>Booking history</h2><span className={styles.tiny}>{history.length} booking</span></div>

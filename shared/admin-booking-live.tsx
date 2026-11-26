@@ -39,7 +39,7 @@ export function AdminBookingLive({ initial, unavailable = false, error = null }:
   }
   async function decide(record: Booking) {
     const targetStatus = nextStatus(record.status);
-    if (!targetStatus || targetStatus === "Booking Berhasil") return;
+    if (!targetStatus || targetStatus === "Booking Berhasil" && !paymentReviewed) return;
     setBusy(true); setMessage(null);
     try {
       const response = await fetch(`/api/admin/bookings/${encodeURIComponent(record.id)}`, {
@@ -81,7 +81,7 @@ export function AdminBookingLive({ initial, unavailable = false, error = null }:
           <h4>Catatan</h4><p>{selected.submission_snapshot.note || "Tidak ada catatan."}</p>
           <h4>Riwayat Status</h4>{history.length ? <ol>{history.map((event) => <li key={event.id}>{event.to_status} · {date(event.occurred_at)} · Aktor {event.actor_id}</li>)}</ol> : <p>Memuat riwayat atau belum ada peristiwa.</p>}
           {nextStatus(selected.status) === "Menunggu Pembayaran" && <button className={styles.primary} type="button" onClick={() => decide(selected)} disabled={busy || detailError}>Pindah ke Menunggu Pembayaran</button>}
-          {nextStatus(selected.status) === "Booking Berhasil" && <div className={styles.pending}><label><input type="checkbox" checked={paymentReviewed} onChange={(event) => setPaymentReviewed(event.target.checked)} /> Saya sudah memeriksa dan menyetujui bukti pembayaran melalui kanal manual.</label><p>Keputusan Booking Berhasil menunggu pemeriksaan benturan tanggal sebelum dapat disimpan.</p><button type="button" disabled aria-disabled="true">Booking Berhasil belum aktif</button></div>}
+          {nextStatus(selected.status) === "Booking Berhasil" && <div className={styles.pending}><label><input type="checkbox" checked={paymentReviewed} onChange={(event) => setPaymentReviewed(event.target.checked)} /> Saya sudah memeriksa dan menyetujui bukti pembayaran melalui kanal manual.</label><p>Tanggal diperiksa lagi saat keputusan disimpan.</p><button type="button" disabled={busy || detailError || !paymentReviewed} onClick={() => decide(selected)}>Tetapkan Booking Berhasil</button></div>}
           {message && <p role="status" className={styles.message}>{message}</p>}
         </div>}
       </aside></div>}

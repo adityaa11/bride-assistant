@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { resolvePackage } from "./catalogue-repository.mjs";
+import { dateIsAvailable, lockDate } from "./date-availability.mjs";
 
 const conflict = { ok: false, code: "CONFLICT" };
 const absent = { ok: false, code: "NOT_FOUND" };
@@ -59,6 +60,11 @@ export async function createBooking(client, decision) {
     if (old) {
       await client.query("COMMIT");
       return old.submission_payload_hash === payloadHash ? { ok: true, value: old } : conflict;
+    }
+    await lockDate(client, data.weddingDate);
+    if (!await dateIsAvailable(client, data.weddingDate)) {
+      await client.query("ROLLBACK");
+      return conflict;
     }
     // T02 promotion writes lock the same package, preserving the terms resolved here.
     const locked = (await client.query(`SELECT id FROM public.master_package WHERE id = $1

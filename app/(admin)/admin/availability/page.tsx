@@ -1,5 +1,5 @@
-import { AdminBookingWorkspace } from "@/shared/admin-booking-workspace";
+import { AdminAvailabilityLive } from "@/shared/admin-availability-live";
 
 export default function AdminAvailabilityPage() {
-  return <AdminBookingWorkspace scenarioId="admin.availability-workspace" />;
+  return <AdminAvailabilityLive />;
 }

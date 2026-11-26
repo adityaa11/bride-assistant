@@ -36,7 +36,7 @@ export async function transitionAdminBooking(client, decision, reserveSuccessful
   if (targetStatus === "Booking Berhasil" && (paymentReviewed !== true || !reserveSuccessfulDate)) return conflict;
   try {
     await client.query("BEGIN");
-    const row = (await client.query(`SELECT id, status, wedding_date FROM public.booking
+    const row = (await client.query(`SELECT id, status, wedding_date::text AS wedding_date FROM public.booking
       WHERE id = $1 FOR UPDATE`, [bookingId])).rows[0];
     if (!row) { await client.query("ROLLBACK"); return absent; }
     const allowed = row.status === "Menunggu Konfirmasi" && targetStatus === "Menunggu Pembayaran" ||

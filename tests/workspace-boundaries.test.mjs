@@ -41,8 +41,8 @@ test("public live package route and customer/admin review routes retain their in
   assert.match(pages[0], /loadPublicPackages/);
   assert.match(pages[0], /<PublicHome livePackages=/);
   assert.doesNotMatch(pages[0], /scenarioId=/);
-  assert.match(pages[2], /@\/shared\/admin-booking-workspace/);
-  assert.match(pages[2], /<AdminBookingWorkspace scenarioId="admin\.booking-workspace"/);
+  assert.match(pages[2], /@\/shared\/admin-booking-live/);
+  assert.match(pages[2], /<AdminBookingLive initial=/);
 });
 
 test("public review states are named routes with declared scenario IDs", async () => {
@@ -75,7 +75,7 @@ test("feature routes reach declared scenarios only through the versioned adapter
   assert.match(catalogue, /satisfies Record<string/);
 });
 
-test("admin booking and availability routes use named adapter fixtures without mutation authority", async () => {
+test("admin review routes keep fixtures while live availability uses server decisions", async () => {
   const [adminRoute, bookingsState, availabilityRoute, workspace, catalogue] = await Promise.all([
     readFile(resolve(root, "app/(admin)/admin/page.tsx"), "utf8"),
     readFile(resolve(root, "app/(admin)/admin/bookings/[state]/page.tsx"), "utf8"),
@@ -83,7 +83,9 @@ test("admin booking and availability routes use named adapter fixtures without m
     readFile(resolve(root, "shared/admin-booking-workspace.tsx"), "utf8"),
     readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
   ]);
-  for (const route of [adminRoute, bookingsState, availabilityRoute]) assert.match(route, /AdminBookingWorkspace/);
+  assert.match(adminRoute, /AdminBookingLive/);
+  assert.match(bookingsState, /AdminBookingWorkspace/);
+  assert.match(availabilityRoute, /AdminAvailabilityLive/);
   for (const scenario of ["admin.booking-workspace", "admin.booking-empty", "admin.availability-workspace"]) assert.match(catalogue, new RegExp(scenario.replaceAll(".", "\\.")));
   assert.match(workspace, /getScenario/);
   assert.match(workspace, /scenario\.interaction\.summary/);

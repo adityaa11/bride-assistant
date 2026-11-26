@@ -3,6 +3,7 @@ import { z } from "zod";
 import { authorizeRequest } from "./authorization";
 import { withDatabase } from "./database.mjs";
 import { listAdminBookings, readAdminBooking, transitionAdminBooking } from "./admin-booking-repository.mjs";
+import { reserveSuccessfulDate } from "./date-availability.mjs";
 
 const uuid = z.uuid();
 const detailSchema = z.strictObject({ bookingId: uuid });
@@ -14,7 +15,7 @@ const transitionSchema = z.strictObject({ bookingId: uuid,
 type Result = { ok: true; value: unknown } | { ok: false; code: "AUTHENTICATION_REQUIRED" | "FORBIDDEN" | "INVALID_INPUT" | "NOT_FOUND" | "CONFLICT" | "STORAGE_FAILURE"; fields?: string[] };
 
 export function preparedAdminBookingEnabled(env = process.env) {
-  return env.DATABASE_MODE === "local" && env.M3_T06_PREPARED_ROUTES === "1";
+  return env.DATABASE_MODE === "local" ? env.M3_T06_PREPARED_ROUTES === "1" : env.DATABASE_MODE === "production";
 }
 export async function listPreparedAdminBookings(): Promise<Result> {
   const decision = await authorizeRequest({ requiredRole: "admin", payload: undefined, schema: z.undefined() });
@@ -31,8 +32,7 @@ export async function readPreparedAdminBooking(bookingId: string): Promise<Resul
 export async function decidePreparedAdminBooking(payload: unknown): Promise<Result> {
   const decision = await authorizeRequest({ requiredRole: "admin", payload, schema: transitionSchema });
   if (!decision.ok) return decision;
-  // T07 installs the transactional reservation callback and activates success.
-  try { return await withDatabase((client) => transitionAdminBooking(client, decision)); }
+  try { return await withDatabase((client) => transitionAdminBooking(client, decision, reserveSuccessfulDate)); }
   catch { return { ok: false, code: "STORAGE_FAILURE" }; }
 }
 export function adminBookingResponse(result: Result) {
