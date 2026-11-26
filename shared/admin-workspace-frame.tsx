@@ -53,7 +53,7 @@ export function AdminWorkspaceFrame({ active, scenarioId, scenarioVersion, eyebr
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const livePath = ["/admin", "/admin/availability", "/admin/catalogue", "/admin/content", "/admin/customers", "/admin/events", "/admin/packages", "/admin/promotions"].includes(pathname);
+  const livePath = ["/admin", "/admin/availability", "/admin/bookings", "/admin/catalogue", "/admin/content", "/admin/customers", "/admin/events", "/admin/packages", "/admin/promotions"].includes(pathname);
   const mobileMenu = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
