@@ -318,7 +318,7 @@ export function CustomerFrame({
 }: Readonly<{
   active: string;
   children: React.ReactNode;
-  scenarioId: string;
+  scenarioId?: string;
 }>) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -351,7 +351,7 @@ export function CustomerFrame({
     <div
       className={styles.page}
       data-scenario-id={scenarioId}
-      data-scenario-version="m1-fixture-v1"
+      data-scenario-version={scenarioId ? "m1-fixture-v1" : undefined}
     >
       <a className={styles.skip} href="#main">
         Langsung ke konten

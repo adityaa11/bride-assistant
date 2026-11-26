@@ -479,6 +479,9 @@
   font-weight: 800;
   text-decoration: none;
 }
+.basePrice { display:block; margin-top:18px; color:#81494f; font-size:14px; }
+.packageOffer { display:grid; gap:5px; margin:10px 0 18px; padding:14px; border-left:3px solid #a86669; background:#f6e8e4; color:#60474b; font-size:12px; line-height:1.5; }
+.packageOffer span { color:#60474b !important; font-size:12px !important; min-height:0 !important; }
 .packageGrid .featured p,.packageGrid .featured small,.packageGrid .featured span,.packageGrid .featured ul,.packageGrid .featured a {
   color: #fff8f5;
 }

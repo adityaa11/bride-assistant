@@ -21,3 +21,4 @@ export function createPromotion(client: QueryClient, input: AuthorizedRepository
 export function resolvePackage(client: QueryClient, input: AuthorizedRepositoryInput<{ packageId: string; createdAt: string }>): Promise<RepositoryResult<{
   package: Record<string, unknown>; items: Record<string, unknown>[]; promotion: Record<string, unknown> | null;
 }>>;
+export function readPublicPackages(client: QueryClient, createdAt: string): Promise<RepositoryResult<Record<string, unknown>[]>>;

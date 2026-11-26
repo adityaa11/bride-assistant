@@ -36,6 +36,22 @@ export async function listPublishedPackages(client, decision) {
     FROM public.master_package WHERE published AND active ORDER BY name, id`);
 }
 
+// Public read projection. The caller validates the request time; no session or
+// admin-shaped decision is needed to inspect published package facts.
+export async function readPublicPackages(client, createdAt) {
+  const packages = await query(client, `SELECT id, name, description, duration_minutes, base_price
+    FROM public.master_package WHERE published AND active ORDER BY name, id`);
+  if (!packages.ok) return packages;
+  const result = [];
+  for (const pkg of packages.value) {
+    const detail = await resolvePackageData(client, pkg.id, createdAt);
+    if (!detail.ok) return detail;
+    result.push({ ...pkg, items: detail.value.items,
+      promotion: detail.value.promotion });
+  }
+  return { ok: true, value: result };
+}
+
 export async function listBundles(client, decision) {
   if (!authorized(decision)) return invalid;
   return query(client, `SELECT b.id, b.name, b.description, b.active,
@@ -127,6 +143,10 @@ async function transaction(client, work) {
 export async function resolvePackage(client, decision) {
   if (!authorized(decision)) return invalid;
   const { packageId, createdAt } = decision.parsedData;
+  return resolvePackageData(client, packageId, createdAt);
+}
+
+async function resolvePackageData(client, packageId, createdAt) {
   const packageRows = await query(client, `SELECT id, name, duration_minutes, base_price, published, active
     FROM public.master_package WHERE id = $1`, [packageId]);
   if (!packageRows.ok) return packageRows;
