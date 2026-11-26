@@ -84,7 +84,7 @@ try {
     assert.equal(authoritative.ok, true);
     assert.deepEqual(repo.value[0].items.map((x) => x.id).sort(), authoritative.value.items.map((x) => x.id).sort());
     const webPort = await port(); const base = `http://127.0.0.1:${webPort}`;
-    server = spawn(process.platform === "win32" ? "cmd.exe" : "npm", process.platform === "win32" ? ["/c", "npm", "run", "dev", "--", "--port", String(webPort)] : ["run", "dev", "--", "--port", String(webPort)], { env: dbEnv, stdio: "ignore" });
+    server = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "-p", String(webPort)], { env: dbEnv, stdio: "ignore" });
     await wait(base + "/api/public/packages", server);
     const api = await (await get(base, "/api/public/packages")).json();
     assert.equal(api.packages.length, 1);

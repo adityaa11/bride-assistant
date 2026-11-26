@@ -5,5 +5,5 @@ import { connection } from "next/server";
 export default async function PublicHomePage() {
   await connection();
   const result = await loadPublicPackages();
-  return <PublicHome scenarioId="public.discovery-success" livePackages={result.ok ? result.packages : []} liveError={!result.ok} />;
+  return <PublicHome livePackages={result.ok ? result.packages : []} liveError={!result.ok} />;
 }

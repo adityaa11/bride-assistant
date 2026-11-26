@@ -30,7 +30,7 @@ const sourceFiles = [
   "shared/scenarios/adapter.ts",
 ];
 
-test("public, customer, and admin route groups compose through the approved fixture seams", async () => {
+test("public live package route and customer/admin review routes retain their intended seams", async () => {
   const pages = await Promise.all([sourceFiles[0], sourceFiles[1], sourceFiles[6]].map((file) => readFile(resolve(root, file), "utf8")));
 
   for (const page of pages.slice(1, 2)) {
@@ -38,7 +38,9 @@ test("public, customer, and admin route groups compose through the approved fixt
     assert.match(page, /<ReviewRoute scenarioId=/);
   }
   assert.match(pages[0], /@\/shared\/public-home/);
-  assert.match(pages[0], /<PublicHome scenarioId=/);
+  assert.match(pages[0], /loadPublicPackages/);
+  assert.match(pages[0], /<PublicHome livePackages=/);
+  assert.doesNotMatch(pages[0], /scenarioId=/);
   assert.match(pages[2], /@\/shared\/admin-booking-workspace/);
   assert.match(pages[2], /<AdminBookingWorkspace scenarioId="admin\.booking-workspace"/);
 });
