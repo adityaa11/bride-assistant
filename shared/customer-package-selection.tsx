@@ -2,11 +2,12 @@ import Link from "next/link";
 import { CustomerFrame } from "./customer-home";
 import type { PublicPackageDetail } from "./server/public-package-read";
 import styles from "./customer-package-selection.module.css";
+import { PreparedBookingForm } from "./prepared-booking-form";
 
 const rupiah = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 });
 
-export function CustomerPackageSelection({ packages, selectedId, error = false }: {
-  packages: readonly PublicPackageDetail[]; selectedId?: string; error?: boolean;
+export function CustomerPackageSelection({ packages, selectedId, error = false, prepared = false }: {
+  packages: readonly PublicPackageDetail[]; selectedId?: string; error?: boolean; prepared?: boolean;
 }) {
   const selected = packages.find((pkg) => pkg.id === selectedId);
   return <CustomerFrame active="Booking Baru"><main id="main" className={styles.main}>
@@ -18,6 +19,6 @@ export function CustomerPackageSelection({ packages, selectedId, error = false }
       {pkg.offer && <aside className={styles.offer}><b>{pkg.offer.title}</b><span>{pkg.offer.type === "percentage" ? `${pkg.offer.value}%` : rupiah.format(pkg.offer.value)} diskon · {pkg.offer.startsOn}–{pkg.offer.endsOn}</span><span>{pkg.offer.description}</span></aside>}
       <Link aria-current={pkg.id === selected?.id ? "true" : undefined} href={`/booking?packageId=${encodeURIComponent(pkg.id)}`}>{pkg.id === selected?.id ? "Paket dipilih" : "Pilih paket"} <span aria-hidden="true">↗</span></Link>
     </article>)}</div>}
-    {selected && <section aria-live="polite" className={styles.handoff}><p>PAKET PILIHAN</p><h2>{selected.name}</h2><span>Pilihan ini menyimpan ID paket saja. Harga, isi paket, dan promo akan diperiksa ulang oleh server saat pengajuan booking tersedia.</span></section>}
+    {selected && <section aria-live="polite" className={styles.handoff}><p>PAKET PILIHAN</p><h2>{selected.name}</h2><span>Pilihan ini menyimpan ID paket saja. Harga, isi paket, dan promo diperiksa ulang oleh server saat pengajuan booking.</span>{prepared ? <PreparedBookingForm key={selected.id} packageId={selected.id} /> : <p role="status">Pengajuan booking akan tersedia setelah pemeriksaan ketersediaan tanggal diaktifkan.</p>}</section>}
   </main></CustomerFrame>;
 }

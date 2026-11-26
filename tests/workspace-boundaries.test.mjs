@@ -172,14 +172,17 @@ test("customer home and help routes use declared fixtures and never enable a liv
   assert.doesNotMatch(customerHome, /wa\.me|whatsapp:\/\/|https?:\/\//);
 });
 
-test("Booking Saya routes use typed fixture history and preserve the lifecycle and owner boundary", async () => {
+test("Booking Saya live route uses owner-scoped records while named review states retain fixtures", async () => {
   const [page, states, history, catalogue] = await Promise.all([
     readFile(resolve(root, "app/(customer)/booking-saya/page.tsx"), "utf8"),
     readFile(resolve(root, "app/(customer)/booking-saya/[state]/page.tsx"), "utf8"),
     readFile(resolve(root, "shared/customer-booking-history.tsx"), "utf8"),
     readFile(resolve(root, "shared/scenarios/catalogue.ts"), "utf8"),
   ]);
-  assert.match(page, /CustomerBookingHistory/);
+  assert.match(page, /listCustomerBookings/);
+  assert.match(page, /readCustomerBooking/);
+  assert.match(page, /CustomerBookingRecords/);
+  assert.doesNotMatch(page, /CustomerBookingHistory|scenarioId|localStorage/);
   assert.match(states, /customer\.booking-history-(?:error|payment|cancellation|cancelled|reschedule)/);
   assert.match(history, /getScenario/);
   assert.match(history, /bookingHistory/);
